@@ -1,15 +1,15 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import AppLayout from '../layouts/AppLayout';
-import ProtectedRoute from './ProtectedRoute';
-import DashboardPage from '../pages/DashboardPage';
-import LoginPage from '../pages/LoginPage';
-import NotFoundPage from '../pages/NotFoundPage';
+import AppLayout from '../layouts/AppLayout.js';
+import ProtectedRoute from './ProtectedRoute.js';
+import DashboardPage from '../pages/DashboardPage.jsx';
+import LoginPage from '../pages/LoginPage.jsx';
+import NotFoundPage from '../pages/NotFoundPage.jsx';
 import FinancePage from '../pages/finance/FinancePage.jsx';
-import WalletPage from '../pages/WalletPage';
-import WorkerProfilePage from '../pages/WorkerProfilePage';
-import WorkersPage from '../pages/WorkersPage';
-import CustomersPage from '../pages/customers/CustomersPage';
-import { useAppContext } from '../context/AppContext';
+import WalletPage from '../pages/WalletPage.jsx';
+import WorkerProfilePage from '../pages/WorkerProfilePage.jsx';
+import WorkersPage from '../pages/WorkersPage.jsx';
+import CustomersPage from '../pages/customers/CustomersPage.jsx';
+import { useAppContext } from '../context/AppContext.js';
 
 function AppRoutes() {
   const { isAuthenticated } = useAppContext();

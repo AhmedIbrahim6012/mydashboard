@@ -1,10 +1,10 @@
 export function validateLogin(values) {
   const errors = {};
 
-  if (!values.username.trim()) {
-    errors.username = 'Username is required.';
-  } else if (values.username.trim().length < 3) {
-    errors.username = 'Username must be at least 3 characters.';
+  if (!values.phone || !String(values.phone).trim()) {
+    errors.phone = 'Phone number is required.';
+  } else if (!/^[+()\d\s-]{7,}$/.test(String(values.phone).trim())) {
+    errors.phone = 'Enter a valid phone number.';
   }
 
   if (!values.password) {
@@ -15,22 +15,32 @@ export function validateLogin(values) {
 
   return errors;
 }
-
 export function validateWorker(values) {
   const errors = {};
 
-  if (!values.name.trim()) {
-    errors.name = 'Worker name is required.';
+  if (!values.first_name?.trim()) {
+    errors.first_name = 'First name is required';
   }
 
-  if (!values.phone.trim()) {
-    errors.phone = 'Phone number is required.';
-  } else if (!/^[+()\d\s-]{7,}$/.test(values.phone.trim())) {
-    errors.phone = 'Enter a valid phone number.';
+  if (!values.last_name?.trim()) {
+    errors.last_name = 'Last name is required';
   }
 
-  if (!values.experience.trim()) {
-    errors.experience = 'Experience is required.';
+  if (!values.phone?.trim()) {
+    errors.phone = 'Phone number is required';
+  }
+
+  if (values.email?.trim()) {
+    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+    if (!emailRegex.test(values.email.trim())) {
+      errors.email = 'Invalid email address';
+    }
+  }
+
+  if (!values.experience_years?.toString().trim()) {
+    errors.experience_years = 'Experience years is required';
+  } else if (isNaN(values.experience_years) || Number(values.experience_years) < 0) {
+    errors.experience_years = 'Must be a valid number';
   }
 
   return errors;

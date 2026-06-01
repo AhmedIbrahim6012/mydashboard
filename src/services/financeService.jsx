@@ -1,8 +1,8 @@
 export const FINANCE_RANGE_OPTIONS = [
-  { label: 'Last 7 days', value: '7' },
-  { label: 'Last 15 days', value: '15' },
-  { label: 'Last 30 days', value: '30' },
-  { label: 'Custom range', value: 'custom' },
+  { value: '7' },
+  { value: '15' },
+  { value: '30' },
+  { value: 'custom' },
 ];
 
 function pad(value) {
@@ -128,28 +128,19 @@ export function sortFinanceRecords(records, orderBy, order) {
   });
 }
 
-export function summarizeFinanceRecords(allRecords, filteredRecords) {
-  const safeAllRecords = Array.isArray(allRecords) ? allRecords : [];
+export function summarizeFinanceRecords(filteredRecords) {
   const safeFilteredRecords = Array.isArray(filteredRecords) ? filteredRecords : [];
 
-  const totalRevenue = safeAllRecords.reduce((sum, record) => sum + Number(record.revenue || 0), 0);
   const selectedRevenue = safeFilteredRecords.reduce((sum, record) => sum + Number(record.revenue || 0), 0);
-  const totalOrders = safeAllRecords.reduce((sum, record) => sum + Number(record.ordersCount || 0), 0);
   const selectedOrders = safeFilteredRecords.reduce((sum, record) => sum + Number(record.ordersCount || 0), 0);
-  const totalDeposits = safeAllRecords.reduce((sum, record) => sum + Number(record.deposits || 0), 0);
   const selectedDeposits = safeFilteredRecords.reduce((sum, record) => sum + Number(record.deposits || 0), 0);
-  const totalProfit = safeAllRecords.reduce((sum, record) => sum + Number(record.profit || 0), 0);
   const selectedProfit = safeFilteredRecords.reduce((sum, record) => sum + Number(record.profit || 0), 0);
 
   return {
-    totalRevenue,
     selectedRevenue,
-    totalOrders,
     selectedOrders,
     averageOrderValue: selectedOrders > 0 ? selectedRevenue / selectedOrders : 0,
-    totalDeposits,
     selectedDeposits,
-    totalProfit,
     selectedProfit,
   };
 }
@@ -164,15 +155,35 @@ export function buildFinanceChartSeries(records) {
   }));
 }
 
-export function getFinanceRangeDescription(rangeType, customStartDate, customEndDate) {
+export function getFinanceRangeDescription(rangeType, customStartDate, customEndDate, labels = {}) {
+  const fallbackLabels = {
+    customEmpty: 'Select a custom date range to update the dashboard.',
+    range7: 'Last 7 days',
+    range15: 'Last 15 days',
+    range30: 'Last 30 days',
+    custom: 'Custom range',
+  };
+  const localized = { ...fallbackLabels, ...labels };
+
   if (rangeType === 'custom') {
     if (!customStartDate || !customEndDate) {
-      return 'Select a custom date range to update the dashboard.';
+      return localized.customEmpty;
     }
 
     return `${customStartDate} to ${customEndDate}`;
   }
 
-  const option = FINANCE_RANGE_OPTIONS.find((item) => item.value === rangeType);
-  return option ? option.label : 'Last 30 days';
+  if (rangeType === '7') {
+    return localized.range7;
+  }
+
+  if (rangeType === '15') {
+    return localized.range15;
+  }
+
+  if (rangeType === 'custom') {
+    return localized.custom;
+  }
+
+  return localized.range30;
 }

@@ -6,29 +6,37 @@ import {
   Button,
   Card,
   CardContent,
+  IconButton,
+  InputAdornment,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useAppContext } from '../context/AppContext';
 import { validateLogin } from '../utils/validation';
-
+import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 const INITIAL_VALUES = {
-  username: '',
+  phone: '',
   password: '',
 };
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { isAuthenticated, login } = useAppContext();
+  const { isAuthenticated, notify } = useAppContext();
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.dir() === 'rtl';
   const [values, setValues] = useState(INITIAL_VALUES);
-  const [errors, setErrors] = useState(INITIAL_VALUES);
+  const [errors, setErrors] = useState({ phone: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -44,30 +52,98 @@ function LoginPage() {
     setValues((currentValues) => ({ ...currentValues, [name]: value }));
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const nextErrors = validateLogin(values);
-    setErrors({
-      username: nextErrors.username || '',
-      password: nextErrors.password || '',
-    });
-
-    if (Object.keys(nextErrors).length > 0) {
-      setSubmitError('Please fix the highlighted fields.');
-      return;
-    }
-
-    setSubmitError('');
-    setLoading(true);
-    timerRef.current = setTimeout(() => {
-      login(values.username.trim());
-      navigate('/dashboard', { replace: true });
-      setLoading(false);
-    }, 700);
+  function handleTogglePasswordVisibility() {
+    setIsPasswordVisible((currentVisible) => !currentVisible);
   }
 
+  function handlePasswordMouseDown(event) {
+    event.preventDefault();
+  }
+
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //   const nextErrors = validateLogin(values);
+  //   setErrors({ phone: nextErrors.phone || '', password: nextErrors.password || '' });
+
+  //   if (Object.keys(nextErrors).length > 0) {
+  //     setSubmitError(t('login.form.validation'));
+  //     return;
+  //   }
+
+  //   setSubmitError('');
+  //   // Instead of directly logging in, simulate sending an OTP and navigate to OTP page
+  //   setLoading(true);
+  //   timerRef.current = setTimeout(() => {
+  //     notify({ severity: 'info', title: t('login.otp.sent', { defaultValue: 'OTP sent' }), message: t('login.otp.sentMessage', { phone: values.phone }) });
+  //     setLoading(false);
+  //     navigate('/otp', { state: { phone: values.phone } });
+  //   }, 700);
+  // }
+  async function handleSubmit(event) {
+  event.preventDefault();
+
+  const nextErrors = validateLogin(values);
+
+  setErrors({
+    phone: nextErrors.phone || '',
+    password: nextErrors.password || '',
+  });
+
+  if (Object.keys(nextErrors).length > 0) {
+    setSubmitError(t('login.form.validation'));
+    return;
+  }
+
+  setSubmitError('');
+  setLoading(true);
+
+  try {
+    const response = await axios.post(
+      'https://homeservicesplatfrom.onrender.com/api/admin/auth/login',
+      {
+        phone: values.phone,
+        password: values.password,
+      }
+    );
+
+    const data = response.data;
+
+    if (data.success) {
+      localStorage.setItem(
+        'login_token',
+        data.data.login_token
+      );
+
+      notify({
+        severity: 'success',
+        title: 'OTP Sent',
+        message: data.message,
+      });
+
+      navigate('/otp', {
+        state: {
+          phone: values.phone,
+            password: values.password,
+          login_token: response.data.data.login_token,
+        },
+      });
+    } else {
+      setSubmitError(data.message || 'Login failed');
+    }
+  } catch (error) {
+    console.error(error);
+
+    setSubmitError(
+      error.response?.data?.message ||
+        'Something went wrong'
+    );
+  } finally {
+    setLoading(false);
+  }
+}
+
   return (
-    <Box
+      <Box
       sx={(theme) => ({
         minHeight: '100vh',
         display: 'grid',
@@ -107,22 +183,22 @@ function LoginPage() {
             })}
           >
             <Box sx={{ position: 'relative', zIndex: 1 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 4, flexDirection: isRtl ? 'row-reverse' : 'row' }}>
                 <Box sx={{ width: 52, height: 52, borderRadius: 3, bgcolor: 'rgba(255,255,255,0.18)', display: 'grid', placeItems: 'center' }}>
                   <LockOutlinedIcon />
                 </Box>
                 <Box>
                   <Typography variant="h5" sx={{ fontWeight: 800 }}>
-                    MyDashboard
+                      {t('login.hero.brand')}
                   </Typography>
-                  <Typography sx={{ opacity: 0.82 }}>Operations and workforce control</Typography>
+                    <Typography sx={{ opacity: 0.82 }}>{t('login.hero.subtitle')}</Typography>
                 </Box>
               </Box>
               <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: '-0.04em', maxWidth: 500 }}>
-                A clean admin workspace for modern teams.
+                  {t('login.hero.title')}
               </Typography>
               <Typography sx={{ mt: 2, maxWidth: 520, opacity: 0.9 }}>
-                Manage workers, monitor company performance, and process deposits from one scalable interface.
+                  {t('login.hero.description')}
               </Typography>
             </Box>
             <Box
@@ -134,10 +210,10 @@ function LoginPage() {
                 gap: 2,
               }}
             >
-              {[
-                { icon: <ShowChartIcon />, label: 'Live analytics' },
-                { icon: <PeopleAltIcon />, label: 'Worker management' },
-                { icon: <AccountBalanceWalletIcon />, label: 'Wallet operations' },
+                {[
+                { icon: <ShowChartIcon />, label: t('login.hero.features.analytics') },
+                { icon: <PeopleAltIcon />, label: t('login.hero.features.workers') },
+                { icon: <AccountBalanceWalletIcon />, label: t('login.hero.features.wallet') },
               ].map((feature) => (
                 <Card
                   key={feature.label}
@@ -151,7 +227,7 @@ function LoginPage() {
                   }}
                 >
                   <CardContent sx={{ py: 2.2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexDirection: isRtl ? 'row-reverse' : 'row' }}>
                       {feature.icon}
                       <Typography sx={{ fontWeight: 700 }}>{feature.label}</Typography>
                     </Box>
@@ -175,44 +251,67 @@ function LoginPage() {
             <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
               <Stack spacing={3}>
                 <Box>
-                  <Typography variant="h4" sx={{ fontWeight: 800, letterSpacing: '-0.03em' }}>
-                    Sign in
+                    <Typography variant="h4" sx={{ fontWeight: 800, letterSpacing: '-0.03em' }}>
+                    {t('login.form.title')}
                   </Typography>
                   <Typography color="text.secondary" sx={{ mt: 1 }}>
-                    Enter any valid credentials to access the dashboard.
+                    {t('login.form.subtitle')}
                   </Typography>
                 </Box>
                 {submitError ? <Alert severity="error">{submitError}</Alert> : null}
                 <Box component="form" onSubmit={handleSubmit} noValidate>
                   <Stack spacing={2.5}>
                     <TextField
-                      label="Username"
-                      name="username"
-                      value={values.username}
+                      label={t('login.form.phone', { defaultValue: 'Phone number' })}
+                      name="phone"
+                      value={values.phone}
                       onChange={handleChange}
-                      error={Boolean(errors.username)}
-                      helperText={errors.username}
-                      autoComplete="username"
+                      error={Boolean(errors.phone)}
+                      helperText={errors.phone}
+                      autoComplete="tel"
+                      inputMode="tel"
                       fullWidth
+                      placeholder="+1 555 123 4567"
                     />
                     <TextField
-                      label="Password"
+                      label={t('login.form.password')}
                       name="password"
-                      type="password"
+                      type={isPasswordVisible ? 'text' : 'password'}
                       value={values.password}
                       onChange={handleChange}
                       error={Boolean(errors.password)}
                       helperText={errors.password}
                       autoComplete="current-password"
                       fullWidth
+                      slotProps={{
+                        input: {
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={handleTogglePasswordVisibility}
+                                onMouseDown={handlePasswordMouseDown}
+                                edge="end"
+                                aria-label={
+                                  isPasswordVisible
+                                    ? t('login.form.hidePassword', { defaultValue: 'Hide password' })
+                                    : t('login.form.showPassword', { defaultValue: 'Show password' })
+                                }
+                                aria-pressed={isPasswordVisible}
+                              >
+                                {isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
                     />
                     <Button type="submit" variant="contained" size="large" disabled={loading} sx={{ py: 1.4 }}>
-                      {loading ? 'Signing in...' : 'Sign In'}
+                      {loading ? t('login.form.submitting') : t('login.form.submit')}
                     </Button>
                   </Stack>
                 </Box>
                 <Alert severity="info" variant="outlined">
-                  This dashboard uses local storage to persist sessions, worker data, and theme settings.
+                  {t('login.form.info')}
                 </Alert>
               </Stack>
             </CardContent>

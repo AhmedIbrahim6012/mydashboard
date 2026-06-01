@@ -1,175 +1,187 @@
-import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { Box, Stack } from '@mui/material';
+import AttachMoneyRoundedIcon from '@mui/icons-material/AttachMoneyRounded';
+import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
+import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
+import { useTranslation } from 'react-i18next';
 import PageHeader from '../components/PageHeader';
-import StatCard from '../components/StatCard';
-import { useDashboardData } from '../hooks/useDashboardData';
-import { formatCurrency } from '../utils/format';
+import DashboardMetricCard from '../components/dashboard/DashboardMetricCard';
+import RevenueOverviewChart from '../components/dashboard/RevenueOverviewChart';
+import ServiceProvidersPanel from '../components/dashboard/ServiceProvidersPanel';
+import RecentBookingsTable from '../components/dashboard/RecentBookingsTable';
 
-const profitSeries = [
-  { month: 'Jan', profit: 185000 },
-  { month: 'Feb', profit: 199000 },
-  { month: 'Mar', profit: 210000 },
-  { month: 'Apr', profit: 226000 },
-  { month: 'May', profit: 241000 },
-  { month: 'Jun', profit: 258000 },
-  { month: 'Jul', profit: 271000 },
-  { month: 'Aug', profit: 284000 },
+const summaryCards = [
+  {
+    id: 'revenue',
+    title: 'Total Revenue',
+    value: '$47,860',
+    caption: '+12.5% from last month',
+    captionTone: 'positive',
+    icon: <AttachMoneyRoundedIcon fontSize="small" />,
+  },
+  {
+    id: 'bookings',
+    title: 'Active Bookings',
+    value: '124',
+    caption: '+8.2% from last week',
+    captionTone: 'positive',
+    icon: <CalendarMonthRoundedIcon fontSize="small" />,
+  },
+  {
+    id: 'customers',
+    title: 'Total Customers',
+    value: '1,284',
+    caption: '+5.1% from last month',
+    captionTone: 'positive',
+    icon: <GroupOutlinedIcon fontSize="small" />,
+  },
+  {
+    id: 'rating',
+    title: 'Avg. Rating',
+    value: '4.8',
+    caption: 'Steady performance',
+    captionTone: 'neutral',
+    icon: <TrendingUpRoundedIcon fontSize="small" />,
+  },
+];
+
+const revenueSeries = [
+  { month: 'Jan', value: 4200 },
+  { month: 'Feb', value: 3800 },
+  { month: 'Mar', value: 5100 },
+  { month: 'Apr', value: 4600 },
+  { month: 'May', value: 6300 },
+  { month: 'Jun', value: 5900 },
+  { month: 'Jul', value: 7200 },
+  { month: 'Aug', value: 6800 },
+  { month: 'Sep', value: 7500 },
+  { month: 'Oct', value: 8300 },
+  { month: 'Nov', value: 8000 },
+  { month: 'Dec', value: 9100 },
+];
+
+const serviceProviders = [
+  {
+    id: 'provider-1',
+    initials: 'M',
+    name: 'Mike Johnson',
+    service: 'Plumbing',
+    rating: 4.8,
+    jobs: 156,
+    status: 'available',
+  },
+  {
+    id: 'provider-2',
+    initials: 'C',
+    name: 'Clean Team Co.',
+    service: 'House Cleaning',
+    rating: 4.9,
+    jobs: 289,
+    status: 'busy',
+  },
+  {
+    id: 'provider-3',
+    initials: 'T',
+    name: 'Tom Electric',
+    service: 'Electrical',
+    rating: 4.7,
+    jobs: 203,
+    status: 'available',
+  },
+];
+
+const recentBookings = [
+  {
+    id: '#BK001',
+    customer: 'John Smith',
+    service: 'Plumbing Repair',
+    provider: 'Mike Johnson',
+    dateTime: '2026-05-08 10:00 AM',
+    status: 'confirmed',
+    amount: '$150',
+  },
+  {
+    id: '#BK002',
+    customer: 'Sarah Williams',
+    service: 'House Cleaning',
+    provider: 'Clean Team Co.',
+    dateTime: '2026-05-09 2:00 PM',
+    status: 'pending',
+    amount: '$120',
+  },
+  {
+    id: '#BK003',
+    customer: 'Robert Brown',
+    service: 'Electrical Work',
+    provider: 'Tom Electric',
+    dateTime: '2026-05-07 9:00 AM',
+    status: 'completed',
+    amount: '$280',
+  },
+  {
+    id: '#BK004',
+    customer: 'Emily Davis',
+    service: 'Lawn Care',
+    provider: 'Green Gardens',
+    dateTime: '2026-05-10 11:00 AM',
+    status: 'confirmed',
+    amount: '$90',
+  },
+  {
+    id: '#BK005',
+    customer: 'Michael Wilson',
+    service: 'AC Repair',
+    provider: 'Cool Air Services',
+    dateTime: '2026-05-06 3:00 PM',
+    status: 'cancelled',
+    amount: '$200',
+  },
 ];
 
 function DashboardPage() {
-  const { totalWorkers, workers, totalCustomers } = useDashboardData();
-  const latestProfit = profitSeries[profitSeries.length - 1].profit;
-  const totalBalance = workers.reduce((sum, worker) => sum + Number(worker.balance || 0), 0);
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.dir() === 'rtl';
 
   return (
-    <Stack spacing={3.5}>
+    <Stack spacing={3} dir={isRtl ? 'rtl' : 'ltr'}>
       <PageHeader
-        title="Dashboard"
-        subtitle="Track workforce size, company performance, and wallet activity from a polished executive overview."
+        title={t('dashboard.title', { defaultValue: 'Dashboard' })}
+        subtitle={t('dashboard.welcome', { defaultValue: "Welcome back! Here's what's happening today." })}
       />
+
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', md: 'repeat(3, minmax(0, 1fr))' },
-          gap: 3,
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', lg: 'repeat(4, minmax(0, 1fr))' },
+          gap: 2.5,
+          alignItems: 'stretch',
         }}
       >
-        <Box>
-          <StatCard
-            title="Total Workers"
-            value={totalWorkers}
-            helperText="Current active workforce in the system"
-            accent="#2563eb"
-            icon={<PeopleAltIcon fontSize="small" />}
+        {summaryCards.map((card) => (
+          <DashboardMetricCard
+            key={card.id}
+            title={card.title}
+            value={card.value}
+            caption={card.caption}
+            captionTone={card.captionTone}
+            icon={card.icon}
           />
-        </Box>
-        <Box>
-          <StatCard
-            title="Total Company Profits"
-            value={formatCurrency(latestProfit)}
-            helperText="Rolling profit performance across the last eight months"
-            accent="#14b8a6"
-            icon={<TrendingUpIcon fontSize="small" />}
-          />
-        </Box>
-        <Box>
-          <StatCard
-            title="Worker Wallets"
-            value={formatCurrency(totalBalance)}
-            helperText="Aggregate wallet balance across all workers"
-            accent="#f59e0b"
-            icon={<AccountBalanceIcon fontSize="small" />}
-          />
-        </Box>
-        <Box>
-          <StatCard
-            title="Total Customers"
-            value={totalCustomers}
-            helperText="Registered mobile app users"
-            accent="#7c3aed"
-            icon={<PhoneAndroidIcon fontSize="small" />}
-          />
-        </Box>
+        ))}
       </Box>
 
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', lg: 'minmax(0, 2fr) minmax(320px, 1fr)' },
-          gap: 3,
+          gridTemplateColumns: { xs: '1fr', lg: 'minmax(0, 1.03fr) minmax(380px, 0.97fr)' },
+          gap: 2.5,
+          alignItems: 'stretch',
         }}
       >
-        <Box>
-          <Card
-            elevation={0}
-            sx={(theme) => ({
-              height: '100%',
-              borderRadius: 4,
-              border: `1px solid ${theme.palette.divider}`,
-            })}
-          >
-            <CardContent sx={{ p: 3 }}>
-              <Stack spacing={2.5}>
-                <Box>
-                  <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                    Profit Trend
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Monthly company profit movement in a responsive analytics chart.
-                  </Typography>
-                </Box>
-                <Box sx={{ width: '100%', height: 340 }}>
-                  <ResponsiveContainer>
-                    <LineChart data={profitSeries}>
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
-                      <XAxis dataKey="month" tickLine={false} axisLine={false} />
-                      <YAxis tickLine={false} axisLine={false} tickFormatter={(value) => `$${value / 1000}k`} />
-                      <Tooltip formatter={(value) => formatCurrency(value)} />
-                      <Line
-                        type="monotone"
-                        dataKey="profit"
-                        stroke="#4f46e5"
-                        strokeWidth={3}
-                        dot={{ r: 4 }}
-                        activeDot={{ r: 7 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </Box>
-              </Stack>
-            </CardContent>
-          </Card>
-        </Box>
-        <Box>
-          <Card
-            elevation={0}
-            sx={(theme) => ({
-              height: '100%',
-              borderRadius: 4,
-              border: `1px solid ${theme.palette.divider}`,
-            })}
-          >
-            <CardContent sx={{ p: 3 }}>
-              <Stack spacing={2.5}>
-                <Box>
-                  <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                    Executive Snapshot
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    A concise view of the current operational health.
-                  </Typography>
-                </Box>
-                {[
-                  { label: 'Workers tracked', value: totalWorkers },
-                  { label: 'Active wallets', value: workers.filter((worker) => worker.balance > 0).length },
-                  { label: 'Total wallet value', value: formatCurrency(totalBalance) },
-                  { label: 'Latest monthly profit', value: formatCurrency(latestProfit) },
-                ].map((item) => (
-                  <Box
-                    key={item.label}
-                    sx={(theme) => ({
-                      borderRadius: 3,
-                      p: 2,
-                      backgroundColor: theme.palette.action.hover,
-                    })}
-                  >
-                    <Typography variant="body2" color="text.secondary">
-                      {item.label}
-                    </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 800, mt: 0.5 }}>
-                      {item.value}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Box>
+        <RevenueOverviewChart data={revenueSeries} />
+        <ServiceProvidersPanel providers={serviceProviders} />
       </Box>
+
+      <RecentBookingsTable bookings={recentBookings} />
     </Stack>
   );
 }

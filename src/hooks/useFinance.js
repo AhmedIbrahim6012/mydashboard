@@ -12,10 +12,7 @@ export function useFinance() {
     [financeRecords, rangeType, customStartDate, customEndDate],
   );
 
-  const summary = useMemo(
-    () => summarizeFinanceRecords(financeRecords, filteredRecords),
-    [financeRecords, filteredRecords],
-  );
+  const summary = useMemo(() => summarizeFinanceRecords(filteredRecords), [filteredRecords]);
 
   const chartSeries = useMemo(() => buildFinanceChartSeries(filteredRecords), [filteredRecords]);
 

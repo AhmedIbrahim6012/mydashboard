@@ -74,11 +74,11 @@ describe('financeService', () => {
   test('sorts and summarizes the selected records', () => {
     const selected = filterFinanceRecords(records, '30');
     const sortedByRevenue = sortFinanceRecords(selected, 'revenue', 'desc');
-    const summary = summarizeFinanceRecords(records, selected);
+    const summary = summarizeFinanceRecords(selected);
 
     expect(sortedByRevenue[0].id).toBe('finance-4');
     expect(summary.selectedRevenue).toBe(2700);
     expect(summary.selectedProfit).toBe(2100);
-    expect(summary.totalProfit).toBe(2500);
+    expect(summary.selectedDeposits).toBe(600);
   });
 });

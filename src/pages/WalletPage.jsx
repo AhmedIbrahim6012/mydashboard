@@ -15,6 +15,7 @@ import PageHeader from '../components/PageHeader';
 import { useAppContext } from '../context/AppContext';
 import { formatCurrency } from '../utils/format';
 import { validateDeposit } from '../utils/validation';
+import { useTranslation } from 'react-i18next';
 
 const EMPTY_VALUES = {
   workerId: '',
@@ -23,6 +24,8 @@ const EMPTY_VALUES = {
 
 function WalletPage() {
   const { workers, depositToWorker } = useAppContext();
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.dir() === 'rtl';
   const [values, setValues] = useState(EMPTY_VALUES);
   const [errors, setErrors] = useState(EMPTY_VALUES);
 
@@ -59,24 +62,24 @@ function WalletPage() {
   }
 
   return (
-    <Stack spacing={3.5}>
+    <Stack spacing={3.5} dir={isRtl ? 'rtl' : 'ltr'}>
       <PageHeader
-        title="Wallet / Deposits"
-        subtitle="Add money to a worker wallet and keep balances synchronized instantly across the application."
+        title={t('wallet.title')}
+        subtitle={t('wallet.subtitle')}
       />
       {workers.length === 0 ? (
-        <Alert severity="warning">Add at least one worker before processing wallet deposits.</Alert>
+        <Alert severity="warning">{t('wallet.warning')}</Alert>
       ) : null}
       <Stack spacing={3} direction={{ xs: 'column', lg: 'row' }}>
         <Card elevation={0} sx={(theme) => ({ flex: 1, borderRadius: 4, border: `1px solid ${theme.palette.divider}` })}>
           <CardContent sx={{ p: 3 }}>
             <Stack spacing={2.5} component="form" onSubmit={handleSubmit} noValidate>
               <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                Add Balance
+                {t('wallet.form.title')}
               </Typography>
               <TextField
                 select
-                label="Select Worker"
+                label={t('wallet.form.selectWorker')}
                 name="workerId"
                 value={values.workerId}
                 onChange={handleChange}
@@ -91,13 +94,13 @@ function WalletPage() {
                 ))}
               </TextField>
               <TextField
-                label="Amount"
+                label={t('wallet.form.amount')}
                 name="amount"
                 type="number"
                 value={values.amount}
                 onChange={handleChange}
                 error={Boolean(errors.amount)}
-                helperText={errors.amount || 'Enter the amount to add to the wallet.'}
+                helperText={errors.amount || t('wallet.form.amountHelp')}
                 inputProps={{ min: 1, step: 1 }}
                 fullWidth
               />
@@ -108,7 +111,7 @@ function WalletPage() {
                 disabled={!workers.length}
                 size="large"
               >
-                Deposit Funds
+                {t('wallet.form.submit')}
               </Button>
             </Stack>
           </CardContent>
@@ -117,7 +120,7 @@ function WalletPage() {
           <CardContent sx={{ p: 3 }}>
             <Stack spacing={2.5}>
               <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                Selected Wallet
+                {t('wallet.preview.title')}
               </Typography>
               {selectedWorker ? (
                 <Box
@@ -136,16 +139,16 @@ function WalletPage() {
                       {formatCurrency(selectedWorker.balance)}
                     </Typography>
                     <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                      Balance updates are reflected immediately after deposit confirmation.
+                      {t('wallet.preview.balanceNote')}
                     </Typography>
                   </Stack>
                 </Box>
               ) : (
-                <Alert severity="info">Choose a worker to preview the current wallet balance.</Alert>
+                <Alert severity="info">{t('wallet.preview.chooseWorker')}</Alert>
               )}
               <Box>
                 <Typography variant="body2" color="text.secondary">
-                  Connected workers
+                  {t('wallet.preview.connectedWorkers')}
                 </Typography>
                 <Typography variant="h5" sx={{ fontWeight: 800 }}>
                   {workers.length}
@@ -153,10 +156,10 @@ function WalletPage() {
               </Box>
               <Box>
                 <Typography variant="body2" color="text.secondary">
-                  Wallet coverage
+                  {t('wallet.preview.walletCoverage')}
                 </Typography>
                 <Typography variant="h5" sx={{ fontWeight: 800 }}>
-                  {workers.length ? '100% synced' : 'No workers yet'}
+                  {workers.length ? t('wallet.preview.fullSync') : t('wallet.preview.noWorkers')}
                 </Typography>
               </Box>
             </Stack>

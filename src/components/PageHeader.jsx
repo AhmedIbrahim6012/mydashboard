@@ -1,15 +1,19 @@
 import { Box, Stack, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 function PageHeader({ title, subtitle, actions }) {
+  const theme = useTheme();
+  const isRtl = theme.direction === 'rtl';
+
   return (
     <Stack
       direction={{ xs: 'column', md: 'row' }}
       justifyContent="space-between"
-      alignItems={{ xs: 'flex-start', md: 'center' }}
+      alignItems={{ xs: isRtl ? 'flex-end' : 'flex-start', md: 'center' }}
       spacing={2}
       sx={{ mb: 3 }}
     >
-      <Box>
+      <Box sx={{ textAlign: isRtl ? 'right' : 'left' }}>
         <Typography variant="h4" sx={{ fontWeight: 800, letterSpacing: '-0.03em' }}>
           {title}
         </Typography>

@@ -1,0 +1,488 @@
+{
+  "common": {
+    "english": "English",
+    "arabic": "Arabic",
+    "signOut": "Sign out",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "save": "Save",
+    "actions": "Actions",
+    "card": {
+      "showDetails": "Show details",
+      "showFront": "Show main view",
+      "additionalInfo": "Additional Information",
+      "noAlerts": "No active alarms at the moment.",
+      "noAdditionalMetrics": "No additional metrics to display.",
+      "alarm": {
+        "none": "Stable",
+        "info": "Info",
+        "warning": "Warning",
+        "critical": "Critical"
+      }
+    }
+  },
+  "app": {
+    "title": "Admin Dashboard",
+    "subtitle": "Modern operations and workforce management"
+  },
+  "topbar": {
+    "openMenu": "Open navigation menu",
+    "expandSidebar": "Expand sidebar",
+    "collapseSidebar": "Collapse sidebar",
+    "toggleTheme": "Toggle theme mode",
+    "languageSwitch": "Switch language",
+    "darkMode": "Dark mode",
+    "lightMode": "Light mode"
+  },
+  "sidebar": {
+    "promo": {
+      "title": "Scalable, responsive, and ready for growth.",
+      "subtitle": "Built with a reusable data layer and persistent workspace state."
+    }
+  },
+  "professions": {
+    "title": "Job Categories",
+    "subtitle": "Create unlimited professions, track worker counts, and manage commission rates.",
+    "add": "Add New Profession",
+    "selectLabel": "Profession",
+    "workersCount": "workers",
+    "commission": "commission",
+    "back": "Back to Categories",
+    "detailSubtitle": "Manage workers and commission settings for this category.",
+    "totalWorkers": "Total Workers",
+    "commissionLabel": "Commission Rate",
+    "commissionSetup": "Commission Setup",
+    "addWorker": "Add Worker",
+    "emptyTitle": "No workers yet",
+    "emptySubtitle": "Add a worker to this category to start tracking assignments.",
+    "notFound": "Job category not found",
+    "dialog": {
+      "add": "Add Profession",
+      "edit": "Edit Profession",
+      "name": "Profession Name",
+      "commission": "Commission"
+    }
+  },
+  "login": {
+    "hero": {
+      "brand": "MyDashboard",
+      "subtitle": "Operations and workforce control",
+      "title": "A clean admin workspace for modern teams.",
+      "description": "Manage workers, monitor company performance, and process deposits from one scalable interface.",
+      "features": {
+        "analytics": "Live analytics",
+        "workers": "Worker management",
+        "wallet": "Wallet operations"
+      }
+    },
+    "form": {
+      "title": "Sign in",
+      "subtitle": "Enter any valid credentials to access the dashboard.",
+      "username": "Username",
+      "password": "Password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "validation": "Please fix the highlighted fields.",
+      "info": "This dashboard uses local storage to persist sessions, worker data, and theme settings."
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "subtitle": "The page you are looking for does not exist or has moved.",
+    "back": "Return to dashboard"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Track workforce size, company performance, and wallet activity from a polished executive overview.",
+    "cards": {
+      "totalWorkers": "Total Workers",
+      "companyProfits": "Total Company Profits",
+      "workerWallets": "Worker Wallets",
+      "totalCustomers": "Total Customers"
+    },
+    "helpers": {
+      "workers": "Current active workforce in the system",
+      "profits": "Rolling profit performance across the last eight months",
+      "wallets": "Aggregate wallet balance across all workers",
+      "customers": "Registered mobile app users"
+    },
+    "charts": {
+      "profitTrend": "Profit Trend",
+      "profitTrendSubtitle": "Monthly company profit movement in a responsive analytics chart."
+    },
+    "snapshot": {
+      "title": "Executive Snapshot",
+      "subtitle": "A concise view of the current operational health.",
+      "workersTracked": "Workers tracked",
+      "activeWallets": "Active wallets",
+      "totalWalletValue": "Total wallet value",
+      "latestMonthlyProfit": "Latest monthly profit"
+    },
+    "cardsMeta": {
+      "totalWorkersTrend": "+5.2% from last month",
+      "totalWorkersBackTitle": "Workforce alerts",
+      "totalWorkersBackDescription": "Monitor hiring pace and workforce availability.",
+      "companyProfitsTrend": "+12.5% from last month",
+      "companyProfitsBackTitle": "Profit alerts",
+      "companyProfitsBackDescription": "Keep an eye on variance and month-over-month growth.",
+      "profitPeak": "Peak month",
+      "profitBaseline": "Baseline",
+      "workerWalletsTrend": "+8.1% from last week",
+      "workerWalletsBackTitle": "Wallet alerts",
+      "workerWalletsBackDescription": "Review wallet coverage and concentration across workers.",
+      "averageWallet": "Average wallet",
+      "highestWallet": "Highest wallet",
+      "totalCustomersTrend": "+5.1% from last month",
+      "totalCustomersBackTitle": "Customer alerts",
+      "totalCustomersBackDescription": "Track onboarding pace and account readiness.",
+      "customersWithBalance": "Customers with balance",
+      "expectedGrowth": "Expected growth",
+      "expectedGrowthValue": "Steady",
+      "serviceLoad": "Service load",
+      "serviceLoadValue": "Balanced"
+    }
+  },
+  "workers": {
+    "title": "Workers Management",
+    "subtitle": "Maintain worker records with fast create, edit, delete, and profile navigation workflows.",
+    "addWorker": "Add Worker",
+    "searchPlaceholder": "Search workers by name, phone, or experience...",
+    "filters": {
+      "all": "All"
+    },
+    "status": {
+      "available": "Available",
+      "busy": "Busy",
+      "offline": "Offline"
+    },
+    "summary": {
+      "totalWorkers": "Total workers",
+      "totalWorkersHelp": "Profiles in the system",
+      "availableWorkers": "Available",
+      "availableWorkersHelp": "Ready for assignment",
+      "busyWorkers": "Busy",
+      "busyWorkersHelp": "Currently active",
+      "totalBalance": "Total wallet balance",
+      "totalBalanceHelp": "Combined wallet value"
+    },
+    "overview": {
+      "showing": "Showing {{visible}} of {{total}} workers",
+      "professions": "{{count}} professions available"
+    },
+    "card": {
+      "workerId": "Worker ID: {{id}}",
+      "viewProfile": "View Profile",
+      "clearFilters": "Clear filters",
+      "noWorkersTitle": "No workers match the current filters",
+      "noWorkersSubtitle": "Clear a filter, search a different term, or add a new worker to continue."
+    },
+    "table": {
+      "worker": "Worker",
+      "phone": "Phone Number",
+      "experience": "Experience",
+      "balance": "Balance",
+      "joined": "Joined",
+      "actions": "Actions",
+      "noActivity": "No activity yet",
+      "activities": "activities",
+      "viewProfile": "View profile for {{name}}",
+      "edit": "Edit {{name}}",
+      "delete": "Delete {{name}}",
+      "emptyTitle": "No workers found",
+      "emptySubtitle": "Add a worker to start tracking profiles and balances.",
+      "emptyAction": "Add Worker"
+    },
+    "dialog": {
+      "edit": "Edit Worker",
+      "add": "Add Worker",
+      "name": "Name",
+      "phone": "Phone Number",
+      "experience": "Experience",
+      "experienceHelp": "Example: 5 years or Senior Technician",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "save": "Save Worker"
+    },
+    "confirm": {
+      "title": "Delete worker",
+      "description": "Are you sure you want to delete {{name}}? This action cannot be undone."
+    },
+    "profile": {
+      "title": "Worker Profile",
+      "subtitle": "Inspect profile details, activity history, and quick actions for the selected worker.",
+      "back": "Back to categories",
+      "edit": "Edit Worker",
+      "notFound": {
+        "title": "Worker not found",
+        "subtitle": "The selected worker profile no longer exists or could not be loaded.",
+        "back": "Back to categories"
+      },
+      "activityHistory": "Activity History",
+      "emptyActivity": "No recent activity has been recorded for this worker.",
+      "delete": "Delete Worker",
+      "deleteConfirm": "Delete {{name}} from the system? This cannot be undone.",
+      "fields": {
+        "workerId": "Worker ID: {{id}}",
+        "phone": "Phone Number",
+        "experience": "Experience",
+        "balance": "Balance"
+      },
+      "walletOverview": "Wallet Overview",
+      "currentWalletBalance": "Current wallet balance",
+      "walletNote": "Records are stored locally and update instantly after deposits or edits."
+    }
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "A live support chat workspace for workers, customers, and administrators.",
+    "searchPlaceholder": "Search conversations...",
+    "clearFilters": "Clear filters",
+    "typing": "Typing...",
+    "supportLine": "Support ticket updates sync instantly to the live chat feed.",
+    "metrics": {
+      "active": "Active",
+      "pinned": "Pinned",
+      "unread": "Unread",
+      "openTickets": "Open tickets"
+    },
+    "filters": {
+      "all": "All",
+      "pinned": "Pinned",
+      "unread": "Unread",
+      "workers": "Workers",
+      "customers": "Customers",
+      "admins": "Admins"
+    },
+    "labels": {
+      "unread": "unread",
+      "priority": "Priority"
+    },
+    "sections": {
+      "active": "Active conversations",
+      "visible": "visible",
+      "recentMessages": "Recent messages",
+      "chatFilters": "Chat filters"
+    },
+    "roles": {
+      "worker": "Worker",
+      "customer": "Customer",
+      "admin": "Admin"
+    },
+    "ticketStatus": {
+      "open": "Open",
+      "pending": "Pending",
+      "escalated": "Escalated",
+      "resolved": "Resolved"
+    },
+    "priority": {
+      "low": "Low priority",
+      "medium": "Medium priority",
+      "high": "High priority",
+      "urgent": "Urgent"
+    },
+    "quickReplies": {
+      "reply1": "Thanks for the update.",
+      "reply2": "We are reviewing this now.",
+      "reply3": "Please share a screenshot."
+    },
+    "emptyTitle": "No conversations available",
+    "emptySubtitle": "Clear filters or start a new support conversation to continue.",
+    "details": {
+      "title": "Conversation details",
+      "subtitle": "Ticket and engagement signals for the selected thread.",
+      "ticketStatus": "Support ticket status",
+      "ticketId": "Ticket #{{id}}",
+      "assignedTo": "Assigned to: {{name}}",
+      "lastSeen": "Last seen: {{value}}",
+      "responseSla": "Response SLA: Under 10 minutes"
+    },
+    "composer": {
+      "placeholder": "Write a message...",
+      "send": "Send",
+      "attach": "Attach file",
+      "image": "Send image",
+      "emoji": "Emoji"
+    }
+  },
+  "customers": {
+    "title": "Customers Management",
+    "subtitle": "Manage mobile app users and accounts.",
+    "addSample": "Add sample customer",
+    "searchPlaceholder": "Search by customer, email, or phone...",
+    "moreFilters": "More Filters",
+    "export": "Export",
+    "overview": {
+      "showing": "Showing {{visible}} of {{total}} customers"
+    },
+    "filters": {
+      "all": "All ({{count}})",
+      "withEmail": "With Email",
+      "withoutEmail": "No Email",
+      "positiveBalance": "Positive Balance",
+      "zeroBalance": "Zero Balance",
+      "highBalance": "High Balance",
+      "lowBalance": "Low Balance",
+      "email": "Email Filter",
+      "balance": "Balance Filter",
+      "positiveOnly": "Positive balance only",
+      "minimumActive": "Apply minimum balance threshold",
+      "minimumBalance": "Minimum balance",
+      "between": "Customers with balances at or above {{value}} are shown.",
+      "clear": "Clear filters",
+      "activeSummary": "{{count}} filters active"
+    },
+    "summary": {
+      "totalCustomers": "All customers",
+      "totalCustomersHelp": "Registered accounts",
+      "active": "Active",
+      "activeHelp": "With email and balance",
+      "pending": "Pending",
+      "pendingHelp": "Needs follow-up",
+      "inactive": "Inactive",
+      "inactiveHelp": "No email on file",
+      "totalBalance": "Total balance",
+      "totalBalanceHelp": "Combined account value"
+    },
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "inactive": "Inactive"
+    },
+    "table": {
+      "customerId": "Customer ID",
+      "customer": "Customer",
+      "fullName": "Full Name",
+      "phone": "Phone Number",
+      "email": "Email",
+      "balance": "Account Balance",
+      "registered": "Registered",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "confirm": {
+      "title": "Delete customer",
+      "description": "Are you sure you want to delete {{name}}?"
+    },
+    "details": {
+      "title": "Customer details",
+      "fullName": "Full name",
+      "phone": "Phone",
+      "email": "Email",
+      "balance": "Account balance",
+      "registered": "Registered"
+    },
+    "actions": {
+      "view": "View {{name}}",
+      "delete": "Delete {{name}}"
+    },
+    "emptyState": "No customers match the current filters."
+  },
+  "wallet": {
+    "title": "Wallet / Deposits",
+    "subtitle": "Add money to a worker wallet and keep balances synchronized instantly across the application.",
+    "warning": "Add at least one worker before processing wallet deposits.",
+    "form": {
+      "title": "Add Balance",
+      "selectWorker": "Select Worker",
+      "amount": "Amount",
+      "amountHelp": "Enter the amount to add to the wallet.",
+      "submit": "Deposit Funds"
+    },
+    "preview": {
+      "title": "Selected Wallet",
+      "chooseWorker": "Choose a worker to preview the current wallet balance.",
+      "balanceNote": "Balance updates are reflected immediately after deposit confirmation.",
+      "connectedWorkers": "Connected workers",
+      "walletCoverage": "Wallet coverage",
+      "fullSync": "100% synced",
+      "noWorkers": "No workers yet"
+    }
+  },
+  "finance": {
+    "title": "Financial Analytics",
+    "subtitle": "Analyze revenue, orders, deposits, and profit trends with a responsive analytics workspace.",
+    "filtersTitle": "Filters",
+    "filtersSubtitle": "Change the dashboard window to instantly update the charts and table.",
+    "range": {
+      "title": "Date Range",
+      "last7": "Last 7 days",
+      "last15": "Last 15 days",
+      "last30": "Last 30 days",
+      "custom": "Custom range",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "empty": "Select a custom date range to update the dashboard."
+    },
+    "cards": {
+      "totalRevenue": "Total Revenue",
+      "totalProfit": "Total Profit",
+      "totalOrders": "Total Orders",
+      "deposits": "Deposits"
+    },
+    "cardsMeta": {
+      "revenueTrend": "+9.4% vs previous window",
+      "revenueBackTitle": "Revenue signals",
+      "revenueBackDescription": "Understand concentration and order-value health.",
+      "averageOrder": "Average order",
+      "totalOrders": "Orders in range",
+      "profitMargin": "Profit margin",
+      "profitTrend": "+6.2% vs previous window",
+      "profitBackTitle": "Profit alerts",
+      "profitBackDescription": "Watch profitability shifts before they affect cash flow.",
+      "revenueBase": "Revenue base",
+      "depositsBase": "Deposits base",
+      "margin": "Margin",
+      "ordersTrend": "+8.2% from last week",
+      "ordersBackTitle": "Order alerts",
+      "ordersBackDescription": "Track demand pressure and throughput.",
+      "orderDensity": "Order density",
+      "orderDensityValue": "Steady",
+      "coverageWindow": "Coverage",
+      "depositsTrend": "+4.3% from last month",
+      "depositsBackTitle": "Deposit alerts",
+      "depositsBackDescription": "Maintain healthy deposits-to-revenue ratio.",
+      "depositsToRevenue": "Deposits / Revenue",
+      "profit": "Profit",
+      "orders": "Orders"
+    },
+    "charts": {
+      "revenueOverTime": "Revenue Over Time",
+      "revenueOverTimeSubtitle": "Daily revenue trend for the selected period.",
+      "ordersPerDay": "Orders per Day",
+      "ordersPerDaySubtitle": "Order volume mapped against the same selected range.",
+      "revenueDistribution": "Revenue Distribution",
+      "revenueDistributionSubtitle": "Revenue, deposits, and profit share for the selected filter range.",
+      "revenue": "Revenue",
+      "profit": "Profit"
+    },
+    "records": {
+      "title": "Finance Records",
+      "date": "Date",
+      "revenue": "Revenue",
+      "orders": "Orders",
+      "profit": "Profit",
+      "deposits": "Deposits",
+      "actions": "Actions",
+      "noDataTitle": "No records available for this date range.",
+      "noDataSubtitle": "Adjust the filter window to load analytics data.",
+      "editFinanceRecord": "Edit finance record",
+      "deleteFinanceRecord": "Delete finance record",
+      "cancel": "Cancel",
+      "saveChanges": "Save changes",
+      "delete": "Delete",
+      "rowsPerPage": "Rows per page:",
+      "of": "of",
+      "moreThan": "more than",
+      "editAria": "Edit record {{date}}",
+      "deleteAria": "Delete record {{date}}",
+      "deletePrompt": "Are you sure you want to delete the record from {{date}}?",
+      "thisDate": "this date"
+    },
+    "alerts": {
+      "noData": "No finance data found for the selected date range."
+    }
+  }
+}

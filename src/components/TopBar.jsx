@@ -1,6 +1,12 @@
+import { useMemo } from 'react';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 import {
   AppBar,
   Box,
+  FormControl,
+  MenuItem,
+  Select,
   IconButton,
   Stack,
   Toolbar,
@@ -14,9 +20,12 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useAppContext } from '../context/AppContext';
+import { useTranslation } from 'react-i18next';
 
 function TopBar({ collapsed, onMenuClick, onCollapseToggle }) {
-  const { logout, themeMode, toggleTheme } = useAppContext();
+  const { logout, themeMode, toggleTheme, language, setLanguage } = useAppContext();
+  const { t } = useTranslation();
+  const fixedToggleCache = useMemo(() => createCache({ key: 'topbar-fixed-toggle' }), []);
 
   return (
     <AppBar
@@ -34,33 +43,58 @@ function TopBar({ collapsed, onMenuClick, onCollapseToggle }) {
           edge="start"
           onClick={onMenuClick}
           sx={{ display: { xs: 'inline-flex', md: 'none' } }}
-          aria-label="open navigation menu"
+          aria-label={t('topbar.openMenu', { defaultValue: 'Open navigation menu' })}
         >
           <MenuIcon />
         </IconButton>
-        <IconButton
-          onClick={onCollapseToggle}
-          sx={{ display: { xs: 'none', md: 'inline-flex' } }}
-          aria-label={collapsed ? 'expand sidebar' : 'collapse sidebar'}
-        >
-          {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-        </IconButton>
-        <Box sx={{ flexGrow: 1 }}>
+        <CacheProvider value={fixedToggleCache}>
+          <IconButton
+            onClick={onCollapseToggle}
+            sx={{
+              display: { xs: 'none', md: 'inline-flex' },
+              position: 'fixed',
+              top: 12.5,
+              left: 0.1,
+              right: 'auto',
+              zIndex: 1400,
+              direction: 'ltr',
+              '& svg': {
+                transform: 'none',
+              },
+            }}
+            aria-label={collapsed ? t('topbar.expandSidebar', { defaultValue: 'Expand sidebar' }) : t('topbar.collapseSidebar', { defaultValue: 'Collapse sidebar' })}
+          >
+            {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </CacheProvider>
+        <Box sx={{ flexGrow: 1 , ml: 4 }}>
           <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '-0.02em' }}>
-            Admin Dashboard
+            {t('app.title')}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Modern operations and workforce management
+            {t('app.subtitle')}
           </Typography>
         </Box>
         <Stack direction="row" spacing={1} alignItems="center">
-          <Tooltip title={`Switch to ${themeMode === 'light' ? 'dark' : 'light'} mode`}>
-            <IconButton onClick={toggleTheme} aria-label="toggle theme mode">
+          <Tooltip title={themeMode === 'light' ? t('topbar.darkMode') : t('topbar.lightMode')}>
+            <IconButton onClick={toggleTheme} aria-label={t('topbar.toggleTheme', { defaultValue: 'Toggle theme mode' })}>
               {themeMode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
             </IconButton>
           </Tooltip>
-          <Tooltip title="Sign out">
-            <IconButton onClick={logout} aria-label="sign out">
+          <FormControl size="small" sx={{ minWidth: 92 }}>
+            <Select
+              value={language}
+              onChange={(event) => setLanguage(event.target.value)}
+              displayEmpty
+              renderValue={(value) => (value === 'ar' ? t('common.arabic') : t('common.english'))}
+              aria-label={t('topbar.languageSwitch', { defaultValue: 'Switch language' })}
+            >
+              <MenuItem value="en">{t('common.english')}</MenuItem>
+              <MenuItem value="ar">{t('common.arabic')}</MenuItem>
+            </Select>
+          </FormControl>
+          <Tooltip title={t('common.signOut')}>
+            <IconButton onClick={logout} aria-label={t('common.signOut')}>
               <LogoutIcon />
             </IconButton>
           </Tooltip>

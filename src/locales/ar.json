@@ -1,0 +1,489 @@
+{
+  "common": {
+    "english": "English",
+    "arabic": "العربية",
+    "signOut": "تسجيل الخروج",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "save": "حفظ",
+    "actions": "الإجراءات",
+    "card": {
+      "showDetails": "عرض التفاصيل",
+      "showFront": "عرض الواجهة الأساسية",
+      "additionalInfo": "معلومات إضافية",
+      "noAlerts": "لا توجد تنبيهات نشطة حاليًا.",
+      "noAdditionalMetrics": "لا توجد مؤشرات إضافية للعرض.",
+      "alarm": {
+        "none": "مستقر",
+        "info": "معلومة",
+        "warning": "تحذير",
+        "critical": "حرج"
+      }
+    }
+  },
+  "app": {
+    "title": "لوحة التحكم",
+    "subtitle": "إدارة العمليات والموارد البشرية بشكل حديث"
+  },
+  "topbar": {
+    "openMenu": "فتح قائمة التنقل",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "collapseSidebar": "طي الشريط الجانبي",
+    "toggleTheme": "تبديل وضع السمة",
+    "languageSwitch": "تبديل اللغة",
+    "darkMode": "الوضع الداكن",
+    "lightMode": "الوضع الفاتح"
+  },
+  "sidebar": {
+    "promo": {
+      "title": "قابل للتوسع، متجاوب، وجاهز للنمو.",
+      "subtitle": "مبني على طبقة بيانات قابلة لإعادة الاستخدام وحالة عمل دائمة."
+    }
+  },
+  "professions": {
+    "title": "فئات الوظائف",
+    "subtitle": "أنشئ تخصصات غير محدودة، وتتبع عدد الموظفين، وأدر نسب العمولة.",
+    "add": "إضافة تخصص جديد",
+    "selectLabel": "التخصص",
+    "workersCount": "موظفًا",
+    "commission": "العمولة",
+    "back": "العودة إلى الفئات",
+    "detailSubtitle": "إدارة الموظفين وإعدادات العمولة لهذه الفئة.",
+    "totalWorkers": "إجمالي الموظفين",
+    "commissionLabel": "نسبة العمولة",
+    "commissionSetup": "إعداد العمولة",
+    "commissionPercent": "العمولة (%)",
+    "addWorker": "إضافة موظف",
+    "emptyTitle": "لا يوجد موظفون بعد",
+    "emptySubtitle": "أضف موظفًا إلى هذه الفئة لبدء تتبع التعيينات.",
+    "notFound": "لم يتم العثور على فئة الوظيفة",
+    "dialog": {
+      "add": "إضافة تخصص",
+      "edit": "تعديل تخصص",
+      "name": "اسم التخصص",
+      "commissionPercent": "العمولة (%)"
+    }
+  },
+  "login": {
+    "hero": {
+      "brand": "MyDashboard",
+      "subtitle": "التحكم في العمليات والموارد البشرية",
+      "title": "مساحة إدارة نظيفة للفرق الحديثة.",
+      "description": "أدر الموظفين وراقب أداء الشركة وتعامل مع الإيداعات من واجهة واحدة قابلة للتوسع.",
+      "features": {
+        "analytics": "تحليلات مباشرة",
+        "workers": "إدارة الموظفين",
+        "wallet": "عمليات المحفظة"
+      }
+    },
+    "form": {
+      "title": "تسجيل الدخول",
+      "subtitle": "أدخل أي بيانات اعتماد صالحة للوصول إلى لوحة التحكم.",
+      "username": "اسم المستخدم",
+      "password": "كلمة المرور",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "submit": "تسجيل الدخول",
+      "submitting": "جاري تسجيل الدخول...",
+      "validation": "يرجى إصلاح الحقول المظللة.",
+      "info": "تستخدم هذه اللوحة التخزين المحلي للاحتفاظ بالجلسات وبيانات الموظفين وإعدادات السمة."
+    }
+  },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "subtitle": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "back": "العودة إلى لوحة التحكم"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "تابع حجم الفريق وأداء الشركة ونشاط المحافظ من خلال نظرة تنفيذية متقنة.",
+    "cards": {
+      "totalWorkers": "إجمالي الموظفين",
+      "companyProfits": "إجمالي أرباح الشركة",
+      "workerWallets": "محافظ الموظفين",
+      "totalCustomers": "إجمالي العملاء"
+    },
+    "helpers": {
+      "workers": "القوى العاملة النشطة الحالية في النظام",
+      "profits": "أداء الأرباح التراكمي خلال الأشهر الثمانية الأخيرة",
+      "wallets": "إجمالي رصيد المحافظ لجميع الموظفين",
+      "customers": "مستخدمو تطبيق الهاتف المسجلون"
+    },
+    "charts": {
+      "profitTrend": "اتجاه الأرباح",
+      "profitTrendSubtitle": "حركة الأرباح الشهرية في رسم بياني تفاعلي متجاوب."
+    },
+    "snapshot": {
+      "title": "ملخص تنفيذي",
+      "subtitle": "عرض مختصر للحالة التشغيلية الحالية.",
+      "workersTracked": "الموظفون المتتبعون",
+      "activeWallets": "المحافظ النشطة",
+      "totalWalletValue": "إجمالي قيمة المحافظ",
+      "latestMonthlyProfit": "آخر ربح شهري"
+    },
+    "cardsMeta": {
+      "totalWorkersTrend": "+5.2% عن الشهر الماضي",
+      "totalWorkersBackTitle": "تنبيهات القوى العاملة",
+      "totalWorkersBackDescription": "راقب وتيرة التوظيف وتوفر الموظفين.",
+      "companyProfitsTrend": "+12.5% عن الشهر الماضي",
+      "companyProfitsBackTitle": "تنبيهات الأرباح",
+      "companyProfitsBackDescription": "تابع التباين والنمو الشهري للأرباح.",
+      "profitPeak": "أعلى شهر",
+      "profitBaseline": "الحد الأدنى",
+      "workerWalletsTrend": "+8.1% عن الأسبوع الماضي",
+      "workerWalletsBackTitle": "تنبيهات المحافظ",
+      "workerWalletsBackDescription": "راجع تغطية المحافظ وتوزيعها بين الموظفين.",
+      "averageWallet": "متوسط المحفظة",
+      "highestWallet": "أعلى محفظة",
+      "totalCustomersTrend": "+5.1% عن الشهر الماضي",
+      "totalCustomersBackTitle": "تنبيهات العملاء",
+      "totalCustomersBackDescription": "تابع وتيرة انضمام العملاء وجاهزية الحسابات.",
+      "customersWithBalance": "عملاء لديهم رصيد",
+      "expectedGrowth": "النمو المتوقع",
+      "expectedGrowthValue": "مستقر",
+      "serviceLoad": "ضغط الخدمة",
+      "serviceLoadValue": "متوازن"
+    }
+  },
+  "workers": {
+    "title": "إدارة الموظفين",
+    "subtitle": "حافظ على سجلات الموظفين مع إنشاء وتعديل وحذف وانتقال سريع إلى الملف الشخصي.",
+    "addWorker": "إضافة موظف",
+    "searchPlaceholder": "ابحث عن الموظفين بالاسم أو الهاتف أو الخبرة...",
+    "filters": {
+      "all": "الكل"
+    },
+    "status": {
+      "available": "متاح",
+      "busy": "مشغول",
+      "offline": "غير متصل"
+    },
+    "summary": {
+      "totalWorkers": "إجمالي الموظفين",
+      "totalWorkersHelp": "الملفات الموجودة في النظام",
+      "availableWorkers": "متاح",
+      "availableWorkersHelp": "جاهز للتكليف",
+      "busyWorkers": "مشغول",
+      "busyWorkersHelp": "نشط حاليًا",
+      "totalBalance": "إجمالي رصيد المحفظة",
+      "totalBalanceHelp": "القيمة الإجمالية للمحافظ"
+    },
+    "overview": {
+      "showing": "عرض {{visible}} من أصل {{total}} موظف",
+      "professions": "{{count}} تخصصات متاحة"
+    },
+    "card": {
+      "workerId": "معرف الموظف: {{id}}",
+      "viewProfile": "عرض الملف",
+      "clearFilters": "مسح الفلاتر",
+      "noWorkersTitle": "لا يوجد موظفون يطابقون الفلاتر الحالية",
+      "noWorkersSubtitle": "أزل أحد الفلاتر أو ابحث بمصطلح مختلف أو أضف موظفًا جديدًا للمتابعة."
+    },
+    "table": {
+      "worker": "الموظف",
+      "phone": "رقم الهاتف",
+      "experience": "الخبرة",
+      "balance": "الرصيد",
+      "joined": "تاريخ الانضمام",
+      "actions": "الإجراءات",
+      "noActivity": "لا توجد أنشطة حتى الآن",
+      "activities": "أنشطة",
+      "viewProfile": "عرض الملف الشخصي لـ {{name}}",
+      "edit": "تعديل {{name}}",
+      "delete": "حذف {{name}}",
+      "emptyTitle": "لا توجد موظفين",
+      "emptySubtitle": "أضف موظفًا لبدء تتبع الملفات والأرصدة.",
+      "emptyAction": "إضافة موظف"
+    },
+    "dialog": {
+      "edit": "تعديل موظف",
+      "add": "إضافة موظف",
+      "name": "الاسم",
+      "phone": "رقم الهاتف",
+      "experience": "الخبرة",
+      "experienceHelp": "مثال: 5 سنوات أو فني أول",
+      "cancel": "إلغاء",
+      "saving": "جاري الحفظ...",
+      "save": "حفظ الموظف"
+    },
+    "confirm": {
+      "title": "حذف الموظف",
+      "description": "هل تريد بالتأكيد حذف {{name}}؟ لا يمكن التراجع عن هذا الإجراء."
+    },
+    "profile": {
+      "title": "ملف الموظف",
+      "subtitle": "راجع تفاصيل الملف وسجل النشاط والإجراءات السريعة للموظف المحدد.",
+      "back": "العودة إلى الفئات",
+      "edit": "تعديل الموظف",
+      "notFound": {
+        "title": "لم يتم العثور على الموظف",
+        "subtitle": "لم يعد ملف الموظف المحدد موجودًا أو تعذر تحميله.",
+        "back": "العودة إلى الفئات"
+      },
+      "activityHistory": "سجل النشاط",
+      "emptyActivity": "لم يتم تسجيل نشاط حديث لهذا الموظف.",
+      "delete": "حذف الموظف",
+      "deleteConfirm": "هل تريد حذف {{name}} من النظام؟ لا يمكن التراجع عن ذلك.",
+      "fields": {
+        "workerId": "معرف الموظف: {{id}}",
+        "phone": "رقم الهاتف",
+        "experience": "الخبرة",
+        "balance": "الرصيد"
+      },
+      "walletOverview": "نظرة عامة على المحفظة",
+      "currentWalletBalance": "الرصيد الحالي للمحفظة",
+      "walletNote": "يتم حفظ السجلات محليًا وتحديثها فورًا بعد الإيداع أو التعديل."
+    }
+  },
+  "messages": {
+    "title": "الرسائل",
+    "subtitle": "مساحة دردشة دعم مباشر للموظفين والعملاء والإداريين.",
+    "searchPlaceholder": "ابحث في المحادثات...",
+    "clearFilters": "مسح الفلاتر",
+    "typing": "يكتب...",
+    "supportLine": "تتم مزامنة تحديثات تذاكر الدعم فورًا مع موجز الدردشة المباشر.",
+    "metrics": {
+      "active": "النشطة",
+      "pinned": "المثبتة",
+      "unread": "غير المقروءة",
+      "openTickets": "التذاكر المفتوحة"
+    },
+    "filters": {
+      "all": "الكل",
+      "pinned": "مثبتة",
+      "unread": "غير مقروءة",
+      "workers": "الموظفون",
+      "customers": "العملاء",
+      "admins": "الإداريون"
+    },
+    "labels": {
+      "unread": "غير مقروءة",
+      "priority": "الأولوية"
+    },
+    "sections": {
+      "active": "المحادثات النشطة",
+      "visible": "ظاهرة",
+      "recentMessages": "آخر الرسائل",
+      "chatFilters": "فلاتر الدردشة"
+    },
+    "roles": {
+      "worker": "موظف",
+      "customer": "عميل",
+      "admin": "إداري"
+    },
+    "ticketStatus": {
+      "open": "مفتوحة",
+      "pending": "قيد الانتظار",
+      "escalated": "مصعّدة",
+      "resolved": "تم الحل"
+    },
+    "priority": {
+      "low": "أولوية منخفضة",
+      "medium": "أولوية متوسطة",
+      "high": "أولوية عالية",
+      "urgent": "عاجل"
+    },
+    "quickReplies": {
+      "reply1": "شكرًا على التحديث.",
+      "reply2": "نراجع هذا الآن.",
+      "reply3": "يرجى مشاركة لقطة شاشة."
+    },
+    "emptyTitle": "لا توجد محادثات متاحة",
+    "emptySubtitle": "امسح الفلاتر أو ابدأ محادثة دعم جديدة للمتابعة.",
+    "details": {
+      "title": "تفاصيل المحادثة",
+      "subtitle": "مؤشرات التذكرة والتفاعل للموضوع المحدد.",
+      "ticketStatus": "حالة تذكرة الدعم",
+      "ticketId": "التذكرة #{{id}}",
+      "assignedTo": "مُسندة إلى: {{name}}",
+      "lastSeen": "آخر ظهور: {{value}}",
+      "responseSla": "اتفاقية الاستجابة: أقل من 10 دقائق"
+    },
+    "composer": {
+      "placeholder": "اكتب رسالة...",
+      "send": "إرسال",
+      "attach": "إرفاق ملف",
+      "image": "إرسال صورة",
+      "emoji": "رمز تعبيري"
+    }
+  },
+  "customers": {
+    "title": "إدارة العملاء",
+    "subtitle": "إدارة مستخدمي تطبيق الهاتف وحساباتهم.",
+    "addSample": "إضافة عميل تجريبي",
+    "searchPlaceholder": "ابحث بالاسم أو البريد الإلكتروني أو الهاتف...",
+    "moreFilters": "فلاتر إضافية",
+    "export": "تصدير",
+    "overview": {
+      "showing": "عرض {{visible}} من أصل {{total}} عميل"
+    },
+    "filters": {
+      "all": "الكل ({{count}})",
+      "withEmail": "بريد إلكتروني",
+      "withoutEmail": "بدون بريد",
+      "positiveBalance": "رصيد إيجابي",
+      "zeroBalance": "رصيد صفري",
+      "highBalance": "رصيد مرتفع",
+      "lowBalance": "رصيد منخفض",
+      "email": "فلتر البريد",
+      "balance": "فلتر الرصيد",
+      "positiveOnly": "الأرصدة الإيجابية فقط",
+      "minimumActive": "تطبيق حد أدنى للرصيد",
+      "minimumBalance": "الحد الأدنى للرصيد",
+      "between": "يتم عرض العملاء الذين لديهم رصيد يساوي أو يزيد عن {{value}}.",
+      "clear": "مسح الفلاتر",
+      "activeSummary": "{{count}} فلاتر نشطة"
+    },
+    "summary": {
+      "totalCustomers": "كل العملاء",
+      "totalCustomersHelp": "الحسابات المسجلة",
+      "active": "نشط",
+      "activeHelp": "مع بريد ورصيد",
+      "pending": "قيد الانتظار",
+      "pendingHelp": "يحتاج متابعة",
+      "inactive": "غير نشط",
+      "inactiveHelp": "لا يوجد بريد مسجل",
+      "totalBalance": "إجمالي الرصيد",
+      "totalBalanceHelp": "القيمة الإجمالية للحسابات"
+    },
+    "status": {
+      "active": "نشط",
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "inactive": "غير نشط"
+    },
+    "table": {
+      "customerId": "معرف العميل",
+      "customer": "العميل",
+      "fullName": "الاسم الكامل",
+      "phone": "رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "balance": "رصيد الحساب",
+      "registered": "تاريخ التسجيل",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "confirm": {
+      "title": "حذف العميل",
+      "description": "هل تريد بالتأكيد حذف {{name}}؟"
+    },
+    "details": {
+      "title": "تفاصيل العميل",
+      "fullName": "الاسم الكامل",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "balance": "رصيد الحساب",
+      "registered": "تاريخ التسجيل"
+    },
+    "actions": {
+      "view": "عرض {{name}}",
+      "delete": "حذف {{name}}"
+    },
+    "emptyState": "لا يوجد عملاء يطابقون الفلاتر الحالية."
+  },
+  "wallet": {
+    "title": "المحفظة / الإيداعات",
+    "subtitle": "أضف مبلغًا إلى محفظة موظف وحافظ على تزامن الأرصدة في جميع أنحاء التطبيق فورًا.",
+    "warning": "أضف موظفًا واحدًا على الأقل قبل معالجة إيداعات المحفظة.",
+    "form": {
+      "title": "إضافة رصيد",
+      "selectWorker": "اختر الموظف",
+      "amount": "المبلغ",
+      "amountHelp": "أدخل المبلغ المراد إضافته إلى المحفظة.",
+      "submit": "إيداع الأموال"
+    },
+    "preview": {
+      "title": "المحفظة المحددة",
+      "chooseWorker": "اختر موظفًا لعرض الرصيد الحالي للمحفظة.",
+      "balanceNote": "يتم عكس تحديثات الرصيد فور تأكيد الإيداع.",
+      "connectedWorkers": "الموظفون المتصلون",
+      "walletCoverage": "تغطية المحافظ",
+      "fullSync": "متزامنة 100%",
+      "noWorkers": "لا يوجد موظفون بعد"
+    }
+  },
+  "finance": {
+    "title": "التحليلات المالية",
+    "subtitle": "حلل اتجاهات الإيرادات والطلبات والإيداعات والأرباح عبر مساحة تحليلات متجاوبة.",
+    "filtersTitle": "الفلاتر",
+    "filtersSubtitle": "غيّر نافذة البيانات لتحديث الرسوم البيانية والجدول فورًا.",
+    "range": {
+      "title": "النطاق الزمني",
+      "last7": "آخر 7 أيام",
+      "last15": "آخر 15 يومًا",
+      "last30": "آخر 30 يومًا",
+      "custom": "نطاق مخصص",
+      "startDate": "تاريخ البداية",
+      "endDate": "تاريخ النهاية",
+      "empty": "اختر نطاقًا زمنيًا مخصصًا لتحديث اللوحة."
+    },
+    "cards": {
+      "totalRevenue": "إجمالي الإيرادات",
+      "totalProfit": "إجمالي الأرباح",
+      "totalOrders": "إجمالي الطلبات",
+      "deposits": "الإيداعات"
+    },
+    "cardsMeta": {
+      "revenueTrend": "+9.4% مقارنة بالفترة السابقة",
+      "revenueBackTitle": "مؤشرات الإيراد",
+      "revenueBackDescription": "افهم توزيع الإيرادات وصحة قيمة الطلب.",
+      "averageOrder": "متوسط الطلب",
+      "totalOrders": "طلبات الفترة",
+      "profitMargin": "هامش الربح",
+      "profitTrend": "+6.2% مقارنة بالفترة السابقة",
+      "profitBackTitle": "تنبيهات الربح",
+      "profitBackDescription": "راقب تغيرات الربحية قبل تأثيرها على التدفق النقدي.",
+      "revenueBase": "قاعدة الإيراد",
+      "depositsBase": "قاعدة الإيداع",
+      "margin": "الهامش",
+      "ordersTrend": "+8.2% عن الأسبوع الماضي",
+      "ordersBackTitle": "تنبيهات الطلبات",
+      "ordersBackDescription": "تابع ضغط الطلبات وسعة التنفيذ.",
+      "orderDensity": "كثافة الطلب",
+      "orderDensityValue": "مستقرة",
+      "coverageWindow": "التغطية",
+      "depositsTrend": "+4.3% عن الشهر الماضي",
+      "depositsBackTitle": "تنبيهات الإيداع",
+      "depositsBackDescription": "حافظ على نسبة صحية بين الإيداعات والإيرادات.",
+      "depositsToRevenue": "الإيداعات / الإيراد",
+      "profit": "الربح",
+      "orders": "الطلبات"
+    },
+    "charts": {
+      "revenueOverTime": "الإيراد عبر الزمن",
+      "revenueOverTimeSubtitle": "اتجاه الإيراد اليومي للفترة المحددة.",
+      "ordersPerDay": "الطلبات لكل يوم",
+      "ordersPerDaySubtitle": "حجم الطلبات ضمن نفس النطاق المحدد.",
+      "revenueDistribution": "توزيع الإيراد",
+      "revenueDistributionSubtitle": "حصة الإيراد والإيداعات والأرباح ضمن النطاق الحالي.",
+      "revenue": "الإيراد",
+      "profit": "الربح"
+    },
+    "records": {
+      "title": "سجلات المالية",
+      "date": "التاريخ",
+      "revenue": "الإيراد",
+      "orders": "الطلبات",
+      "profit": "الربح",
+      "deposits": "الإيداعات",
+      "actions": "الإجراءات",
+      "noDataTitle": "لا توجد سجلات ضمن هذا النطاق الزمني.",
+      "noDataSubtitle": "عدّل الفلتر لعرض بيانات التحليلات.",
+      "editFinanceRecord": "تعديل السجل المالي",
+      "deleteFinanceRecord": "حذف السجل المالي",
+      "cancel": "إلغاء",
+      "saveChanges": "حفظ التغييرات",
+      "delete": "حذف",
+      "rowsPerPage": "عدد الصفوف في الصفحة:",
+      "of": "من",
+      "moreThan": "أكثر من",
+      "editAria": "تعديل سجل {{date}}",
+      "deleteAria": "حذف سجل {{date}}",
+      "deletePrompt": "هل تريد حذف سجل تاريخ {{date}}؟",
+      "thisDate": "هذا التاريخ"
+    },
+    "alerts": {
+      "noData": "لا توجد بيانات مالية ضمن النطاق الزمني المحدد."
+    }
+  }
+}

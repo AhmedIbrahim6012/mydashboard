@@ -6,6 +6,7 @@ import {
   DialogTitle,
   Button,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 function ConfirmDialog({
   open,
@@ -17,6 +18,8 @@ function ConfirmDialog({
   onClose,
   onConfirm,
 }) {
+  const { t } = useTranslation();
+
   return (
     <Dialog open={open} onClose={loading ? undefined : onClose} maxWidth="xs" fullWidth>
       <DialogTitle>{title}</DialogTitle>
@@ -25,10 +28,10 @@ function ConfirmDialog({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} disabled={loading}>
-          {cancelLabel}
+          {cancelLabel === 'Cancel' ? t('common.cancel') : cancelLabel}
         </Button>
         <Button onClick={onConfirm} color="error" variant="contained" disabled={loading}>
-          {confirmLabel}
+          {confirmLabel === 'Delete' ? t('common.delete') : confirmLabel}
         </Button>
       </DialogActions>
     </Dialog>

@@ -2,8 +2,10 @@ import { generateId } from '../utils/id';
 
 export const STORAGE_KEYS = {
   themeMode: 'mydashboard-theme-mode',
+  language: 'mydashboard-language',
   auth: 'mydashboard-auth',
   workers: 'mydashboard-workers',
+  professions: 'mydashboard-professions',
   customers: 'mydashboard-customers',
   financeRecords: 'mydashboard-finance-records',
 };
@@ -33,7 +35,22 @@ export function writeThemeMode(mode) {
   safeWrite(STORAGE_KEYS.themeMode, mode);
 }
 
+export function readLanguage() {
+  return safeRead(STORAGE_KEYS.language, 'en');
+}
+
+export function writeLanguage(language) {
+  safeWrite(STORAGE_KEYS.language, language);
+}
+
 export function readAuth() {
+  // أولاً تحقق من التوكن الجديد
+  const accessToken = localStorage.getItem('access_token');
+  if (accessToken) {
+    const admin = localStorage.getItem('admin');
+    return admin ? JSON.parse(admin) : { loggedInAt: new Date().toISOString() };
+  }
+  // بعدين تحقق من الـ auth القديم
   return safeRead(STORAGE_KEYS.auth, null);
 }
 
@@ -59,6 +76,7 @@ export function createSeedWorkers() {
       name: 'Ava Johnson',
       phone: '+1 (555) 210-8890',
       experience: '6 years',
+      professionId: 'profession-1',
       balance: 12400,
       createdAt: now,
       history: [
@@ -83,6 +101,7 @@ export function createSeedWorkers() {
       name: 'Marcus Reed',
       phone: '+1 (555) 418-9901',
       experience: '4 years',
+      professionId: 'profession-2',
       balance: 9800,
       createdAt: now,
       history: [
@@ -100,6 +119,7 @@ export function createSeedWorkers() {
       name: 'Sophia Lee',
       phone: '+1 (555) 761-3320',
       experience: '8 years',
+      professionId: 'profession-1',
       balance: 15350,
       createdAt: now,
       history: [
@@ -117,10 +137,18 @@ export function createSeedWorkers() {
       name: 'Noah Patel',
       phone: '+1 (555) 332-7741',
       experience: '3 years',
+      professionId: 'profession-2',
       balance: 7100,
       createdAt: now,
       history: [],
     },
+  ];
+}
+
+export function createSeedProfessions() {
+  return [
+    { id: 'profession-1', name: 'Electrician', commissionPercent: 12 },
+    { id: 'profession-2', name: 'Plumber', commissionPercent: 8 },
   ];
 }
 
@@ -180,6 +208,15 @@ export function readWorkers() {
 
 export function writeWorkers(workers) {
   safeWrite(STORAGE_KEYS.workers, workers);
+}
+
+export function readProfessions() {
+  const professions = safeRead(STORAGE_KEYS.professions, null);
+  return Array.isArray(professions) && professions.length > 0 ? professions : createSeedProfessions();
+}
+
+export function writeProfessions(professions) {
+  safeWrite(STORAGE_KEYS.professions, professions);
 }
 
 export function readCustomers() {

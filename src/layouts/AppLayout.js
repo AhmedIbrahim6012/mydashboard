@@ -44,9 +44,10 @@ function AppLayout() {
               currentTheme.palette.mode === 'dark'
                 ? 'radial-gradient(circle at top right, rgba(79, 70, 229, 0.16), transparent 28%), linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 1))'
                 : 'radial-gradient(circle at top right, rgba(79, 70, 229, 0.1), transparent 28%), linear-gradient(180deg, rgba(248, 250, 252, 1), rgba(241, 245, 249, 1))',
-            ml: { md: !isRtl && isDesktop ? (collapsed ? '96px' : '280px') : 0 },
-            mr: { md: isRtl && isDesktop ? (collapsed ? '96px' : '280px') : 0 },
-            transition: 'margin 240ms ease',
+           // بعد
+ml: { md: !isRtl && isDesktop ? (collapsed ? '80px' : '30px') : 0 },
+mr: { md: isRtl && isDesktop ? (collapsed ? '80px' : '30px') : 0 },
+transition: 'margin 400ms cubic-bezier(0.4, 0, 0.2, 1)',
           })}
         >
           <Container maxWidth="xl" sx={{ py: 4 }}>

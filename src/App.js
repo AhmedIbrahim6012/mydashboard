@@ -3,16 +3,16 @@ import { CssBaseline, ThemeProvider, createTheme, responsiveFontSizes } from '@m
 import { useEffect, useMemo } from 'react';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { useTranslation } from 'react-i18next';
 import './App.css';
 import { AppProvider, useAppContext } from './context/AppContext';
 import AppRoutes from './routes/AppRoutes';
 import AppSnackbar from './components/AppSnackbar';
+import rtlPlugin from './utils/stylisRtlPlugin';
 
 function AppShell() {
-  const { themeMode, language } = useAppContext();
+  const { themeMode, language, isInitializing } = useAppContext();
   const { i18n } = useTranslation();
 
   useEffect(() => {
@@ -90,6 +90,8 @@ function AppShell() {
       }),
     );
   }, [language, themeMode]);
+
+  if (isInitializing) return null;
 
   return (
     <CacheProvider value={cache}>

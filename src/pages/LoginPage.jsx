@@ -22,6 +22,8 @@ import { useAppContext } from '../context/AppContext';
 import { validateLogin } from '../utils/validation';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { CircularProgress } from '@mui/material'; // أضف هذا
+
 const INITIAL_VALUES = {
   phone: '',
   password: '',
@@ -109,10 +111,7 @@ function LoginPage() {
     const data = response.data;
 
     if (data.success) {
-      localStorage.setItem(
-        'login_token',
-        data.data.login_token
-      );
+     localStorage.setItem('login_token', data.data.login_token.token);
 
       notify({
         severity: 'success',
@@ -120,13 +119,29 @@ function LoginPage() {
         message: data.message,
       });
 
-      navigate('/otp', {
-        state: {
-          phone: values.phone,
-            password: values.password,
-          login_token: response.data.data.login_token,
-        },
-      });
+     const { login_token, enabled_2fa, '2fa_setup': setup2fa } = data.data;
+
+if (enabled_2fa) {
+  // مستخدم قديم — OTP فقط
+  navigate('/otp', {
+    state: {
+      phone: values.phone,
+      password: values.password,
+      login_token: login_token.token,
+      enabled_2fa: true,
+    },
+  });
+} else {
+  // أول مرة — يشوف QR ويفعّل
+  navigate('/2fa-setup', {
+    state: {
+      phone: values.phone,
+      password: values.password,
+      login_token: login_token.token,
+      qr_code_url: setup2fa?.qr_code_url,
+    },
+  });
+}
     } else {
       setSubmitError(data.message || 'Login failed');
     }
@@ -212,7 +227,7 @@ function LoginPage() {
             >
                 {[
                 { icon: <ShowChartIcon />, label: t('login.hero.features.analytics') },
-                { icon: <PeopleAltIcon />, label: t('login.hero.features.workers') },
+                { icon: <PeopleAltIcon />, label: t('login.hero.features.Providers') },
                 { icon: <AccountBalanceWalletIcon />, label: t('login.hero.features.wallet') },
               ].map((feature) => (
                 <Card
@@ -271,11 +286,16 @@ function LoginPage() {
                       autoComplete="tel"
                       inputMode="tel"
                       fullWidth
-                      placeholder="+1 555 123 4567"
+                      placeholder="098 765 432 1"
+                    disabled={loading}
+
+
                     />
                     <TextField
                       label={t('login.form.password')}
                       name="password"
+                        disabled={loading}
+
                       type={isPasswordVisible ? 'text' : 'password'}
                       value={values.password}
                       onChange={handleChange}
@@ -305,9 +325,30 @@ function LoginPage() {
                         },
                       }}
                     />
-                    <Button type="submit" variant="contained" size="large" disabled={loading} sx={{ py: 1.4 }}>
-                      {loading ? t('login.form.submitting') : t('login.form.submit')}
-                    </Button>
+<Button
+  type="submit"
+  variant="contained"
+  size="large"
+  disabled={loading}
+  sx={{ py: 1.4, position: 'relative' }}
+>
+  {loading && (
+    <CircularProgress
+      size={22}
+      thickness={5}
+      sx={{
+        color: 'white',
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    />
+  )}
+  <span style={{ opacity: loading ? 0 : 1 }}>
+    {t('login.form.submit')}
+  </span>
+</Button>
                   </Stack>
                 </Box>
                 <Alert severity="info" variant="outlined">

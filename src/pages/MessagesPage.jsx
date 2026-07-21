@@ -38,7 +38,7 @@ import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 
-const FILTERS = ['all', 'workers', 'customers', 'pinned', 'unread'];
+const FILTERS = ['all', 'Providers', 'customers', 'pinned', 'unread'];
 
 const seededConversations = [
   {
@@ -65,7 +65,7 @@ const seededConversations = [
   {
     id: 'msg-2',
     name: 'Omar Hassan',
-    role: 'worker',
+    role: 'Provider',
     title: 'Shift assignment confirmation',
     online: false,
     unread: 0,
@@ -78,9 +78,9 @@ const seededConversations = [
     avatar: 'OH',
     typing: false,
     recentMessages: [
-      { id: 'm1', role: 'worker', text: 'Can we move my shift to 2 PM today?', time: '08:31' },
+      { id: 'm1', role: 'Provider', text: 'Can we move my shift to 2 PM today?', time: '08:31' },
       { id: 'm2', role: 'admin', text: 'Yes, the schedule has been updated.', time: '08:45' },
-      { id: 'm3', role: 'worker', text: 'Confirmed. I will be available at the updated schedule.', time: '08:54' },
+      { id: 'm3', role: 'Provider', text: 'Confirmed. I will be available at the updated schedule.', time: '08:54' },
     ],
   },
   {
@@ -128,7 +128,7 @@ const seededConversations = [
   {
     id: 'msg-5',
     name: 'Mahmoud Saleh',
-    role: 'worker',
+    role: 'Provider',
     title: 'Equipment replacement request',
     online: true,
     unread: 1,
@@ -141,15 +141,15 @@ const seededConversations = [
     avatar: 'MS',
     typing: false,
     recentMessages: [
-      { id: 'm1', role: 'worker', text: 'My scanner battery is dropping too quickly.', time: '08:40' },
+      { id: 'm1', role: 'Provider', text: 'My scanner battery is dropping too quickly.', time: '08:40' },
       { id: 'm2', role: 'admin', text: 'Please send the device ID and we will replace it.', time: '08:53' },
-      { id: 'm3', role: 'worker', text: 'The old device is failing during field updates.', time: '09:05' },
+      { id: 'm3', role: 'Provider', text: 'The old device is failing during field updates.', time: '09:05' },
     ],
   },
 ];
 
 const roleMeta = {
-  worker: { labelKey: 'messages.roles.worker', color: 'info', icon: <SupportAgentRoundedIcon sx={{ fontSize: 16 }} /> },
+  Provider: { labelKey: 'messages.roles.Provider', color: 'info', icon: <SupportAgentRoundedIcon sx={{ fontSize: 16 }} /> },
   customer: { labelKey: 'messages.roles.customer', color: 'success', icon: <PersonRoundedIcon sx={{ fontSize: 16 }} /> },
   admin: { labelKey: 'messages.roles.admin', color: 'secondary', icon: <SupportAgentRoundedIcon sx={{ fontSize: 16 }} /> },
 };
@@ -202,7 +202,7 @@ function MessagesPage() {
 
       const matchesFilter =
         filter === 'all' ||
-        (filter === 'workers' && conversation.role === 'worker') ||
+        (filter === 'Providers' && conversation.role === 'Provider') ||
         (filter === 'customers' && conversation.role === 'customer') ||
         (filter === 'pinned' && conversation.pinned) ||
         (filter === 'unread' && conversation.unread > 0);

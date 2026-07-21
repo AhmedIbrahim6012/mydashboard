@@ -1,662 +1,160 @@
-// import { createContext, useContext, useEffect, useMemo, useState,useRef } from 'react';
-// import {
-//   createSeedWorkers,
-//   createSeedProfessions,
-//   readCustomers,
-//   readFinanceRecords,
-//   readAuth,
-//   readLanguage,
-//   readThemeMode,
-//   readWorkers,
-//   readProfessions,
-//   writeAuth,
-//   writeCustomers,
-//   writeFinanceRecords,
-//   writeLanguage,
-//   writeThemeMode,
-//   writeWorkers,
-//   writeProfessions,
-// } from '../services/storage';
-// import { generateId } from '../utils/id';
-// import api from '../utils/axiosInstance';
-// import { STORAGE_KEYS } from '../services/storage';
-// import axios from 'axios';
-// const AppContext = createContext(null);
 
-// export function AppProvider({ children }) {
-//   const [themeMode, setThemeMode] = useState(readThemeMode());
-//   const [language, setLanguageState] = useState(readLanguage());
-//   const [auth, setAuth] = useState(readAuth());
-//   const [workers, setWorkers] = useState(readWorkers());
-//   const [professions, setProfessions] = useState(readProfessions());
-//   const [customers, setCustomers] = useState(readCustomers());
-//   const [financeRecords, setFinanceRecords] = useState(readFinanceRecords());
-//   const [notification, setNotification] = useState(null);
-// const [isInitializing, setIsInitializing] = useState(true);
-//   useEffect(() => {
-//     writeThemeMode(themeMode);
-//   }, [themeMode]);
 
-//   useEffect(() => {
-//     writeLanguage(language);
-//   }, [language]);
 
-//   useEffect(() => {
-//     writeAuth(auth);
-//   }, [auth]);
 
-//   useEffect(() => {
-//     writeWorkers(workers);
-//   }, [workers]);
-
-//   useEffect(() => {
-//     writeProfessions(professions);
-//   }, [professions]);
-
-//   useEffect(() => {
-//     writeCustomers(customers);
-//   }, [customers]);
-
-//   useEffect(() => {
-//     writeFinanceRecords(financeRecords);
-//   }, [financeRecords]);
-
-// // بعد كل الـ useEffects الموجودة
-// // useEffect(() => {
-// //   // اشتغل بس لما يكون في auth
-// //   if (!auth) return;
-
-// //   console.log('Refresh interval started'); // للتأكد إنه بيشتغل
-
-// //   const intervalId = setInterval(async () => {
-// //     try {
-// //       const refreshToken = localStorage.getItem('refresh_token');
-// //       if (!refreshToken) return;
-
-// //       console.log('Refreshing token...'); // للتأكد إنه بيجدد
-
-// //       const res = await axios.post(
-// //         'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens',
-// //         { refresh_token: refreshToken }
-// //       );
-
-// //       localStorage.setItem('access_token', res.data.data.access_token.token);
-// //       localStorage.setItem('refresh_token', res.data.data.refresh_token.token);
-
-// //       console.log('Token refreshed successfully ✅');
-// //     } catch (err) {
-// //       console.error('Refresh failed:', err);
-// //       localStorage.removeItem('access_token');
-// //       localStorage.removeItem('refresh_token');
-// //       localStorage.removeItem('admin');
-// //       localStorage.removeItem('login_token');
-// //       setAuth(null);
-// //     }
-// //   }, 4 * 60 * 1000);
-
-// //   return () => {
-// //     console.log('Refresh interval cleared');
-// //     clearInterval(intervalId);
-// //   };
-// // }, [auth]); // ← auth dependency مهمة
-
-// ////////////////////////////////////////////
-// ///////////////////////////////////////////
-// //const refreshIntervalRef = useRef(null);
-
-// // useEffect(() => {
-// //   if (!auth) {
-// //     clearInterval(refreshIntervalRef.current);
-// //     return;
-// //   }
-
-// //   // لو في interval شغال، لا تعمل واحد ثاني
-// //   if (refreshIntervalRef.current) return;
-
-// //   console.log('Refresh interval started');
-
-// //   // refreshIntervalRef.current = setInterval(async () => {
-// //   //   try {
-// //   //     const refreshToken = localStorage.getItem('refresh_token');
-
-// //   //     if (!refreshToken) return;
-
-// //   //     console.log('Refreshing token...');
-
-// //   //     const res = await axios.post(
-// //   //       'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens',
-// //   //       { refresh_token: refreshToken }
-// //   //     );
-
-// //   //     localStorage.setItem('access_token', res.data.data.access_token.token);
-// //   //     localStorage.setItem('refresh_token', res.data.data.refresh_token.token);
-
-// //   //     console.log('Token refreshed successfully ✅');
-// //   //   } catch (err) {
-// //   //     console.error('Refresh failed:', err);
-// //   //     clearInterval(refreshIntervalRef.current);
-// //   //     refreshIntervalRef.current = null;
-// //   //     localStorage.removeItem('access_token');
-// //   //     localStorage.removeItem('refresh_token');
-// //   //     localStorage.removeItem('admin');
-// //   //     localStorage.removeItem('login_token');
-// //   //     setAuth(null);
-// //   //   }
-// //   // }, 4 * 60 * 1000);
-// // refreshIntervalRef.current = setInterval(async () => {
-// //   try {
-// //     const refreshToken = localStorage.getItem('refresh_token');
-// //     console.log('Using token:', refreshToken?.slice(0, 15) + '...'); // ← أضف
-
-// //     if (!refreshToken) return;
-
-// //     console.log('Refreshing token...');
-
-// //     const res = await axios.post(
-// //       'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens',
-// //       { refresh_token: refreshToken }
-// //     );
-
-// //     const newRefresh = res.data.data.refresh_token.token;
-// //     console.log('New token:', newRefresh?.slice(0, 15) + '...'); // ← أضف
-
-// //     localStorage.setItem('access_token', res.data.data.access_token.token);
-// //     localStorage.setItem('refresh_token', newRefresh);
-// //       console.log('TTTTTTTTTTTTT',res);
-
-// //     console.log('Token refreshed successfully ✅');
-// //   } catch (err) {
-// //     console.error('Refresh failed:', err);
-// //     console.log('REAL ERROR =>', err.response?.data);
-// // console.log('Status Code:', err.response?.status);
-
-// // console.log(
-// //   'Full Backend Response:',
-// //   JSON.stringify(err.response?.data, null, 2)
-// // );
-
-// // console.log(
-// //   'Backend Error:',
-// //   err.response?.data?.errors
-// // );
-
-// // console.log(
-// //   'Backend Message:',
-// //   err.response?.data?.message
-// // );
-
-// // console.log('Axios Error Message:', err.message);
-    
-// //     console.log('Failed token was:', localStorage.getItem('refresh_token')?.slice(0, 15)); // ← أضف
-// //       // لو Network Error، لا تخرج — بس حاول مرة ثانية
-
-// //     if (err.code === 'ERR_NETWORK' || err.message === 'Network Error') {
-// //     console.log('Network error — will retry next interval');
-// //     return; // ← ما نمسح التوكنات ولا نخرج المستخدم
-// //   }
-
-// //     clearInterval(refreshIntervalRef.current);
-// //     refreshIntervalRef.current = null;
-// //     localStorage.removeItem('access_token');
-// //     localStorage.removeItem('refresh_token');
-// //     localStorage.removeItem('admin');
-// //     localStorage.removeItem('login_token');
-// //     setAuth(null);
-// //   }
-// // }, 90 * 1000);
-// //   return () => {
-// //     clearInterval(refreshIntervalRef.current);
-// //     refreshIntervalRef.current = null;
-// //   };
-// // }, [auth]);
-
-// useEffect(() => {
-//   let cancelled = false; // 🔑 منع double execution
-
-//   const init = async () => {
-//     const refreshToken = localStorage.getItem('refresh_token');
-
-//     if (!refreshToken) {
-//       if (!cancelled) setIsInitializing(false);
-//       return;
-//     }
-
-//     localStorage.removeItem('access_token');
-
-//     try {
-//       const res = await axios.post(
-//         'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens',
-//         { refresh_token: refreshToken }
-//       );
-
-//       if (cancelled) return; // ← لو StrictMode شغّل مرة ثانية، تجاهل
-
-//       localStorage.setItem('access_token', res.data.data.access_token.token);
-//       localStorage.setItem('refresh_token', res.data.data.refresh_token.token);
-//       console.log('Init refresh ✅');
-//     } catch (err) {
-//       if (cancelled) return;
-//       if (err.response?.status === 401 || err.response?.status === 403) {
-//         localStorage.removeItem('refresh_token');
-//         localStorage.removeItem('admin');
-//         localStorage.removeItem('login_token');
-//         setAuth(null);
-//       }
-//     } finally {
-//       if (!cancelled) setIsInitializing(false);
-//     }
-//   };
-
-//   init();
-
-//   return () => {
-//     cancelled = true; // ← cleanup عند unmount أو re-run
-//   };
-// }, []);
-
-// const refreshIntervalRef = useRef(null);
-
-// useEffect(() => {
-//   const handleLogout = () => {
-//     clearInterval(refreshIntervalRef.current);
-//     refreshIntervalRef.current = null;
-//     setAuth(null);
-//   };
-
-//   window.addEventListener('auth:logout', handleLogout);
-//   return () => window.removeEventListener('auth:logout', handleLogout);
-// }, []);
-
-
-// ////////////////////////////////////////
-// // في AppContext.jsx — بعد useEffect الـ logout event
-// useEffect(() => {
-//   const handleVisibilityChange = () => {
-//     if (document.visibilityState === 'visible' && auth) {
-//       doRefresh(); // ← نفس الدالة مع نفس الـ lock ✅
-//     }
-//   };
-
-//   document.addEventListener('visibilitychange', handleVisibilityChange);
-//   return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-// }, [auth]);
-// ///////////////////////////////////////
-// const isRefreshingRef = useRef(false);
-
-// const doRefresh = useRef(async () => {
-//   if (isRefreshingRef.current) return;
-//   const refreshToken = localStorage.getItem('refresh_token');
-//   if (!refreshToken) return;
-
-//   isRefreshingRef.current = true;
-
-//   try {
-//     const res = await axios.post(
-//       'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens',
-//       { refresh_token: refreshToken }
-//     );
-//     localStorage.setItem('access_token', res.data.data.access_token.token);
-//     localStorage.setItem('refresh_token', res.data.data.refresh_token.token);
-
-//     // 🔑 اقرأ الوقت من الـ response واحسب 80% منه
-//     const lifeTimeMinutes = res.data.data.access_token.life_time;
-//     const intervalMs = lifeTimeMinutes * 60 * 1000 * 0.8;
-//     clearInterval(refreshIntervalRef.current);
-//     refreshIntervalRef.current = setInterval(() => doRefresh.current(), intervalMs);
-
-//     console.log(`Token refreshed ✅ — next refresh in ${lifeTimeMinutes * 0.8} min`);
-//   } catch (err) {
-//     if (err.code === 'ERR_NETWORK' || err.message === 'Network Error') return;
-//     if (err.response?.status === 401 || err.response?.status === 403) {
-//       clearInterval(refreshIntervalRef.current);
-//       refreshIntervalRef.current = null;
-//       localStorage.removeItem('access_token');
-//       localStorage.removeItem('refresh_token');
-//       localStorage.removeItem('admin');
-//       localStorage.removeItem('login_token');
-//       setAuth(null);
-//     }
-//   } finally {
-//     isRefreshingRef.current = false;
-//   }
-// }).current;
-// useEffect(() => {
-//   if (!auth) {
-//     clearInterval(refreshIntervalRef.current);
-//     refreshIntervalRef.current = null;
-//     return;
-//   }
-
-//   if (refreshIntervalRef.current) return;
-
-//   refreshIntervalRef.current = setInterval(doRefresh, 4 * 60 * 1000);
-
-//   return () => {
-//     clearInterval(refreshIntervalRef.current);
-//     refreshIntervalRef.current = null;
-//   };
-// }, [auth]);
-//   const themeName = themeMode === 'dark' ? 'Dark' : 'Light';
-
-//   const actions = useMemo(
-//     () => ({
-//       login(username) {
-//         setAuth({ username, loggedInAt: new Date().toISOString() });
-//         setNotification({
-//           severity: 'success',
-//           title: 'Welcome back',
-//           message: `Signed in as ${username}.`,
-//         });
-//       },      
-//      async logout() {
-//   try {
-//     await api.post('/admin/auth/logout');
-//   } catch (err) {
-//     console.error('Logout error:', err);
-//   } finally {
-//     // امسح التوكنات بس، مو كل شي
-//     localStorage.removeItem('access_token');
-//     localStorage.removeItem('refresh_token');
-//     localStorage.removeItem('login_token');
-//     localStorage.removeItem('admin');
-//     localStorage.removeItem(STORAGE_KEYS.auth);
-//     setAuth(null);
-//     setNotification({
-//       severity: 'info',
-//       title: 'Signed out',
-//       message: 'You have been logged out successfully.',
-//     });
-//   }
-// },
-//       toggleTheme() {
-//         setThemeMode((currentMode) => (currentMode === 'light' ? 'dark' : 'light'));
-//       },
-//       setLanguage(nextLanguage) {
-//         setLanguageState(nextLanguage === 'ar' ? 'ar' : 'en');
-//       },
-//       toggleLanguage() {
-//         setLanguageState((currentLanguage) => (currentLanguage === 'ar' ? 'en' : 'ar'));
-//       },
-//       notify(payload) {
-//         setNotification(payload);
-//       },
-//       closeNotification() {
-//         setNotification(null);
-//       },
-//       addWorker(worker) {
-//         setWorkers((currentWorkers) => [
-//           {
-//             ...worker,
-//             id: generateId('worker'),
-//             professionId: worker.professionId ?? professions[0]?.id ?? null,
-//             balance: 0,
-//             createdAt: new Date().toISOString(),
-//             history: [],
-//           },
-//           ...currentWorkers,
-//         ]);
-//         setNotification({
-//           severity: 'success',
-//           title: 'Worker saved',
-//           message: `${worker.name} was added to the system.`,
-//         });
-//       },
-//       addProfession(profession) {
-//         setProfessions((current) => [
-//           {
-//             id: generateId('profession'),
-//             name: profession.name,
-//             commission: Number(profession.commission || 0),
-//             image: profession.image || null,
-//           },
-//           ...current,
-//         ]);
-//         setNotification({
-//           severity: 'success',
-//           title: 'Profession added',
-//           message: `${profession.name} was added to the system.`,
-//         });
-//       },
-//       setProfessions(data) {
-//       setProfessions(data);
-//     },
-//       updateProfession(professionId, updates) {
-//         setProfessions((current) =>
-//           current.map((profession) =>
-//             profession.id === professionId
-//               ? {
-//                   ...profession,
-//                   ...updates,
-//                   commission: updates.commission !== undefined ? Number(updates.commission) : profession.commission,
-//                   image: updates.image !== undefined ? updates.image : profession.image,
-//                 }
-//               : profession,
-//           ),
-//         );
-//         setNotification({
-//           severity: 'success',
-//           title: 'Profession updated',
-//           message: 'Commission and category details were saved.',
-//         });
-//       },
-//       deleteProfession(professionId) {
-//         setProfessions((current) => current.filter((profession) => profession.id !== professionId));
-//         setWorkers((current) => current.map((worker) => (worker.professionId === professionId ? { ...worker, professionId: null } : worker)));
-//         setNotification({
-//           severity: 'info',
-//           title: 'Profession removed',
-//           message: 'Workers were unassigned from the removed profession.',
-//         });
-//       },
-//       addCustomer(customer) {
-//         setCustomers((current) => [
-//           {
-//             ...customer,
-//             id: generateId('customer'),
-//             balance: Number(customer.balance || 0),
-//             createdAt: new Date().toISOString(),
-//           },
-//           ...current,
-//         ]);
-//         setNotification({
-//           severity: 'success',
-//           title: 'Customer saved',
-//           message: `${customer.fullName} was added to the system.`,
-//         });
-//       },
-//       updateCustomer(customerId, updates) {
-//         setCustomers((current) => current.map((c) => (c.id === customerId ? { ...c, ...updates } : c)));
-//         setNotification({
-//           severity: 'success',
-//           title: 'Customer updated',
-//           message: `Customer changes were saved.`,
-//         });
-//       },
-//       deleteCustomer(customerId) {
-//         setCustomers((current) => current.filter((c) => c.id !== customerId));
-//         setNotification({
-//           severity: 'success',
-//           title: 'Customer deleted',
-//           message: 'The customer record was removed.',
-//         });
-//       },
-//       refreshFinanceRecords() {
-//         setFinanceRecords(readFinanceRecords());
-//       },
-//       updateFinanceRecord(recordId, updates) {
-//         setFinanceRecords((currentRecords) =>
-//           currentRecords.map((record) =>
-//             record.id === recordId
-//               ? {
-//                   ...record,
-//                   ...updates,
-//                 }
-//               : record,
-//           ),
-//         );
-
-//         setNotification({
-//           severity: 'success',
-//           title: 'Finance record updated',
-//           message: 'The record was saved successfully.',
-//         });
-//       },
-//       deleteFinanceRecord(recordId) {
-//         setFinanceRecords((currentRecords) => currentRecords.filter((record) => record.id !== recordId));
-
-//         setNotification({
-//           severity: 'success',
-//           title: 'Finance record deleted',
-//           message: 'The record was removed from analytics.',
-//         });
-//       },
-//       updateWorker(workerId, updates) {
-//         setWorkers((currentWorkers) =>
-//           currentWorkers.map((worker) =>
-//             worker.id === workerId
-//               ? {
-//                   ...worker,
-//                   ...updates,
-//                 }
-//               : worker,
-//           ),
-//         );
-//         setNotification({
-//           severity: 'success',
-//           title: 'Worker updated',
-//           message: `${updates.name || 'Worker'} changes were saved.`,
-//         });
-//       },
-//       deleteWorker(workerId) {
-//         setWorkers((currentWorkers) => currentWorkers.filter((worker) => worker.id !== workerId));
-//         setNotification({
-//           severity: 'success',
-//           title: 'Worker deleted',
-//           message: 'The worker record was removed.',
-//         });
-//       },
-//       depositToWorker(workerId, amount) {
-//         const numericAmount = Number(amount);
-//         setWorkers((currentWorkers) =>
-//           currentWorkers.map((worker) => {
-//             if (worker.id !== workerId) {
-//               return worker;
-//             }
-
-//             const updatedBalance = Number(worker.balance) + numericAmount;
-//             const historyEntry = {
-//               id: generateId('activity'),
-//               type: 'deposit',
-//               amount: numericAmount,
-//               note: 'Wallet deposit',
-//               date: new Date().toISOString(),
-//             };
-
-//             return {
-//               ...worker,
-//               balance: updatedBalance,
-//               history: [historyEntry, ...(worker.history || [])],
-//             };
-//           }),
-//         );
-//         setNotification({
-//           severity: 'success',
-//           title: 'Deposit completed',
-//           message: `Added ${numericAmount.toLocaleString()} to the selected wallet.`,
-//         });
-//       },
-//       resetToSeedData() {
-//         setWorkers(createSeedWorkers());
-//         setProfessions(createSeedProfessions());
-//       },
-//     }),
-//     [professions],
-//   );
-
-//   const value = useMemo(
-//     () => ({
-//       themeMode,
-//       language,
-//       themeName,
-//       auth,
-//       isAuthenticated: Boolean(auth),
-//       isInitializing,
-//       workers,
-//       professions,
-//       customers,
-//       financeRecords,
-//       notification,
-//       ...actions,
-//     }),
-//     [actions, auth,  isInitializing   , customers, financeRecords, language, notification, professions, themeMode, themeName, workers],
-//   );
-
-//   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
-// }
-
-// export function useAppContext() {
-//   const context = useContext(AppContext);
-
-//   if (!context) {
-//     throw new Error('useAppContext must be used within an AppProvider.');
-//   }
-
-//   return context;
-// }
-
-
-
-
-import { createContext, useContext, useEffect, useMemo, useState, useRef } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import {
-  createSeedWorkers,
-  createSeedProfessions,
   readCustomers,
   readFinanceRecords,
-  readAuth,
   readLanguage,
   readThemeMode,
-  readWorkers,
+  readProviders,
   readProfessions,
   writeAuth,
   writeCustomers,
   writeFinanceRecords,
   writeLanguage,
   writeThemeMode,
-  writeWorkers,
+  writeProviders,
   writeProfessions,
+  STORAGE_KEYS
 } from '../services/storage';
-import { generateId } from '../utils/id';
 import api from '../utils/axiosInstance';
-import { STORAGE_KEYS } from '../services/storage';
 import axios from 'axios';
+import { refreshTokens } from '../services/refreshManager';
+// src/context/AppContext.jsx  ← أول السطر 1
+import { requestNotificationPermission, onForegroundMessage } from '../services/notificationsService';
+
+import { isTokenFresh } from '../utils/tokenUtils';   // ← أضف هاد السطر
+import {watchFcmTokenRefresh} from '../services/notificationsService'; // ← أضف هاد السطر
+const REFRESH_URL = 'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens';
 
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
   const [themeMode, setThemeMode] = useState(readThemeMode());
   const [language, setLanguageState] = useState(readLanguage());
-  const [auth, setAuth] = useState(readAuth());
-  const [workers, setWorkers] = useState(readWorkers());
+
+  const [auth, setAuth] = useState(() => {
+    const rToken = localStorage.getItem('refresh_token');
+    const adminData = localStorage.getItem('admin');
+    if (rToken && adminData) {
+      try { return JSON.parse(adminData); } catch { return null; }
+    }
+    return null;
+  });
+// ==========================================
+  // 📡 Fetch Professions (ALL pages — used for dropdowns/selects app-wide,
+  // separate from ProfessionsPage's own paginated table state)
+  // ==========================================
+  
+  // NOTE: kept capitalized ("Providers") intentionally — ProvidersPage,
+  // ProfessionsPage, ProfessionDetailPage and WalletPage all already
+  // destructure `Providers` from useAppContext(). Renaming here would break
+  // those call sites, so this stays non-idiomatic on purpose.
+  const [Providers, setProviders] = useState(readProviders());
   const [professions, setProfessions] = useState(readProfessions());
   const [customers, setCustomers] = useState(readCustomers());
   const [financeRecords, setFinanceRecords] = useState(readFinanceRecords());
   const [notification, setNotification] = useState(null);
   const [isInitializing, setIsInitializing] = useState(true);
+const [initError, setInitError] = useState(null); // null | 'network-failed'
+const initRetryCountRef = useRef(0);
+const MAX_INIT_RETRIES = 6; // بعد 6 محاولات (~ دقيقة تقريبًا بالمجموع) نوقف
+  // مزامنة البيانات مع الـ Storage المحلي
+  const [initTrigger, setInitTrigger] = useState(0);
 
-  // ==========================================
-  // 1. مزامنة البيانات مع الـ Storage المحلي
-  // ==========================================
   useEffect(() => { writeThemeMode(themeMode); }, [themeMode]);
   useEffect(() => { writeLanguage(language); }, [language]);
   useEffect(() => { writeAuth(auth); }, [auth]);
-  useEffect(() => { writeWorkers(workers); }, [workers]);
+  useEffect(() => { writeProviders(Providers); }, [Providers]);
   useEffect(() => { writeProfessions(professions); }, [professions]);
   useEffect(() => { writeCustomers(customers); }, [customers]);
   useEffect(() => { writeFinanceRecords(financeRecords); }, [financeRecords]);
 
   // ==========================================
-  // 2. مرحلة المزامنة الأولية عند تشغيل التطبيق (Init)
+  // ⚙️ Refresh-token engine
+  // ==========================================
+  const refreshIntervalRef = useRef(null);
+  const isRefreshingRef = useRef(false);
+  const lastHiddenRef = useRef(null);
+
+  // Single place that ends a session completely and consistently.
+  // Previously the interval's 401 handler and the 'auth:logout' event
+  // handler each cleared things differently (or not at all), which could
+  // leave stale tokens in localStorage after a "soft" logout.
+  const fullLogoutCleanup = useCallback(() => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('admin');
+    localStorage.removeItem('login_token');
+    localStorage.removeItem(STORAGE_KEYS.auth);
+    if (refreshIntervalRef.current) {
+      clearInterval(refreshIntervalRef.current);
+      refreshIntervalRef.current = null;
+    }
+    setAuth(null);
+  }, []);
+
+  // Single source of truth for the refresh network call. Every caller
+  // (init, the 12-min interval, the visibility-change check) goes through
+  // here and shares isRefreshingRef — this is what prevents two concurrent
+  // requests from racing against the same (single-use, rotating) refresh
+  // token, which could otherwise cause an unwanted early logout.
+  // const performRefresh = useCallback(async () => {
+  //   if (isRefreshingRef.current) return 'skipped';
+
+  //   const refreshToken = localStorage.getItem('refresh_token');
+  //   if (!refreshToken) return 'no-token';
+
+  //   isRefreshingRef.current = true;
+  //   try {
+  //     const res = await axios.post(
+  //       REFRESH_URL,
+  //       { refresh_token: refreshToken },
+  //       { timeout: 30000 }
+  //     );
+
+  //     localStorage.setItem('access_token', res.data.data.access_token.token);
+  //     localStorage.setItem('refresh_token', res.data.data.refresh_token.token);
+
+  //     console.log('✅ Token refreshed');
+  //     return 'ok';
+  //   } catch (err) {
+  //     const isNetwork = !err.response || err.code === 'ERR_NETWORK';
+  //     if (isNetwork) {
+  //       console.log('⏳ Network error during refresh — will retry');
+  //       return 'network';
+  //     }
+  //     if (err.response?.status === 401 || err.response?.status === 403) {
+  //       console.log('❌ Refresh token expired/invalid');
+  //       return 'unauthorized';
+  //     }
+  //     // other 4xx/5xx — don't kill the session over a transient server error
+  //     return 'error';
+  //   } finally {
+  //     isRefreshingRef.current = false;
+  //   }
+  // }, []);
+// شيل REFRESH_URL من فوق، ما عاد لازم
+
+const performRefresh = useCallback(async () => {
+  const result = await refreshTokens();
+  return result.status; // نفس الأسماء يلي كانت مستخدمة: 'ok' | 'unauthorized' | 'network' | 'error' | 'no-token'
+}, []);
+
+  // Periodic / visibility-triggered refresh. auth is already set by the
+  // time this runs (the interval only starts once auth is truthy), so this
+  // never needs to touch React auth state on success — only on hard failure.
+  const doRefresh = useCallback(async () => {
+    const result = await performRefresh();
+    if (result === 'unauthorized') {
+      fullLogoutCleanup();
+    }
+  }, [performRefresh, fullLogoutCleanup]);
+
+  // ==========================================
+  // ⏱️ Init — مرة واحدة عند تشغيل التطبيق
   // ==========================================
   useEffect(() => {
     let cancelled = false;
@@ -665,106 +163,93 @@ export function AppProvider({ children }) {
       const refreshToken = localStorage.getItem('refresh_token');
 
       if (!refreshToken) {
-        if (!cancelled) setIsInitializing(false);
+        if (!cancelled) {
+          setAuth(null);
+          setIsInitializing(false);
+        }
         return;
       }
 
-      localStorage.removeItem('access_token');
-
-      try {
-        const res = await axios.post(
-          'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens',
-          { refresh_token: refreshToken }
-        );
-
-        if (cancelled) return;
-
-        localStorage.setItem('access_token', res.data.data.access_token.token);
-        localStorage.setItem('refresh_token', res.data.data.refresh_token.token);
-        console.log('Init refresh ✅');
-      } catch (err) {
-        if (cancelled) return;
-        if (err.response?.status === 401 || err.response?.status === 403) {
-          localStorage.removeItem('refresh_token');
-          localStorage.removeItem('admin');
-          localStorage.removeItem('login_token');
-          setAuth(null);
-        }
-      } finally {
-        if (!cancelled) setIsInitializing(false);
+      // إذا في refresh_token وبيانات admin → دخّل المستخدم فورًا (optimistic)
+      const adminData = localStorage.getItem('admin');
+      let cachedAdmin = null;
+      if (adminData) {
+        try {
+          cachedAdmin = JSON.parse(adminData);
+          if (!cancelled) setAuth(cachedAdmin);
+        } catch { /* ignore */ }
       }
+
+      // const accessToken = localStorage.getItem('access_token');
+const accessToken = localStorage.getItem('access_token');
+  // console.log('access_token exists:', !!accessToken);
+  // console.log('token value (first 20 chars):', accessToken?.substring(0, 20));
+  // console.log('isTokenFresh result:', accessToken ? isTokenFresh(accessToken) : 'no token');
+if (accessToken && isTokenFresh()) {
+  // ✅ التوكن لسا شغال، ما بعمل refresh زيادة
+  console.log('[Auth] Token still fresh, skipping refresh');
+    initRetryCountRef.current = 0; // ← جديد
+
+  if (!cancelled) setIsInitializing(false);
+    watchFcmTokenRefresh(); // ✅ هنا — المستخدم logged in والتوكن شغال
+  return;
+}
+
+// التوكن انتهى أو ما في access_token → لازم نجدد
+const result = await performRefresh();
+if (cancelled) return;
+
+if (result === 'network') {
+  initRetryCountRef.current += 1;
+
+  if (initRetryCountRef.current > MAX_INIT_RETRIES) {
+    console.log('❌ Init failed after max retries — giving up, showing error UI');
+    if (!cancelled) {
+      setInitError('network-failed');
+      setIsInitializing(false); // يوقف شاشة اللودينغ، مش ينضل عالق فيها
+    }
+    return;
+  }
+
+  // Exponential backoff بسيط: 5s, 10s, 20s, 30s, 30s, 30s...
+  const delay = Math.min(5000 * Math.pow(2, initRetryCountRef.current - 1), 30000);
+  console.log(`⏳ Server sleeping, retry ${initRetryCountRef.current}/${MAX_INIT_RETRIES} in ${delay / 1000}s...`);
+  setTimeout(() => { if (!cancelled) init(); }, delay);
+  return;
+}
+
+if (result === 'unauthorized') {
+  fullLogoutCleanup();
+} else if (result === 'ok' && !cachedAdmin) {
+    initRetryCountRef.current = 0; // ← جديد
+
+  const fallbackAdmin = { username: 'Admin', loggedInAt: new Date().toISOString() };
+  localStorage.setItem('admin', JSON.stringify(fallbackAdmin));
+  setAuth(fallbackAdmin);
+}
+
+setIsInitializing(false);
     };
 
     init();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    return () => { cancelled = true; };
+  }, [performRefresh, fullLogoutCleanup,initTrigger]);
 
   // ==========================================
-  // 3. إدارة عملية الـ Refresh التلقائي والديناميكي
+  // 🔄 Interval — يبدأ بعد تسجيل الدخول، يتوقف عند الخروج
   // ==========================================
-  const refreshIntervalRef = useRef(null);
-  const isRefreshingRef = useRef(false);
-
-  // دالة التحديث الأساسية المصممة لمنع تكرار الطلبات المتزامنة
-  const doRefresh = useMemo(() => async () => {
-    if (isRefreshingRef.current) return;
-    const refreshToken = localStorage.getItem('refresh_token');
-    if (!refreshToken) return;
-
-    isRefreshingRef.current = true;
-
-    try {
-      const res = await axios.post(
-        'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens',
-        { refresh_token: refreshToken }
-      );
-      
-      localStorage.setItem('access_token', res.data.data.access_token.token);
-      localStorage.setItem('refresh_token', res.data.data.refresh_token.token);
-
-      // حساب وقت الـ Interval الجديد بناءً على 80% من عمر التوكن الفعلي
-      const lifeTimeMinutes = res.data.data.access_token.life_time || 15;
-      const intervalMs = lifeTimeMinutes * 60 * 1000 * 0.8;
-
-      if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
-      
-      refreshIntervalRef.current = setInterval(() => {
-        doRefresh();
-      }, intervalMs);
-
-      console.log(`Token refreshed ✅ — next refresh in ${(lifeTimeMinutes * 0.8).toFixed(1)} min`);
-    } catch (err) {
-      if (err.code === 'ERR_NETWORK' || err.message === 'Network Error') {
-        console.log('Network error — will retry next interval');
-        return;
-      }
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
-        refreshIntervalRef.current = null;
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('admin');
-        localStorage.removeItem('login_token');
-        setAuth(null);
-      }
-    } finally {
-      isRefreshingRef.current = false;
-    }
-  }, [setAuth]);
-
-  // إدارة تفعيل وإلغاء الـ Interval بناءً على حالة الـ Auth
   useEffect(() => {
     if (!auth) {
-      if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
-      refreshIntervalRef.current = null;
+      if (refreshIntervalRef.current) {
+        clearInterval(refreshIntervalRef.current);
+        refreshIntervalRef.current = null;
+      }
       return;
     }
 
     if (!refreshIntervalRef.current) {
-      doRefresh();
+      refreshIntervalRef.current = setInterval(doRefresh, 12 * 60 * 1000);
+      console.log('⏱️ Refresh interval started (12 min)');
     }
 
     return () => {
@@ -775,57 +260,124 @@ export function AppProvider({ children }) {
     };
   }, [auth, doRefresh]);
 
-  // مراقبة عودة المستخدم لعلامة التبويب (Visibility Change)
-  // useEffect(() => {
-  //   const handleVisibilityChange = () => {
-  //     if (document.visibilityState === 'visible' && auth && !isRefreshingRef.current) {
-  //       doRefresh();
-  //     }
-  //   };
-
-  //   document.addEventListener('visibilitychange', handleVisibilityChange);
-  //   return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  // }, [auth, doRefresh]);
-
-  // الاستماع لحدث تسجيل الخروج المخصص (Custom Event)
+  // ==========================================
+  // 👁️ Visibility change — بس إذا غاب أكثر من 5 دقائق
+  // ==========================================
   useEffect(() => {
-    const handleLogout = () => {
-      if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
-      refreshIntervalRef.current = null;
-      setAuth(null);
+    const handleVisibility = () => {
+      if (document.visibilityState === 'hidden') {
+        lastHiddenRef.current = Date.now();
+        return;
+      }
+      if (
+        auth &&
+        lastHiddenRef.current &&
+        Date.now() - lastHiddenRef.current > 5 * 60 * 1000
+      ) {
+        doRefresh();
+      }
     };
 
-    window.addEventListener('auth:logout', handleLogout);
-    return () => window.removeEventListener('auth:logout', handleLogout);
-  }, []);
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, [auth, doRefresh]);
 
   // ==========================================
-  // 4. العمليات (Actions) والوظائف الفرعية
+  // 🚪 Logout event من axiosInstance
+  // ==========================================
+  useEffect(() => {
+    window.addEventListener('auth:logout', fullLogoutCleanup);
+    return () => window.removeEventListener('auth:logout', fullLogoutCleanup);
+  }, [fullLogoutCleanup]);
+
+
+  // ==========================================
+// 🔔 Firebase Notifications — أضفه هون
+// ==========================================
+useEffect(() => {
+  if (!auth) return;
+  // requestNotificationPermission شاغلة بالـ login flow — هون بس نسمع للإشعارات
+  const unsubscribe = onForegroundMessage((payload) => {
+    setNotification({
+      severity: 'info',
+      title: payload.notification?.title || 'إشعار جديد',
+      message: payload.notification?.body || '',
+    });
+  });
+  return () => unsubscribe();
+}, [auth]);
+  // ==========================================
+  // 📡 Fetch Providers
+  // ==========================================
+  const fetchProviders = useCallback(async () => {
+    try {
+      const res = await api.get('/admin/provider/all-providers');
+      const payload = res.data.data;
+      setProviders(Array.isArray(payload) ? payload : payload.data ?? []);
+    } catch (err) {
+      console.error('Failed to fetch providers:', err);
+    }
+  }, []);
+
+
+  // const fetchProfessions = useCallback(async () => {
+  //   try {
+  //     let page = 1;
+  //     let lastPage = 1;
+  //     const all = [];
+
+  //     do {
+  //       const res = await api.get('/admin/category/all-categories', { params: { page } });
+  //       const payload = res.data.data;
+  //       const list = Array.isArray(payload) ? payload : payload.data ?? [];
+  //       all.push(...list);
+
+  //       lastPage = Array.isArray(payload) ? 1 : payload.last_page ?? 1;
+  //       page += 1;
+  //     } while (page <= lastPage);
+
+  //     setProfessions(all);
+  //   } catch (err) {
+  //     console.error('Failed to fetch professions:', err);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (!auth) return;
+  //   fetchProfessions();
+  // }, [auth, fetchProfessions]);
+
+  // useEffect(() => {
+  //   if (!auth) return;
+  //   fetchProviders();
+  //   const interval = setInterval(fetchProviders, 30000);
+  //   return () => clearInterval(interval);
+  // }, [auth, fetchProviders]);
+
+  // ==========================================
+  // 💼 Actions
   // ==========================================
   const themeName = themeMode === 'dark' ? 'Dark' : 'Light';
 
   const actions = useMemo(
     () => ({
       login(username) {
-        setAuth({ username, loggedInAt: new Date().toISOString() });
+        const adminObj = { username, loggedInAt: new Date().toISOString() };
+        localStorage.setItem('admin', JSON.stringify(adminObj));
+        setAuth(adminObj);
         setNotification({
           severity: 'success',
           title: 'Welcome back',
           message: `Signed in as ${username}.`,
         });
-      },      
+      },
       async logout() {
         try {
           await api.post('/admin/auth/logout');
         } catch (err) {
           console.error('Logout error:', err);
         } finally {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          localStorage.removeItem('login_token');
-          localStorage.removeItem('admin');
-          localStorage.removeItem(STORAGE_KEYS.auth);
-          setAuth(null);
+          fullLogoutCleanup();
           setNotification({
             severity: 'info',
             title: 'Signed out',
@@ -834,208 +386,71 @@ export function AppProvider({ children }) {
         }
       },
       toggleTheme() {
-        setThemeMode((currentMode) => (currentMode === 'light' ? 'dark' : 'light'));
+        setThemeMode((m) => (m === 'light' ? 'dark' : 'light'));
       },
       setLanguage(nextLanguage) {
         setLanguageState(nextLanguage === 'ar' ? 'ar' : 'en');
       },
       toggleLanguage() {
-        setLanguageState((currentLanguage) => (currentLanguage === 'ar' ? 'en' : 'ar'));
+        setLanguageState((l) => (l === 'ar' ? 'en' : 'ar'));
       },
+
+       retryInit() {
+      initRetryCountRef.current = 0;
+      setInitError(null);
+      setIsInitializing(true);
+      setInitTrigger((n) => n + 1);
+    },
       notify(payload) {
         setNotification(payload);
       },
       closeNotification() {
         setNotification(null);
       },
-      addWorker(worker) {
-        setWorkers((currentWorkers) => [
-          {
-            ...worker,
-            id: generateId('worker'),
-            professionId: worker.professionId ?? professions[0]?.id ?? null,
-            balance: 0,
-            createdAt: new Date().toISOString(),
-            history: [],
-          },
-          ...currentWorkers,
-        ]);
-        setNotification({
-          severity: 'success',
-          title: 'Worker saved',
-          message: `${worker.name} was added to the system.`,
-        });
-      },
-      addProfession(profession) {
-        setProfessions((current) => [
-          {
-            id: generateId('profession'),
-            name: profession.name,
-            commission: Number(profession.commission || 0),
-            image: profession.image || null,
-          },
-          ...current,
-        ]);
-        setNotification({
-          severity: 'success',
-          title: 'Profession added',
-          message: `${profession.name} was added to the system.`,
-        });
+      async addProvider(providerData) {
+        const payload = {
+          first_name: providerData.first_name,
+          last_name: providerData.last_name,
+          phone: providerData.phone,
+          experience_years: providerData.experience_years,
+          category_id: providerData.service_category_id,
+        };
+        if (providerData.email) payload.email = providerData.email;
+        const res = await api.post('/admin/provider/create-provider', payload);
+        const newProvider = res.data.data;
+        setProviders((current) => [newProvider, ...current]);
+        return newProvider;
       },
       setProfessions(data) {
         setProfessions(data);
-      },
-      updateProfession(professionId, updates) {
-        setProfessions((current) =>
-          current.map((profession) =>
-            profession.id === professionId
-              ? {
-                  ...profession,
-                  ...updates,
-                  commission: updates.commission !== undefined ? Number(updates.commission) : profession.commission,
-                  image: updates.image !== undefined ? updates.image : profession.image,
-                }
-              : profession,
-          ),
-        );
-        setNotification({
-          severity: 'success',
-          title: 'Profession updated',
-          message: 'Commission and category details were saved.',
-        });
-      },
-      deleteProfession(professionId) {
-        setProfessions((current) => current.filter((profession) => profession.id !== professionId));
-        setWorkers((current) => current.map((worker) => (worker.professionId === professionId ? { ...worker, professionId: null } : worker)));
-        setNotification({
-          severity: 'info',
-          title: 'Profession removed',
-          message: 'Workers were unassigned from the removed profession.',
-        });
-      },
-      addCustomer(customer) {
-        setCustomers((current) => [
-          {
-            ...customer,
-            id: generateId('customer'),
-            balance: Number(customer.balance || 0),
-            createdAt: new Date().toISOString(),
-          },
-          ...current,
-        ]);
-        setNotification({
-          severity: 'success',
-          title: 'Customer saved',
-          message: `${customer.fullName} was added to the system.`,
-        });
-      },
-      updateCustomer(customerId, updates) {
-        setCustomers((current) => current.map((c) => (c.id === customerId ? { ...c, ...updates } : c)));
-        setNotification({
-          severity: 'success',
-          title: 'Customer updated',
-          message: `Customer changes were saved.`,
-        });
-      },
-      deleteCustomer(customerId) {
-        setCustomers((current) => current.filter((c) => c.id !== customerId));
-        setNotification({
-          severity: 'success',
-          title: 'Customer deleted',
-          message: 'The customer record was removed.',
-        });
       },
       refreshFinanceRecords() {
         setFinanceRecords(readFinanceRecords());
       },
       updateFinanceRecord(recordId, updates) {
-        setFinanceRecords((currentRecords) =>
-          currentRecords.map((record) =>
-            record.id === recordId
-              ? {
-                  ...record,
-                  ...updates,
-                }
-              : record,
-          ),
+        setFinanceRecords((current) =>
+          current.map((r) => (r.id === recordId ? { ...r, ...updates } : r)),
         );
-
-        setNotification({
-          severity: 'success',
-          title: 'Finance record updated',
-          message: 'The record was saved successfully.',
-        });
       },
       deleteFinanceRecord(recordId) {
-        setFinanceRecords((currentRecords) => currentRecords.filter((record) => record.id !== recordId));
-
-        setNotification({
-          severity: 'success',
-          title: 'Finance record deleted',
-          message: 'The record was removed from analytics.',
-        });
+        setFinanceRecords((current) => current.filter((r) => r.id !== recordId));
       },
-      updateWorker(workerId, updates) {
-        setWorkers((currentWorkers) =>
-          currentWorkers.map((worker) =>
-            worker.id === workerId
-              ? {
-                  ...worker,
-                  ...updates,
-                }
-              : worker,
-          ),
+      updateProvider(ProviderId, updates) {
+        setProviders((current) =>
+          current.map((p) => (p.id === ProviderId ? { ...p, ...updates } : p)),
         );
-        setNotification({
-          severity: 'success',
-          title: 'Worker updated',
-          message: `${updates.name || 'Worker'} changes were saved.`,
-        });
       },
-      deleteWorker(workerId) {
-        setWorkers((currentWorkers) => currentWorkers.filter((worker) => worker.id !== workerId));
-        setNotification({
-          severity: 'success',
-          title: 'Worker deleted',
-          message: 'The worker record was removed.',
-        });
+      async activateProvider(providerId) {
+        await api.post(`/admin/provider/${providerId}/activate`);
       },
-      depositToWorker(workerId, amount) {
-        const numericAmount = Number(amount);
-        setWorkers((currentWorkers) =>
-          currentWorkers.map((worker) => {
-            if (worker.id !== workerId) {
-              return worker;
-            }
-
-            const updatedBalance = Number(worker.balance) + numericAmount;
-            const historyEntry = {
-              id: generateId('activity'),
-              type: 'deposit',
-              amount: numericAmount,
-              note: 'Wallet deposit',
-              date: new Date().toISOString(),
-            };
-
-            return {
-              ...worker,
-              balance: updatedBalance,
-              history: [historyEntry, ...(worker.history || [])],
-            };
-          }),
-        );
-        setNotification({
-          severity: 'success',
-          title: 'Deposit completed',
-          message: `Added ${numericAmount.toLocaleString()} to the selected wallet.`,
-        });
+      async deactivateProvider(providerId) {
+        await api.post(`/admin/provider/${providerId}/deactivate`);
       },
-      resetToSeedData() {
-        setWorkers(createSeedWorkers());
-        setProfessions(createSeedProfessions());
+      async deleteProvider(providerId) {
+        await api.delete(`/admin/provider/delete-provider/${providerId}`);
       },
     }),
-    [professions],
+    [fullLogoutCleanup],
   );
 
   const value = useMemo(
@@ -1046,14 +461,17 @@ export function AppProvider({ children }) {
       auth,
       isAuthenticated: Boolean(auth),
       isInitializing,
-      workers,
+      Providers,
       professions,
+             // ← أضف هاد
+initError,
       customers,
       financeRecords,
       notification,
+      fetchProviders,
       ...actions,
     }),
-    [actions, auth, isInitializing, customers, financeRecords, language, notification, professions, themeMode, themeName, workers],
+    [actions, auth, isInitializing, customers, financeRecords, language, notification, professions, themeMode, themeName, Providers, fetchProviders, initError  ],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
@@ -1061,11 +479,6 @@ export function AppProvider({ children }) {
 
 export function useAppContext() {
   const context = useContext(AppContext);
-
-  if (!context) {
-    throw new Error('useAppContext must be used within an AppProvider.');
-  }
-
+  if (!context) throw new Error('useAppContext must be used within an AppProvider.');
   return context;
 }
-

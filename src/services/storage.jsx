@@ -4,7 +4,7 @@ export const STORAGE_KEYS = {
   themeMode: 'mydashboard-theme-mode',
   language: 'mydashboard-language',
   auth: 'mydashboard-auth',
-  workers: 'mydashboard-workers',
+  Providers: 'mydashboard-Providers',
   professions: 'mydashboard-professions',
   customers: 'mydashboard-customers',
   financeRecords: 'mydashboard-finance-records',
@@ -43,36 +43,65 @@ export function writeLanguage(language) {
   safeWrite(STORAGE_KEYS.language, language);
 }
 
+// export function readAuth() {
+//   // أولاً تحقق من التوكن الجديد
+//   const accessToken = localStorage.getItem('access_token');
+//   if (accessToken) {
+//     const admin = localStorage.getItem('admin');
+//     return admin ? JSON.parse(admin) : { loggedInAt: new Date().toISOString() };
+//   }
+//   // بعدين تحقق من الـ auth القديم
+//   return safeRead(STORAGE_KEYS.auth, null);
+// }
+
+
+
+// export function writeAuth(auth) {
+//   if (auth) {
+//     safeWrite(STORAGE_KEYS.auth, auth);
+//     return;
+//   }
+
+//   try {
+//     window.localStorage.removeItem(STORAGE_KEYS.auth);
+//   } catch (error) {
+//     // Ignore storage failures.
+//   }
+// }
+
 export function readAuth() {
-  // أولاً تحقق من التوكن الجديد
-  const accessToken = localStorage.getItem('access_token');
-  if (accessToken) {
-    const admin = localStorage.getItem('admin');
-    return admin ? JSON.parse(admin) : { loggedInAt: new Date().toISOString() };
+  const refreshToken = localStorage.getItem('refresh_token');
+  if (!refreshToken) return null;
+  
+  const admin = localStorage.getItem('admin');
+  if (admin) {
+    try { return JSON.parse(admin); } catch { return null; }
   }
-  // بعدين تحقق من الـ auth القديم
+  
+  // fallback للـ auth القديم إذا وُجد
   return safeRead(STORAGE_KEYS.auth, null);
 }
 
 export function writeAuth(auth) {
   if (auth) {
     safeWrite(STORAGE_KEYS.auth, auth);
+    localStorage.setItem('admin', JSON.stringify(auth)); // تأكيد مزامنة مفتاح admin دائماً
     return;
   }
 
   try {
     window.localStorage.removeItem(STORAGE_KEYS.auth);
+    localStorage.removeItem('admin');
   } catch (error) {
     // Ignore storage failures.
   }
 }
-
-export function createSeedWorkers() {
+export function createSeedProviders() {
   const now = new Date().toISOString();
 
   return [
     {
-      id: 'worker-1',
+      id: 'Provider-1',
       name: 'Ava Johnson',
       phone: '+1 (555) 210-8890',
       experience: '6 years',
@@ -97,7 +126,7 @@ export function createSeedWorkers() {
       ],
     },
     {
-      id: 'worker-2',
+      id: 'Provider-2',
       name: 'Marcus Reed',
       phone: '+1 (555) 418-9901',
       experience: '4 years',
@@ -115,7 +144,7 @@ export function createSeedWorkers() {
       ],
     },
     {
-      id: 'worker-3',
+      id: 'Provider-3',
       name: 'Sophia Lee',
       phone: '+1 (555) 761-3320',
       experience: '8 years',
@@ -133,7 +162,7 @@ export function createSeedWorkers() {
       ],
     },
     {
-      id: 'worker-4',
+      id: 'Provider-4',
       name: 'Noah Patel',
       phone: '+1 (555) 332-7741',
       experience: '3 years',
@@ -201,13 +230,13 @@ export function createSeedFinanceRecords() {
   return records;
 }
 
-export function readWorkers() {
-  const workers = safeRead(STORAGE_KEYS.workers, null);
-  return Array.isArray(workers) && workers.length > 0 ? workers : createSeedWorkers();
+export function readProviders() {
+  const Providers = safeRead(STORAGE_KEYS.Providers, null);
+  return Array.isArray(Providers) && Providers.length > 0 ? Providers : createSeedProviders();
 }
 
-export function writeWorkers(workers) {
-  safeWrite(STORAGE_KEYS.workers, workers);
+export function writeProviders(Providers) {
+  safeWrite(STORAGE_KEYS.Providers, Providers);
 }
 
 export function readProfessions() {

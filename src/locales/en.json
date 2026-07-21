@@ -40,21 +40,93 @@
       "subtitle": "Built with a reusable data layer and persistent workspace state."
     }
   },
+  "settings": {
+    "title": "Settings"
+  },
+  "orders": {
+    "title": "Orders",
+    "subtitle": "Monitor active jobs, payment status, and recent fulfillment activity in one responsive workspace.",
+    "listTitle": "Recent orders",
+    "listSubtitle": "Showing {{count}} orders",
+    "filters": {
+      "search": "Search orders",
+      "searchPlaceholder": "Search by order",
+      "status": "Status",
+      "payment": "Payment",
+      "clear": "Clear filters",
+      "allStatuses": "All statuses",
+      "allPayments": "All payments"
+    },
+    "summary": {
+      "totalOrders": "Total orders",
+      "totalOrdersHelp": "Orders matching the current filters",
+      "activeOrders": "Active orders",
+      "activeOrdersHelp": "Pending, confirmed, or in transit",
+      "revenue": "Revenue",
+      "revenueHelp": "Combined order value for the current view",
+      "completionRate": "Completion rate",
+      "completionRateHelp": "Share of filtered orders that are complete"
+    },
+    "table": {
+      "order": "Order",
+      "customer": "Customer",
+      "provider": "Provider",
+      "status": "Status",
+      "payment": "Payment",
+      "total": "Total",
+      "date": "Created",
+      "actions": "Actions",
+      "viewDetails": "View details"
+    },
+    "empty": {
+      "title": "No orders found",
+      "subtitle": "Try clearing filters or searching for a different order."
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "inTransit": "In transit",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "payment": {
+      "paid": "Paid",
+      "pending": "Pending payment",
+      "refunded": "Refunded"
+    },
+    "details": {
+      "close": "Close order details",
+      "total": "Order total",
+      "customerInfo": "Customer details",
+      "customer": "Customer",
+      "phone": "Phone number",
+      "address": "Address",
+      "city": "City",
+      "fulfillment": "Fulfillment",
+      "provider": "Assigned provider",
+      "createdAt": "Created at",
+      "eta": "ETA",
+      "channel": "Channel",
+      "items": "Items",
+      "quantity": "{{count}} item",
+      "notes": "Notes"
+    }
+  },
   "professions": {
     "title": "Job Categories",
-    "subtitle": "Create unlimited professions, track worker counts, and manage commission rates.",
+    "subtitle": "Create unlimited professions, track Provider counts, and manage commission rates.",
     "add": "Add New Profession",
     "selectLabel": "Profession",
-    "workersCount": "workers",
+    "ProvidersCount": "Providers",
     "commission": "commission",
     "back": "Back to Categories",
-    "detailSubtitle": "Manage workers and commission settings for this category.",
-    "totalWorkers": "Total Workers",
+    "detailSubtitle": "Manage Providers and commission settings for this category.",
+    "totalProviders": "Total Providers",
     "commissionLabel": "Commission Rate",
     "commissionSetup": "Commission Setup",
-    "addWorker": "Add Worker",
-    "emptyTitle": "No workers yet",
-    "emptySubtitle": "Add a worker to this category to start tracking assignments.",
+    "addProvider": "Add Provider",
+    "emptyTitle": "No Providers yet",
+    "emptySubtitle": "Add a Provider to this category to start tracking assignments.",
     "notFound": "Job category not found",
     "dialog": {
       "add": "Add Profession",
@@ -68,10 +140,10 @@
       "brand": "MyDashboard",
       "subtitle": "Operations and workforce control",
       "title": "A clean admin workspace for modern teams.",
-      "description": "Manage workers, monitor company performance, and process deposits from one scalable interface.",
+      "description": "Manage Providers, monitor company performance, and process deposits from one scalable interface.",
       "features": {
         "analytics": "Live analytics",
-        "workers": "Worker management",
+        "Providers": "Provider management",
         "wallet": "Wallet operations"
       }
     },
@@ -85,7 +157,7 @@
       "submit": "Sign In",
       "submitting": "Signing in...",
       "validation": "Please fix the highlighted fields.",
-      "info": "This dashboard uses local storage to persist sessions, worker data, and theme settings."
+      "info": "This dashboard uses local storage to persist sessions, Provider data, and theme settings."
     }
   },
   "notFound": {
@@ -97,15 +169,15 @@
     "title": "Dashboard",
     "subtitle": "Track workforce size, company performance, and wallet activity from a polished executive overview.",
     "cards": {
-      "totalWorkers": "Total Workers",
+      "totalProviders": "Total Providers",
       "companyProfits": "Total Company Profits",
-      "workerWallets": "Worker Wallets",
+      "ProviderWallets": "Provider Wallets",
       "totalCustomers": "Total Customers"
     },
     "helpers": {
-      "workers": "Current active workforce in the system",
+      "Providers": "Current active workforce in the system",
       "profits": "Rolling profit performance across the last eight months",
-      "wallets": "Aggregate wallet balance across all workers",
+      "wallets": "Aggregate wallet balance across all Providers",
       "customers": "Registered mobile app users"
     },
     "charts": {
@@ -115,23 +187,23 @@
     "snapshot": {
       "title": "Executive Snapshot",
       "subtitle": "A concise view of the current operational health.",
-      "workersTracked": "Workers tracked",
+      "ProvidersTracked": "Providers tracked",
       "activeWallets": "Active wallets",
       "totalWalletValue": "Total wallet value",
       "latestMonthlyProfit": "Latest monthly profit"
     },
     "cardsMeta": {
-      "totalWorkersTrend": "+5.2% from last month",
-      "totalWorkersBackTitle": "Workforce alerts",
-      "totalWorkersBackDescription": "Monitor hiring pace and workforce availability.",
+      "totalProvidersTrend": "+5.2% from last month",
+      "totalProvidersBackTitle": "Workforce alerts",
+      "totalProvidersBackDescription": "Monitor hiring pace and workforce availability.",
       "companyProfitsTrend": "+12.5% from last month",
       "companyProfitsBackTitle": "Profit alerts",
       "companyProfitsBackDescription": "Keep an eye on variance and month-over-month growth.",
       "profitPeak": "Peak month",
       "profitBaseline": "Baseline",
-      "workerWalletsTrend": "+8.1% from last week",
-      "workerWalletsBackTitle": "Wallet alerts",
-      "workerWalletsBackDescription": "Review wallet coverage and concentration across workers.",
+      "ProviderWalletsTrend": "+8.1% from last week",
+      "ProviderWalletsBackTitle": "Wallet alerts",
+      "ProviderWalletsBackDescription": "Review wallet coverage and concentration across Providers.",
       "averageWallet": "Average wallet",
       "highestWallet": "Highest wallet",
       "totalCustomersTrend": "+5.1% from last month",
@@ -144,42 +216,42 @@
       "serviceLoadValue": "Balanced"
     }
   },
-  "workers": {
-    "title": "Workers Management",
-    "subtitle": "Maintain worker records with fast create, edit, delete, and profile navigation workflows.",
-    "addWorker": "Add Worker",
-    "searchPlaceholder": "Search workers by name, phone, or experience...",
+  "Providers": {
+    "title": "Providers Management",
+    "subtitle": "Maintain Provider records with fast create, edit, delete, and profile navigation workflows.",
+    "addProvider": "Add Provider",
+    "searchPlaceholder": "Search Providers by name",
     "filters": {
       "all": "All"
     },
     "status": {
       "available": "Available",
-      "busy": "Busy",
+      "unavailable": "Unavailable",
       "offline": "Offline"
     },
     "summary": {
-      "totalWorkers": "Total workers",
-      "totalWorkersHelp": "Profiles in the system",
-      "availableWorkers": "Available",
-      "availableWorkersHelp": "Ready for assignment",
-      "busyWorkers": "Busy",
-      "busyWorkersHelp": "Currently active",
+      "totalProviders": "Total Providers",
+      "totalProvidersHelp": "Profiles in the system",
+      "availableProviders": "Available",
+      "availableProvidersHelp": "Ready for assignment",
+      "unavailableProviders": "Unavailable",
+      "unavailableProvidersHelp": "Currently unavailable",
       "totalBalance": "Total wallet balance",
       "totalBalanceHelp": "Combined wallet value"
     },
     "overview": {
-      "showing": "Showing {{visible}} of {{total}} workers",
+      "showing": "Showing {{visible}} of {{total}} Providers",
       "professions": "{{count}} professions available"
     },
     "card": {
-      "workerId": "Worker ID: {{id}}",
+      "ProviderId": "Provider ID: {{id}}",
       "viewProfile": "View Profile",
       "clearFilters": "Clear filters",
-      "noWorkersTitle": "No workers match the current filters",
-      "noWorkersSubtitle": "Clear a filter, search a different term, or add a new worker to continue."
+      "noProvidersTitle": "No Providers match the current filters",
+      "noProvidersSubtitle": "Clear a filter, search a different term, or add a new Provider to continue."
     },
     "table": {
-      "worker": "Worker",
+      "Provider": "Provider",
       "phone": "Phone Number",
       "experience": "Experience",
       "balance": "Balance",
@@ -190,41 +262,41 @@
       "viewProfile": "View profile for {{name}}",
       "edit": "Edit {{name}}",
       "delete": "Delete {{name}}",
-      "emptyTitle": "No workers found",
-      "emptySubtitle": "Add a worker to start tracking profiles and balances.",
-      "emptyAction": "Add Worker"
+      "emptyTitle": "No Providers found",
+      "emptySubtitle": "Add a Provider to start tracking profiles and balances.",
+      "emptyAction": "Add Provider"
     },
     "dialog": {
-      "edit": "Edit Worker",
-      "add": "Add Worker",
+      "edit": "Edit Provider",
+      "add": "Add Provider",
       "name": "Name",
       "phone": "Phone Number",
       "experience": "Experience",
       "experienceHelp": "Example: 5 years or Senior Technician",
       "cancel": "Cancel",
       "saving": "Saving...",
-      "save": "Save Worker"
+      "save": "Save Provider"
     },
     "confirm": {
-      "title": "Delete worker",
+      "title": "Delete Provider",
       "description": "Are you sure you want to delete {{name}}? This action cannot be undone."
     },
     "profile": {
-      "title": "Worker Profile",
-      "subtitle": "Inspect profile details, activity history, and quick actions for the selected worker.",
+      "title": "Provider Profile",
+      "subtitle": "Inspect profile details, activity history, and quick actions for the selected Provider.",
       "back": "Back to categories",
-      "edit": "Edit Worker",
+      "edit": "Edit Provider",
       "notFound": {
-        "title": "Worker not found",
-        "subtitle": "The selected worker profile no longer exists or could not be loaded.",
+        "title": "Provider not found",
+        "subtitle": "The selected Provider profile no longer exists or could not be loaded.",
         "back": "Back to categories"
       },
       "activityHistory": "Activity History",
-      "emptyActivity": "No recent activity has been recorded for this worker.",
-      "delete": "Delete Worker",
+      "emptyActivity": "No recent activity has been recorded for this Provider.",
+      "delete": "Delete Provider",
       "deleteConfirm": "Delete {{name}} from the system? This cannot be undone.",
       "fields": {
-        "workerId": "Worker ID: {{id}}",
+        "ProviderId": "Provider ID: {{id}}",
         "phone": "Phone Number",
         "experience": "Experience",
         "balance": "Balance"
@@ -236,7 +308,7 @@
   },
   "messages": {
     "title": "Messages",
-    "subtitle": "A live support chat workspace for workers, customers, and administrators.",
+    "subtitle": "A live support chat workspace for Providers, customers, and administrators.",
     "searchPlaceholder": "Search conversations...",
     "clearFilters": "Clear filters",
     "typing": "Typing...",
@@ -251,7 +323,7 @@
       "all": "All",
       "pinned": "Pinned",
       "unread": "Unread",
-      "workers": "Workers",
+      "Providers": "Providers",
       "customers": "Customers",
       "admins": "Admins"
     },
@@ -266,7 +338,7 @@
       "chatFilters": "Chat filters"
     },
     "roles": {
-      "worker": "Worker",
+      "Provider": "Provider",
       "customer": "Customer",
       "admin": "Admin"
     },
@@ -310,7 +382,7 @@
     "title": "Customers Management",
     "subtitle": "Manage mobile app users and accounts.",
     "addSample": "Add sample customer",
-    "searchPlaceholder": "Search by customer, email, or phone...",
+    "searchPlaceholder": "Search by name",
     "moreFilters": "More Filters",
     "export": "Export",
     "overview": {
@@ -382,23 +454,23 @@
   },
   "wallet": {
     "title": "Wallet / Deposits",
-    "subtitle": "Add money to a worker wallet and keep balances synchronized instantly across the application.",
-    "warning": "Add at least one worker before processing wallet deposits.",
+    "subtitle": "Add money to a Provider wallet and keep balances synchronized instantly across the application.",
+    "warning": "Add at least one Provider before processing wallet deposits.",
     "form": {
       "title": "Add Balance",
-      "selectWorker": "Select Worker",
+      "selectProvider": "Select Provider",
       "amount": "Amount",
       "amountHelp": "Enter the amount to add to the wallet.",
       "submit": "Deposit Funds"
     },
     "preview": {
       "title": "Selected Wallet",
-      "chooseWorker": "Choose a worker to preview the current wallet balance.",
+      "chooseProvider": "Choose a Provider to preview the current wallet balance.",
       "balanceNote": "Balance updates are reflected immediately after deposit confirmation.",
-      "connectedWorkers": "Connected workers",
+      "connectedProviders": "Connected Providers",
       "walletCoverage": "Wallet coverage",
       "fullSync": "100% synced",
-      "noWorkers": "No workers yet"
+      "noProviders": "No Providers yet"
     }
   },
   "finance": {
@@ -484,5 +556,17 @@
     "alerts": {
       "noData": "No finance data found for the selected date range."
     }
+  },
+  "notifications": {
+  "title": "Notifications",
+  "subtitle": "Stay updated with the latest activity",
+  "total": "total",
+  "markAllRead": "Mark all read",
+  "empty": "No notifications here",
+  "filter": {
+    "all": "All",
+    "unread": "Unread",
+    "read": "Read"
   }
+}
 }

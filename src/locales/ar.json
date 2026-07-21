@@ -40,20 +40,92 @@
       "subtitle": "مبني على طبقة بيانات قابلة لإعادة الاستخدام وحالة عمل دائمة."
     }
   },
+  "settings": {
+    "title": "الإعدادات"
+  },
+  "orders": {
+    "title": "الطلبات",
+    "subtitle": "راقب المهام النشطة وحالة الدفع ونشاط التنفيذ الأخير من مساحة واحدة متجاوبة.",
+    "listTitle": "الطلبات الحديثة",
+    "listSubtitle": "عرض {{count}} طلب",
+    "filters": {
+      "search": "بحث في الطلبات",
+      "searchPlaceholder": "ابحث برقم الطلب أو العميل أو المزود أو الخدمة",
+      "status": "الحالة",
+      "payment": "الدفع",
+      "clear": "مسح الفلاتر",
+      "allStatuses": "كل الحالات",
+      "allPayments": "كل حالات الدفع"
+    },
+    "summary": {
+      "totalOrders": "إجمالي الطلبات",
+      "totalOrdersHelp": "الطلبات المطابقة للفلاتر الحالية",
+      "activeOrders": "الطلبات النشطة",
+      "activeOrdersHelp": "معلقة أو مؤكدة أو قيد التنفيذ",
+      "revenue": "الإيرادات",
+      "revenueHelp": "إجمالي قيمة الطلبات في العرض الحالي",
+      "completionRate": "معدل الإكمال",
+      "completionRateHelp": "نسبة الطلبات المكتملة من الطلبات المفلترة"
+    },
+    "table": {
+      "order": "الطلب",
+      "customer": "العميل",
+      "provider": "المزود",
+      "status": "الحالة",
+      "payment": "الدفع",
+      "total": "الإجمالي",
+      "date": "تاريخ الإنشاء",
+      "actions": "الإجراءات",
+      "viewDetails": "عرض التفاصيل"
+    },
+    "empty": {
+      "title": "لا توجد طلبات",
+      "subtitle": "جرّب مسح الفلاتر أو البحث عن طلب مختلف."
+    },
+    "status": {
+      "pending": "معلق",
+      "confirmed": "مؤكد",
+      "inTransit": "قيد التنفيذ",
+      "completed": "مكتمل",
+      "cancelled": "ملغي"
+    },
+    "payment": {
+      "paid": "مدفوع",
+      "pending": "في انتظار الدفع",
+      "refunded": "مسترد"
+    },
+    "details": {
+      "close": "إغلاق تفاصيل الطلب",
+      "total": "إجمالي الطلب",
+      "customerInfo": "تفاصيل العميل",
+      "customer": "العميل",
+      "phone": "رقم الهاتف",
+      "address": "العنوان",
+      "city": "المدينة",
+      "fulfillment": "التنفيذ",
+      "provider": "المزود المسند",
+      "createdAt": "تاريخ الإنشاء",
+      "eta": "الوقت المتوقع",
+      "channel": "القناة",
+      "items": "العناصر",
+      "quantity": "{{count}} عنصر",
+      "notes": "ملاحظات"
+    }
+  },
   "professions": {
     "title": "فئات الوظائف",
     "subtitle": "أنشئ تخصصات غير محدودة، وتتبع عدد الموظفين، وأدر نسب العمولة.",
     "add": "إضافة تخصص جديد",
     "selectLabel": "التخصص",
-    "workersCount": "موظفًا",
+    "ProvidersCount": "موظفًا",
     "commission": "العمولة",
     "back": "العودة إلى الفئات",
     "detailSubtitle": "إدارة الموظفين وإعدادات العمولة لهذه الفئة.",
-    "totalWorkers": "إجمالي الموظفين",
+    "totalProviders": "إجمالي الموظفين",
     "commissionLabel": "نسبة العمولة",
     "commissionSetup": "إعداد العمولة",
     "commissionPercent": "العمولة (%)",
-    "addWorker": "إضافة موظف",
+    "addProvider": "إضافة موظف",
     "emptyTitle": "لا يوجد موظفون بعد",
     "emptySubtitle": "أضف موظفًا إلى هذه الفئة لبدء تتبع التعيينات.",
     "notFound": "لم يتم العثور على فئة الوظيفة",
@@ -72,7 +144,7 @@
       "description": "أدر الموظفين وراقب أداء الشركة وتعامل مع الإيداعات من واجهة واحدة قابلة للتوسع.",
       "features": {
         "analytics": "تحليلات مباشرة",
-        "workers": "إدارة الموظفين",
+        "Providers": "إدارة الموظفين",
         "wallet": "عمليات المحفظة"
       }
     },
@@ -98,13 +170,13 @@
     "title": "لوحة التحكم",
     "subtitle": "تابع حجم الفريق وأداء الشركة ونشاط المحافظ من خلال نظرة تنفيذية متقنة.",
     "cards": {
-      "totalWorkers": "إجمالي الموظفين",
+      "totalProviders": "إجمالي الموظفين",
       "companyProfits": "إجمالي أرباح الشركة",
-      "workerWallets": "محافظ الموظفين",
+      "ProviderWallets": "محافظ الموظفين",
       "totalCustomers": "إجمالي العملاء"
     },
     "helpers": {
-      "workers": "القوى العاملة النشطة الحالية في النظام",
+      "Providers": "القوى العاملة النشطة الحالية في النظام",
       "profits": "أداء الأرباح التراكمي خلال الأشهر الثمانية الأخيرة",
       "wallets": "إجمالي رصيد المحافظ لجميع الموظفين",
       "customers": "مستخدمو تطبيق الهاتف المسجلون"
@@ -116,23 +188,23 @@
     "snapshot": {
       "title": "ملخص تنفيذي",
       "subtitle": "عرض مختصر للحالة التشغيلية الحالية.",
-      "workersTracked": "الموظفون المتتبعون",
+      "ProvidersTracked": "الموظفون المتتبعون",
       "activeWallets": "المحافظ النشطة",
       "totalWalletValue": "إجمالي قيمة المحافظ",
       "latestMonthlyProfit": "آخر ربح شهري"
     },
     "cardsMeta": {
-      "totalWorkersTrend": "+5.2% عن الشهر الماضي",
-      "totalWorkersBackTitle": "تنبيهات القوى العاملة",
-      "totalWorkersBackDescription": "راقب وتيرة التوظيف وتوفر الموظفين.",
+      "totalProvidersTrend": "+5.2% عن الشهر الماضي",
+      "totalProvidersBackTitle": "تنبيهات القوى العاملة",
+      "totalProvidersBackDescription": "راقب وتيرة التوظيف وتوفر الموظفين.",
       "companyProfitsTrend": "+12.5% عن الشهر الماضي",
       "companyProfitsBackTitle": "تنبيهات الأرباح",
       "companyProfitsBackDescription": "تابع التباين والنمو الشهري للأرباح.",
       "profitPeak": "أعلى شهر",
       "profitBaseline": "الحد الأدنى",
-      "workerWalletsTrend": "+8.1% عن الأسبوع الماضي",
-      "workerWalletsBackTitle": "تنبيهات المحافظ",
-      "workerWalletsBackDescription": "راجع تغطية المحافظ وتوزيعها بين الموظفين.",
+      "ProviderWalletsTrend": "+8.1% عن الأسبوع الماضي",
+      "ProviderWalletsBackTitle": "تنبيهات المحافظ",
+      "ProviderWalletsBackDescription": "راجع تغطية المحافظ وتوزيعها بين الموظفين.",
       "averageWallet": "متوسط المحفظة",
       "highestWallet": "أعلى محفظة",
       "totalCustomersTrend": "+5.1% عن الشهر الماضي",
@@ -145,10 +217,10 @@
       "serviceLoadValue": "متوازن"
     }
   },
-  "workers": {
+  "Providers": {
     "title": "إدارة الموظفين",
     "subtitle": "حافظ على سجلات الموظفين مع إنشاء وتعديل وحذف وانتقال سريع إلى الملف الشخصي.",
-    "addWorker": "إضافة موظف",
+    "addProvider": "إضافة موظف",
     "searchPlaceholder": "ابحث عن الموظفين بالاسم أو الهاتف أو الخبرة...",
     "filters": {
       "all": "الكل"
@@ -159,12 +231,12 @@
       "offline": "غير متصل"
     },
     "summary": {
-      "totalWorkers": "إجمالي الموظفين",
-      "totalWorkersHelp": "الملفات الموجودة في النظام",
-      "availableWorkers": "متاح",
-      "availableWorkersHelp": "جاهز للتكليف",
-      "busyWorkers": "مشغول",
-      "busyWorkersHelp": "نشط حاليًا",
+      "totalProviders": "إجمالي الموظفين",
+      "totalProvidersHelp": "الملفات الموجودة في النظام",
+      "availableProviders": "متاح",
+      "availableProvidersHelp": "جاهز للتكليف",
+      "busyProviders": "مشغول",
+      "busyProvidersHelp": "نشط حاليًا",
       "totalBalance": "إجمالي رصيد المحفظة",
       "totalBalanceHelp": "القيمة الإجمالية للمحافظ"
     },
@@ -173,14 +245,14 @@
       "professions": "{{count}} تخصصات متاحة"
     },
     "card": {
-      "workerId": "معرف الموظف: {{id}}",
+      "ProviderId": "معرف الموظف: {{id}}",
       "viewProfile": "عرض الملف",
       "clearFilters": "مسح الفلاتر",
-      "noWorkersTitle": "لا يوجد موظفون يطابقون الفلاتر الحالية",
-      "noWorkersSubtitle": "أزل أحد الفلاتر أو ابحث بمصطلح مختلف أو أضف موظفًا جديدًا للمتابعة."
+      "noProvidersTitle": "لا يوجد موظفون يطابقون الفلاتر الحالية",
+      "noProvidersSubtitle": "أزل أحد الفلاتر أو ابحث بمصطلح مختلف أو أضف موظفًا جديدًا للمتابعة."
     },
     "table": {
-      "worker": "الموظف",
+      "Provider": "الموظف",
       "phone": "رقم الهاتف",
       "experience": "الخبرة",
       "balance": "الرصيد",
@@ -225,7 +297,7 @@
       "delete": "حذف الموظف",
       "deleteConfirm": "هل تريد حذف {{name}} من النظام؟ لا يمكن التراجع عن ذلك.",
       "fields": {
-        "workerId": "معرف الموظف: {{id}}",
+        "ProviderId": "معرف الموظف: {{id}}",
         "phone": "رقم الهاتف",
         "experience": "الخبرة",
         "balance": "الرصيد"
@@ -252,7 +324,7 @@
       "all": "الكل",
       "pinned": "مثبتة",
       "unread": "غير مقروءة",
-      "workers": "الموظفون",
+      "Providers": "الموظفون",
       "customers": "العملاء",
       "admins": "الإداريون"
     },
@@ -267,7 +339,7 @@
       "chatFilters": "فلاتر الدردشة"
     },
     "roles": {
-      "worker": "موظف",
+      "Provider": "موظف",
       "customer": "عميل",
       "admin": "إداري"
     },
@@ -387,19 +459,19 @@
     "warning": "أضف موظفًا واحدًا على الأقل قبل معالجة إيداعات المحفظة.",
     "form": {
       "title": "إضافة رصيد",
-      "selectWorker": "اختر الموظف",
+      "selectProvider": "اختر الموظف",
       "amount": "المبلغ",
       "amountHelp": "أدخل المبلغ المراد إضافته إلى المحفظة.",
       "submit": "إيداع الأموال"
     },
     "preview": {
       "title": "المحفظة المحددة",
-      "chooseWorker": "اختر موظفًا لعرض الرصيد الحالي للمحفظة.",
+      "chooseProvider": "اختر موظفًا لعرض الرصيد الحالي للمحفظة.",
       "balanceNote": "يتم عكس تحديثات الرصيد فور تأكيد الإيداع.",
-      "connectedWorkers": "الموظفون المتصلون",
+      "connectedProviders": "الموظفون المتصلون",
       "walletCoverage": "تغطية المحافظ",
       "fullSync": "متزامنة 100%",
-      "noWorkers": "لا يوجد موظفون بعد"
+      "noProviders": "لا يوجد موظفون بعد"
     }
   },
   "finance": {
@@ -485,5 +557,17 @@
     "alerts": {
       "noData": "لا توجد بيانات مالية ضمن النطاق الزمني المحدد."
     }
+  },
+  "notifications": {
+  "title": "الإشعارات",
+  "subtitle": "ابق على اطلاع بآخر المستجدات",
+  "total": "إجمالي",
+  "markAllRead": "تعليم الكل كمقروء",
+  "empty": "لا توجد إشعارات",
+  "filter": {
+    "all": "الكل",
+    "unread": "غير مقروء",
+    "read": "مقروء"
   }
+}
 }

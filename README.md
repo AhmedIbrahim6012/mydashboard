@@ -6,10 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 MyDashboard now includes a modern workforce flow with:
 
-- `Workers` at `/workers` for the full worker grid, search, and edit actions.
+- `Providers` at `/Providers` for the full Provider grid, search, and edit actions.
 - `Job Categories` at `/professions` for profession cards and creation.
-- Profession detail pages at `/professions/:id` for commission management and category workers.
-- Worker profiles at `/workers/:workerId` with profession-aware back navigation.
+- Profession detail pages at `/professions/:id` for commission management and category Providers.
+- Provider profiles at `/Providers/:ProviderId` with profession-aware back navigation.
 - RTL support for Arabic with a fixed sidebar toggle position.
 
 ## Available Scripts

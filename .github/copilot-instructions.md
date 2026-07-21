@@ -188,7 +188,7 @@ Project extends `react-app` and `react-app/jest` configs (provided by CRA). No c
 
 - "Run the test suite and report failures." — runs `npm test` and summarizes failures.
 - "Add a new component `X` with tests." — scaffolds `src/components/X.js` and `src/components/X.test.js` following project conventions.
-- "Refactor `WorkerProfilePage` to extract a subcomponent." — suggests and implements a small refactor with accompanying tests.
+- "Refactor `ProviderProfilePage` to extract a subcomponent." — suggests and implements a small refactor with accompanying tests.
 
 ## Suggested Agent Customizations
 

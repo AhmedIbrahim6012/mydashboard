@@ -4,12 +4,17 @@ import { Box, Button, Card, CardContent, Stack, Typography } from '@mui/material
 import { useAppContext } from '../context/AppContext';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import TextField from '@mui/material/TextField';
+import { CircularProgress } from '@mui/material';
+import { getDeviceId, getDeviceName} from '../utils/deviceId'; // ← استورد الدوال من utils/deviceUtils.js
+import { requestNotificationPermission } from '../services/notificationsService'; // ← استورد الدوال من utils/deviceUtils.js
 function OtpPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { phone, password, login_token: initialToken } = location.state || {};
-const [login_token, setLoginToken] = useState(initialToken);
+ //onst { phone, password, login_token: initialToken, enabled_2fa, qr_code_url } = location.state || {};const [login_token, setLoginToken] = useState(initialToken);
+
+const { phone, password, login_token: initialToken} = location.state || {};const [login_token, setLoginToken] = useState(initialToken);
   //const { phone, password, login_token } = location.state || {};
   // const { phone } = location.state || {};
   const { login, notify } = useAppContext();
@@ -22,6 +27,9 @@ const [login_token, setLoginToken] = useState(initialToken);
   const inputRefs = useRef([]);
 
   const code = digits.join('');
+
+const [useRecovery, setUseRecovery] = useState(false);
+const [recoveryCode, setRecoveryCode] = useState('');
 
   useEffect(() => {
     if (!phone) navigate('/login', { replace: true });
@@ -120,27 +128,46 @@ const [login_token, setLoginToken] = useState(initialToken);
 
 async function handleVerify(e) {
   e.preventDefault();
+if (!useRecovery && code.length !== LENGTH) {
+  setError(t('otp.validation.invalid', { defaultValue: 'Enter the 6-digit code.' }));
+  return;
+}
 
-  if (code.length !== LENGTH) {
-    setError(
-      t('otp.validation.invalid', {
-        defaultValue: 'Enter the 6-digit code.',
-      })
-    );
-    return;
-  }
+if (useRecovery && recoveryCode.trim().length < 5) {
+  setError('Enter a valid recovery code.');
+  return;
+}
 
   try {
     setSending(true);
+const deviceName = await getDeviceName();
+   const deviceId = getDeviceId(); // دالة تحكيها تحت
+const fcmToken = localStorage.getItem('fcm_token') 
+  ?? await requestNotificationPermission() 
+  ?? 'null';const payload = useRecovery
+  ? {
+      phone,
+      recovery_code: recoveryCode.trim(),
+      login_token,
+      fcm_token: fcmToken,
+      device_id: deviceId,
+      device_name: deviceName,
+      platform_type: 'web',
+    }
+  : {
+      phone,
+      twofa_code: code,
+      login_token,
+      fcm_token: fcmToken,
+      device_id: deviceId,
+     device_name: deviceName,
+      platform_type: 'web',
+    };
 
-    const response = await axios.post(
-      'https://homeservicesplatfrom.onrender.com/api/admin/auth/verify-login',
-      {
-        phone,
-        code,
-        login_token: login_token,
-      }
-    );
+const response = await axios.post(
+  'https://homeservicesplatfrom.onrender.com/api/admin/auth/verify-login/',
+  payload
+);
 
     const data = response.data.data;
 
@@ -247,16 +274,17 @@ setLoginToken(newLoginToken);
                 {/* OTP Boxes */}
                 <Stack direction="row" spacing={1} justifyContent="center">
                   {digits.map((digit, i) => (
-                    <Box
-                      key={i}
-                      component="input"
-                      ref={(el) => (inputRefs.current[i] = el)}
-                      value={digit}
-                      onChange={(e) => handleChange(i, e)}
-                      onKeyDown={(e) => handleKeyDown(i, e)}
-                      onPaste={handlePaste}
-                      onFocus={(e) => e.target.select()}
-                      maxLength={1}
+                   <Box
+                                 key={i}
+                           component="input"
+                         ref={(el) => (inputRefs.current[i] = el)}
+                           value={digit}
+                       onChange={(e) => handleChange(i, e)}
+                                 onKeyDown={(e) => handleKeyDown(i, e)}
+                                 onPaste={handlePaste}
+                                onFocus={(e) => e.target.select()}
+                               disabled={sending}
+                                     maxLength={1}
                       autoComplete="one-time-code"
                       inputMode="text"
                       sx={{
@@ -299,10 +327,52 @@ setLoginToken(newLoginToken);
                   </Typography>
                 )}
 
+                {/* Toggle بين OTP و Recovery Code */}
+<Button
+  variant="text"
+  size="small"
+  onClick={() => {
+    setUseRecovery((v) => !v);
+    setError('');
+  }}
+  sx={{ alignSelf: 'center', fontSize: '0.8rem', textTransform: 'none', color: 'text.secondary' }}
+>
+  {useRecovery
+    ? '← Use authenticator code instead'
+    : "Can't access your app? Use a recovery code"}
+</Button>
+
+{useRecovery && (
+  <TextField
+    label="Recovery Code"
+    placeholder="XXXX-HSP-XXXX"
+ disabled={sending}
+    value={recoveryCode}
+    onChange={(e) => {
+      setRecoveryCode(e.target.value.toUpperCase());
+      if (error) setError('');
+    }}
+    fullWidth
+    inputProps={{
+      style: { fontFamily: 'monospace', fontSize: '1.1rem', letterSpacing: '0.1em', textAlign: 'center' }
+    }}
+  />
+)}  
+
                 <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
-                  <Button type="submit" variant="contained" disabled={code.length !== LENGTH|| sending}>
-                    {t('otp.verify', { defaultValue: 'Verify' })}
-                  </Button>
+                 <Button
+  type="submit"
+  variant="contained"
+  disabled={sending || (useRecovery ? recoveryCode.trim().length < 5 : code.length !== LENGTH)}
+  sx={{ position: 'relative', minWidth: 100,overflow: 'hidden' }}
+>
+  {sending && (
+    <CircularProgress size={20} thickness={5} sx={{ color: 'white', position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }} />
+  )}
+  <span style={{ opacity: sending ? 0 : 1 }}>
+    {t('otp.verify', { defaultValue: 'Verify' })}
+  </span>
+</Button>
                   <Button
                     variant="outlined"
                     onClick={handleResend}

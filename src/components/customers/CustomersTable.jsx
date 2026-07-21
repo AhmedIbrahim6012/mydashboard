@@ -4,6 +4,7 @@ import {
   Chip,
   IconButton,
   Paper,
+  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -11,72 +12,74 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
+  Switch 
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import ConfirmDialog from '../ConfirmDialog';
 import { useState } from 'react';
 import CustomerDetailsModal from './CustomerDetailsModal';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-function getCustomerStatus(customer) {
-  if (Number(customer.balance || 0) > 0 && customer.email) {
-    return 'active';
-  }
-
-  if (Number(customer.balance || 0) > 0) {
-    return 'pending';
-  }
-
-  if (customer.email) {
-    return 'confirmed';
-  }
-
-  return 'inactive';
+function getInitials(firstName = '', lastName = '') {
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 }
 
-function getStatusChipProps(status, t) {
-  switch (status) {
-    case 'active':
-      return { label: t('customers.status.active', { defaultValue: 'Active' }), color: 'primary', variant: 'filled' };
-    case 'pending':
-      return { label: t('customers.status.pending', { defaultValue: 'Pending' }), color: 'warning', variant: 'filled' };
-    case 'confirmed':
-      return { label: t('customers.status.confirmed', { defaultValue: 'Confirmed' }), color: 'success', variant: 'filled' };
-    default:
-      return { label: t('customers.status.inactive', { defaultValue: 'Inactive' }), color: 'default', variant: 'outlined' };
-  }
+function getStatusConfig(customer) {
+  if (customer.is_active && customer.is_verified) return { label: 'active', color: 'success' };
+  if (customer.is_active && !customer.is_verified) return { label: 'pending', color: 'warning' };
+  if (!customer.is_active && customer.is_verified) return { label: 'Inactive', color: 'error' };
+  return { label: 'inactive', color: 'default' };
 }
 
-function CustomersTable({ customers, onDelete }) {
+const AVATAR_COLORS = [
+  { bg: '#e3f2fd', text: '#0d47a1' },
+  { bg: '#f3e5f5', text: '#4a148c' },
+  { bg: '#e8f5e9', text: '#1b5e20' },
+  { bg: '#fff3e0', text: '#e65100' },
+  { bg: '#e0f7fa', text: '#006064' },
+];
+
+function getAvatarColor(id) {
+  return AVATAR_COLORS[Number(id || 0) % AVATAR_COLORS.length];
+}
+
+function TableSkeleton() {
+  return Array.from({ length: 5 }).map((_, i) => (
+    <TableRow key={i}>
+      {Array.from({ length: 6 }).map((__, j) => (
+        <TableCell key={j} sx={{ py: 2 }}>
+          <Skeleton variant={j === 1 ? 'rectangular' : 'text'} height={j === 1 ? 40 : 22} sx={{ borderRadius: 1 }} />
+        </TableCell>
+      ))}
+    </TableRow>
+  ));
+}
+
+function CustomersTable({ customers, onDelete, onToggleActive, loading = false }) {
   const { t, i18n } = useTranslation();
   const isRtl = i18n.dir() === 'rtl';
-  const locale = i18n.language === 'ar' ? 'ar-EG' : 'en-US';
-  const [confirmOpen, setConfirmOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
-  function handleView(customer) {
-    setSelected(customer);
-    setDetailsOpen(true);
-  }
+  const navigate = useNavigate();
 
-  function handleDeleteClick(customer) {
-    setSelected(customer);
-    setConfirmOpen(true);
-  }
+function handleView(customer) {
+  navigate(`/admin/user/${customer.id}`);
+}
 
-  function closeDetails() {
-    setDetailsOpen(false);
-    setSelected(null);
-  }
-
-  function handleConfirmDelete() {
-    onDelete(selected.id);
-    setConfirmOpen(false);
-    setSelected(null);
-  }
+  const columns = [
+    t('customers.table.customerId', { defaultValue: '#ID' }),
+    t('customers.table.customer', { defaultValue: 'Customer' }),
+    t('customers.table.email', { defaultValue: 'Email' }),
+    t('customers.table.registered', { defaultValue: 'Registered' }),
+    t('customers.table.status', { defaultValue: 'Status' }),
+    t('customers.table.actions', { defaultValue: 'Actions' }),
+  ];
 
   return (
     <>
@@ -86,106 +89,180 @@ function CustomersTable({ customers, onDelete }) {
         sx={(theme) => ({
           borderRadius: 0,
           borderTop: `1px solid ${theme.palette.divider}`,
-          boxShadow: 'none',
+          maxHeight: 'calc(100vh - 300px)',
         })}
       >
-        <Table>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.4 }}>
-                  {t('customers.table.customerId', { defaultValue: 'Customer ID' })}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                  {t('customers.table.customer', { defaultValue: 'Customer' })}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                  {t('customers.table.email')}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                  {t('customers.table.registered')}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                  {t('customers.table.status', { defaultValue: 'Status' })}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                  {t('customers.table.balance')}
-                </Typography>
-              </TableCell>
-              <TableCell align={isRtl ? 'left' : 'right'}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                  {t('customers.table.actions')}
-                </Typography>
-              </TableCell>
+              {columns.map((col, i) => (
+                <TableCell
+                  key={col}
+                  align={i === columns.length - 1 ? (isRtl ? 'left' : 'right') : 'left'}
+                  sx={(theme) => ({ 
+                    py: 2, 
+                    bgcolor: 'action.hover',
+                    borderBottom: `1px solid ${theme.palette.divider}`
+                  })}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, color: 'text.secondary' }}
+                  >
+                    {col}
+                  </Typography>
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {customers.map((customer) => {
-              const status = getCustomerStatus(customer);
-              const statusChip = getStatusChipProps(status, t);
 
-              return (
-                <TableRow key={customer.id} hover>
-                  <TableCell>
-                    <Typography sx={{ fontWeight: 800 }}>{customer.id}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="row" spacing={1.5} alignItems="center">
-                      <Avatar sx={{ width: 40, height: 40, fontSize: 16, bgcolor: 'primary.light', color: 'primary.dark', fontWeight: 800 }}>
-                        {customer.fullName.slice(0, 1)}
-                      </Avatar>
-                      <Box>
-                        <Typography sx={{ fontWeight: 800 }}>{customer.fullName}</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {customer.phone}
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>{customer.email || '—'}</TableCell>
-                  <TableCell>{new Date(customer.createdAt).toLocaleString(locale)}</TableCell>
-                  <TableCell>
-                    <Chip size="small" label={statusChip.label} color={statusChip.color} variant={statusChip.variant} />
-                  </TableCell>
-                  <TableCell>
-                    <Typography sx={{ fontWeight: 800 }}>{Number(customer.balance || 0).toLocaleString(locale, { style: 'currency', currency: 'USD' })}</Typography>
-                  </TableCell>
-                  <TableCell align={isRtl ? 'left' : 'right'}>
-                    <Stack direction="row" spacing={1} justifyContent={isRtl ? 'flex-start' : 'flex-end'}>
-                      <IconButton size="small" onClick={() => handleView(customer)} aria-label={t('customers.actions.view', { name: customer.fullName, defaultValue: `View ${customer.fullName}` })}>
-                        <VisibilityIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton size="small" color="error" onClick={() => handleDeleteClick(customer)} aria-label={t('customers.actions.delete', { name: customer.fullName, defaultValue: `Delete ${customer.fullName}` })}>
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+          <TableBody>
+            {loading ? (
+              <TableSkeleton />
+            ) : customers.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} align="center" sx={{ py: 8 }}>
+                  <Typography color="text.secondary" variant="body2" sx={{ fontWeight: 500 }}>
+                    {t('customers.emptyState', { defaultValue: 'No customers match the current filters.' })}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            ) : (
+              customers.map((customer) => {
+                const fullName = `${customer.first_name} ${customer.last_name}`;
+                const initials = getInitials(customer.first_name, customer.last_name);
+                const avatarColor = getAvatarColor(customer.id);
+                const statusConfig = getStatusConfig(customer);
+
+                return (
+                  <TableRow
+                    key={customer.id}
+                    hover
+                    sx={{ '&:last-child td': { border: 0 }, transition: 'background-color 0.2s ease' }}
+                  >
+                    {/* ID */}
+                    <TableCell sx={{ width: 80, py: 2 }}>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontFamily: 'monospace',
+                          fontWeight: 700,
+                          color: 'text.secondary',
+                          bgcolor: 'action.selected',
+                          px: 1,
+                          py: 0.4,
+                          borderRadius: 1.5,
+                        }}
+                      >
+                        #{customer.id}
+                      </Typography>
+                    </TableCell>
+
+                    {/* Customer */}
+                    <TableCell sx={{ py: 1.5 }}>
+                      <Stack direction="row" spacing={2} alignItems="center">
+                        <Avatar
+                          sx={{
+                            width: 40,
+                            height: 40,
+                            fontSize: '0.85rem',
+                            fontWeight: 700,
+                            bgcolor: avatarColor.bg,
+                            color: avatarColor.text,
+                            boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.03)'
+                          }}
+                        >
+                          {initials}
+                        </Avatar>
+                        <Box sx={{ minWidth: 0 }}>
+                          <Stack direction="row" spacing={0.5} alignItems="center">
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                              {fullName}
+                            </Typography>
+                            {customer.is_verified && (
+                              <Tooltip title={t('customers.verified', { defaultValue: 'Verified account' })}>
+                                <VerifiedIcon sx={{ fontSize: 15, color: 'success.main' }} />
+                              </Tooltip>
+                            )}
+                          </Stack>
+                          <Typography variant="caption" color="text.secondary" noWrap sx={{ display: 'block', mt: 0.25 }}>
+                            {customer.phone || '—'}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </TableCell>
+
+                    {/* Email */}
+                    <TableCell sx={{ py: 2 }}>
+                      <Typography variant="body2" color="text.primary" sx={{ fontWeight: 500 }}>
+                        {customer.email || '—'}
+                      </Typography>
+                    </TableCell>
+
+                    {/* Registered Date */}
+                    <TableCell sx={{ py: 2 }}>
+                      <Typography variant="body2" color="text.secondary">
+                        {customer.created_at ? new Date(customer.created_at).toLocaleDateString() : '—'}
+                      </Typography>
+                    </TableCell>
+
+                    {/* Status Toggle Switch */}
+                    <TableCell sx={{ py: 2 }}>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Switch
+                          size="small"
+                          checked={customer.is_active}
+                          onChange={() => onToggleActive(customer)}
+                          color="success"
+                        />
+                        <Chip
+                          label={t(`customers.status.${statusConfig.label.toLowerCase()}`, { defaultValue: statusConfig.label })}
+                          color={statusConfig.color}
+                          variant="soft"
+                          size="small"
+                          sx={{ 
+                            fontWeight: 600, 
+                            borderRadius: 1.5, 
+                            fontSize: '0.725rem',
+                            textTransform: 'capitalize',
+                            bgcolor: (theme) => `${theme.palette[statusConfig.color]?.main}12`,
+                            color: (theme) => theme.palette[statusConfig.color]?.main,
+                          }}
+                        />
+                      </Stack>
+                    </TableCell>
+
+                    {/* Actions */}
+                    <TableCell align={isRtl ? 'left' : 'right'} sx={{ py: 2 }}>
+                      <Stack direction="row" spacing={0.5} justifyContent="flex-end">
+                        <Tooltip title={t('customers.actions.view', { defaultValue: 'View Details' })}>
+                          <IconButton size="small" onClick={() => handleView(customer)} sx={{ color: 'text.secondary' }}>
+                            <VisibilityIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title={t('customers.actions.delete', { defaultValue: 'Delete' })}>
+                          <IconButton size="small" onClick={() => onDelete(customer.id)} color="error" sx={{ opacity: 0.8 }}>
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            )}
           </TableBody>
         </Table>
       </TableContainer>
 
-      <ConfirmDialog
-        open={confirmOpen}
-        title={t('customers.confirm.title')}
-        description={t('customers.confirm.description', { name: selected?.fullName || 'this customer' })}
-        onClose={() => setConfirmOpen(false)}
-        onConfirm={handleConfirmDelete}
-      />
-
-      <CustomerDetailsModal open={detailsOpen} customer={selected} onClose={closeDetails} />
+      {/* <CustomerDetailsModal
+        open={detailsOpen}
+        customer={selected}
+        onClose={() => {
+          setDetailsOpen(false);
+          setSelected(null);
+        }}
+      /> */}
     </>
   );
 }

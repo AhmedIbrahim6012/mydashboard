@@ -15,7 +15,7 @@ export function validateLogin(values) {
 
   return errors;
 }
-export function validateWorker(values) {
+export function validateProvider(values) {
   const errors = {};
 
   if (!values.first_name?.trim()) {
@@ -49,8 +49,8 @@ export function validateWorker(values) {
 export function validateDeposit(values) {
   const errors = {};
 
-  if (!values.workerId) {
-    errors.workerId = 'Select a worker.';
+  if (!values.ProviderId) {
+    errors.ProviderId = 'Select a Provider.';
   }
 
   if (!values.amount) {

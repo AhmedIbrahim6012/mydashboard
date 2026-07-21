@@ -375,3 +375,162 @@ function FinancePage() {
 }
 
 export default FinancePage;
+
+
+// import { useCallback, useEffect, useRef, useState } from 'react';
+// import { Alert, Box, Snackbar, Stack, Typography } from '@mui/material';
+// import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
+// import IconButton from '@mui/material/IconButton';
+// import Tooltip from '@mui/material/Tooltip';
+// import api from '../utils/axiosInstance'; // adjust path if needed
+
+// import AnalyticsPeriodSelector  from '../components/analytics/AnalyticsPeriodSelector';
+// import AnalyticsOverviewCards   from '../components/analytics/AnalyticsOverviewCards';
+// import AnalyticsOrdersSection   from '../components/analytics/AnalyticsOrdersSection';
+// import AnalyticsUsersSection    from '../components/analytics/AnalyticsUsersSection';
+// import AnalyticsProvidersSection from '../components/analytics/AnalyticsProvidersSection';
+
+// const DEFAULT_PERIOD = 'this_month';
+
+// function AnalyticsPage() {
+//   const [period, setPeriod]               = useState(DEFAULT_PERIOD);
+//   const [displayMessage, setDisplayMessage] = useState('');
+
+//   // Each endpoint has its own data + loading + error state
+//   const [overviewData,   setOverviewData]   = useState(null);
+//   const [ordersData,     setOrdersData]     = useState(null);
+//   const [usersData,      setUsersData]      = useState(null);
+//   const [providersData,  setProvidersData]  = useState(null);
+
+//   const [loading, setLoading]   = useState(false);
+//   const [errorMsg, setErrorMsg] = useState('');
+
+//   // Abort controller ref so we can cancel in-flight requests on period change
+//   const abortRef = useRef(null);
+
+//   const fetchAll = useCallback(async (p) => {
+//     // Cancel any previous in-flight request
+//     if (abortRef.current) abortRef.current.abort();
+//     const controller = new AbortController();
+//     abortRef.current = controller;
+
+//     setLoading(true);
+//     setErrorMsg('');
+
+//     try {
+//       const signal = controller.signal;
+
+//       const [generalRes, ordersRes, usersRes, providersRes] = await Promise.all([
+//         api.get('/admin/analytics',           { params: { period: p }, signal }),
+//         api.get('/admin/analytics/orders',    { params: { period: p }, signal }),
+//         api.get('/admin/analytics/users',     { params: { period: p }, signal }),
+//         api.get('/admin/analytics/providers', { params: { period: p }, signal }),
+//       ]);
+
+//       const generalData = generalRes.data?.data ?? {};
+//       setOverviewData(generalData);
+//       setDisplayMessage(generalData?.meta?.display_message ?? '');
+
+//       setOrdersData(ordersRes.data?.data ?? null);
+//       setUsersData(usersRes.data?.data ?? null);
+//       setProvidersData(providersRes.data?.data ?? null);
+//     } catch (err) {
+//       if (err.name === 'CanceledError' || err.name === 'AbortError') return;
+//       console.error('Analytics fetch error:', err);
+//       setErrorMsg('Failed to load analytics data. Please try again.');
+//     } finally {
+//       setLoading(false);
+//     }
+//   }, []);
+
+//   // Fetch on mount + whenever period changes
+//   useEffect(() => {
+//     fetchAll(period);
+//   }, [period, fetchAll]);
+
+//   function handlePeriodChange(newPeriod) {
+//     setPeriod(newPeriod);
+//   }
+
+//   return (
+//     <Stack spacing={3.5}>
+//       {/* Page header */}
+//       <Stack direction="row" alignItems="flex-start" justifyContent="space-between" flexWrap="wrap" gap={1.5}>
+//         <Box>
+//           <Typography
+//             sx={{
+//               color: '#0f172a',
+//               fontSize: { xs: '1.75rem', md: '2.1rem' },
+//               fontWeight: 800,
+//               lineHeight: 1.1,
+//               letterSpacing: '-0.04em',
+//             }}
+//           >
+//             Analytics
+//           </Typography>
+//           <Typography sx={{ mt: 0.75, color: '#55657b', fontSize: '1rem' }}>
+//             Platform performance across all metrics.
+//           </Typography>
+//         </Box>
+
+//         <Tooltip title="Refresh">
+//           <span>
+//             <IconButton
+//               onClick={() => fetchAll(period)}
+//               disabled={loading}
+//               sx={{ mt: 0.5 }}
+//             >
+//               <RefreshRoundedIcon
+//                 sx={{
+//                   transition: 'transform 0.5s ease',
+//                   ...(loading && { animation: 'spin 1s linear infinite' }),
+//                   '@keyframes spin': { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
+//                 }}
+//               />
+//             </IconButton>
+//           </span>
+//         </Tooltip>
+//       </Stack>
+
+//       {/* Period selector */}
+//       <AnalyticsPeriodSelector
+//         period={period}
+//         displayMessage={displayMessage}
+//         onChange={handlePeriodChange}
+//       />
+
+//       {/* Overview KPI cards */}
+//       <AnalyticsOverviewCards data={overviewData} loading={loading} />
+
+//       {/* Orders section */}
+//       <AnalyticsOrdersSection data={ordersData} loading={loading} />
+
+//       {/* Users + Providers side by side on large screens */}
+//       <Box
+//         sx={{
+//           display: 'grid',
+//           gridTemplateColumns: { xs: '1fr', lg: 'repeat(2, 1fr)' },
+//           gap: 2.5,
+//           alignItems: 'start',
+//         }}
+//       >
+//         <AnalyticsUsersSection    data={usersData}     loading={loading} />
+//         <AnalyticsProvidersSection data={providersData} loading={loading} />
+//       </Box>
+
+//       {/* Error snackbar */}
+//       <Snackbar
+//         open={Boolean(errorMsg)}
+//         autoHideDuration={6000}
+//         onClose={() => setErrorMsg('')}
+//         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+//       >
+//         <Alert severity="error" onClose={() => setErrorMsg('')} variant="filled" sx={{ borderRadius: 2 }}>
+//           {errorMsg}
+//         </Alert>
+//       </Snackbar>
+//     </Stack>
+//   );
+// }
+
+// export default AnalyticsPage;

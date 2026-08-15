@@ -269,7 +269,7 @@ function clearPickerProvider() {
       <Card
         elevation={0}
         sx={{
-          borderRadius: 4,
+          borderRadius: 2,
           boxShadow: isDark
             ? '0 4px 20px 0 rgba(0,0,0,0.3)'
             : '0 4px 20px 0 rgba(0,0,0,0.05)',
@@ -290,7 +290,7 @@ function clearPickerProvider() {
           >
             <Stack direction="row" spacing={2} alignItems="center">
               <Box sx={{
-                width: 44, height: 44, borderRadius: 2.5,
+                width: 44, height: 44, borderRadius: 2,
                 bgcolor: alpha(theme.palette.warning.main, isDark ? 0.2 : 0.1),
                 display: 'grid', placeItems: 'center', color: 'warning.dark',
               }}>
@@ -311,7 +311,7 @@ function clearPickerProvider() {
               variant={filtersOpen ? 'contained' : 'outlined'}
               onClick={() => setFiltersOpen((v) => !v)}
               size="medium"
-              sx={{ borderRadius: 2, fontWeight: 700, textTransform: 'none' }}
+              sx={{ borderRadius: 1, fontWeight: 700, textTransform: 'none' }}
             >
               Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
             </Button>
@@ -320,7 +320,7 @@ function clearPickerProvider() {
           {/* Filter Panel */}
           <Collapse in={filtersOpen}>
             <Box sx={{
-              p: 3, borderRadius: 3,
+              p: 3, borderRadius: 2,
               bgcolor: subtleBg,
               border: `1px solid ${borderColor}`,
               mb: 3,
@@ -429,8 +429,16 @@ function clearPickerProvider() {
                         value={filters.date}
                         onChange={(e) => setFilters((f) => ({ ...f, date: e.target.value }))}
                         size="small" fullWidth variant="outlined"
-                        sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
-                      />
+  sx={{
+      '& .MuiOutlinedInput-root': { borderRadius: 0.8 },
+      '& input': {
+        color: isDark ? '#FFFFFF' : 'inherit',
+      },
+      '& input::-webkit-calendar-picker-indicator': {
+        filter: isDark ? 'invert(1)' : 'none',
+        cursor: 'pointer',
+      },
+    }}                      />
                     </Box>
                     <Box sx={{ flex: 1 }}>
                       <Typography variant="caption" sx={{ fontWeight: 600, color: mutedColor, display: 'block', mb: 0.5, ml: 0.5 }}>
@@ -441,8 +449,16 @@ function clearPickerProvider() {
                         value={filters.date_from}
                         onChange={(e) => setFilters((f) => ({ ...f, date_from: e.target.value }))}
                         size="small" fullWidth variant="outlined"
-                        sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
-                      />
+  sx={{
+      '& .MuiOutlinedInput-root': { borderRadius: 0.8 },
+      '& input': {
+        color: isDark ? '#FFFFFF' : 'inherit',
+      },
+      '& input::-webkit-calendar-picker-indicator': {
+        filter: isDark ? 'invert(1)' : 'none',
+        cursor: 'pointer',
+      },
+    }}                      />
                     </Box>
                     <Box sx={{ flex: 1 }}>
                       <Typography variant="caption" sx={{ fontWeight: 600, color: mutedColor, display: 'block', mb: 0.5, ml: 0.5 }}>
@@ -453,8 +469,16 @@ function clearPickerProvider() {
                         value={filters.date_to}
                         onChange={(e) => setFilters((f) => ({ ...f, date_to: e.target.value }))}
                         size="small" fullWidth variant="outlined"
-                        sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
-                      />
+  sx={{
+      '& .MuiOutlinedInput-root': { borderRadius: 0.8 },
+      '& input': {
+        color: isDark ? '#FFFFFF' : 'inherit',
+      },
+      '& input::-webkit-calendar-picker-indicator': {
+        filter: isDark ? 'invert(1)' : 'none',
+        cursor: 'pointer',
+      },
+    }}                      />
                     </Box>
                   </Stack>
                 </Box>
@@ -465,14 +489,14 @@ function clearPickerProvider() {
                   <Button
                     variant="contained" size="small"
                     onClick={handleApplyFilters}
-                    sx={{ borderRadius: 2, fontWeight: 700, px: 3, textTransform: 'none' }}
+                    sx={{ borderRadius: 0.5, fontWeight: 700, px: 3, textTransform: 'none' }}
                   >
                     Apply Filters
                   </Button>
                   <Button
                     variant="outlined" size="small"
                     onClick={handleClearFilters}
-                    sx={{ borderRadius: 2, fontWeight: 700, px: 3, textTransform: 'none', bgcolor: surfaceBg }}
+                    sx={{ borderRadius: 0.5, fontWeight: 700, px: 3, textTransform: 'none', bgcolor: surfaceBg }}
                   >
                     Clear All
                   </Button>

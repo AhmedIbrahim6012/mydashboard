@@ -90,6 +90,9 @@ import { Box, CircularProgress, Typography, Button  } from '@mui/material';
 import NotificationsPage from '../pages/NotificationsPage';
 import CustomerDetailsPage from '../pages/customers/CustomerDetailsPage';
 import RestrictionsPage from '../pages/RestrictionsPage';
+import ComplaintsPage from '../pages/ComplaintsPage';
+import OffersPage from '../pages/Offerspage.jsx';
+
 function AppRoutes() {
   const { isAuthenticated, isInitializing, initError, retryInit } = useAppContext();
 
@@ -150,9 +153,12 @@ function AppRoutes() {
           <Route path="/notifications" element={<NotificationsPage />} />
 <Route path="/admin/user/:id" element={<CustomerDetailsPage />} />
 <Route path="/admin/restrictions" element={<RestrictionsPage />} />
+<Route path="/complaints" element={<ComplaintsPage />} />
+<Route path="/admin/offers" element={<OffersPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>
+
       <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
     </Routes>
   );

@@ -351,9 +351,9 @@ if (enabled_2fa) {
 </Button>
                   </Stack>
                 </Box>
-                <Alert severity="info" variant="outlined">
+                {/* <Alert severity="info" variant="outlined">
                   {t('login.form.info')}
-                </Alert>
+                </Alert> */}
               </Stack>
             </CardContent>
           </Card>

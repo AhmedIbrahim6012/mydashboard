@@ -102,7 +102,7 @@ function DashboardMetricCard({ title, value, caption, icon, captionTone = 'posit
     captionTone === 'positive'
       ? '#16a34a'
       : captionTone === 'warning'
-      ? '#b45309'
+      ? '#D10A0A'
       : theme.palette.text.secondary;
 
   return (
@@ -157,8 +157,8 @@ function DashboardMetricCard({ title, value, caption, icon, captionTone = 'posit
               borderRadius: 1.9,
               display: 'grid',
               placeItems: 'center',
-              backgroundColor: isDark ? alpha('#2f6fec', 0.22) : alpha('#2f6fec', 0.16),
-              color: '#2563eb',
+              backgroundColor: isDark ? alpha('#FF6B26', 0.22) : alpha('#FF6B26', 0.16),
+              color: '#FF6B26',
               flex: '0 0 auto',
               '& svg': { fontSize: 30 },
             }}

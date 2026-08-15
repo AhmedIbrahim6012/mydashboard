@@ -389,7 +389,8 @@ const [selectedCategoryName, setSelectedCategoryName] = useState('');
               fontWeight: 600,
               px: 2.5,
               color: '#64748b',
-              '&:hover': { backgroundColor: '#f8fafc', color: '#0f172a' }
+              '&:hover': { backgroundColor: '#C2470E',                 boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)'
+ }
             }}
           >
             {t('Providers.dialog.cancel')}
@@ -404,10 +405,10 @@ const [selectedCategoryName, setSelectedCategoryName] = useState('');
               fontWeight: 600,
               px: 4,
               height: 42,
-              backgroundColor: '#1e293b', // متناسق تماماً مع لون أزرار الكارد الفخمة (Slate-800)
+              backgroundColor: '#FF6B26', // متناسق تماماً مع لون أزرار الكارد الفخمة (Slate-800)
               boxShadow: 'none',
               '&:hover': { 
-                backgroundColor: '#0f172a',
+                backgroundColor: '#C2470E',
                 boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)'
               },
             }}

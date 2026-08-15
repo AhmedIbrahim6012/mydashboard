@@ -2129,7 +2129,7 @@ function ProviderCard({ Provider, onViewProfile, onActivate, onDeactivate, onDel
       sx={{
         borderRadius: '20px',
         border: '1px solid',
-        borderColor: isDark ? alpha('#94a3b8', 0.15) : 'rgba(226,232,240,0.8)',
+        borderColor: isDark ? alpha('#FF6B26', 0.15) : 'rgba(226,232,240,0.8)',
         bgcolor: 'background.paper',
         boxShadow: isDark
           ? '0 1px 3px rgba(0,0,0,0.3)'
@@ -2140,7 +2140,7 @@ function ProviderCard({ Provider, onViewProfile, onActivate, onDeactivate, onDel
           boxShadow: isDark
             ? '0 20px 25px -5px rgba(0,0,0,0.35)'
             : '0 20px 25px -5px rgba(0,0,0,0.05)',
-          borderColor: '#3b82f6',
+          borderColor: '#FF6B26',
         },
       }}
     >
@@ -2155,8 +2155,8 @@ function ProviderCard({ Provider, onViewProfile, onActivate, onDeactivate, onDel
                 sx={{
                   width: 60, height: 60,
                   borderRadius: '16px',
-                  bgcolor: isDark ? alpha('#2563eb', 0.2) : '#eff6ff',
-                  color: '#2563eb',
+                  bgcolor: isDark ? alpha('#FF6B26', 0.2) : '#eff6ff',
+                  color: '#FF6B26',
                   fontSize: '1.2rem', fontWeight: 700,
                   border: '2px solid',
                   borderColor: 'divider',
@@ -2256,12 +2256,12 @@ function ProviderCard({ Provider, onViewProfile, onActivate, onDeactivate, onDel
             <Stack direction="row" spacing={0.5} alignItems="center"
               sx={{
                 px: 1.4, py: 0.6, borderRadius: '10px',
-                backgroundColor: isDark ? alpha('#f59e0b', 0.12) : '#fffbeb',
+                backgroundColor: isDark ? alpha('#FF6B26', 0.12) : '#fffbeb',
                 border: '1px solid',
-                borderColor: isDark ? alpha('#f59e0b', 0.25) : '#fde68a',
+                borderColor: isDark ? alpha('#FF6B26', 0.25) : '#FF6B26',
               }}
             >
-              <StarRoundedIcon sx={{ fontSize: 17, color: '#f59e0b' }} />
+              <StarRoundedIcon sx={{ fontSize: 17, color: '#FF6B26 ' }} />
               <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#92400e' }}>
                 {Number(Provider.rating).toFixed(1)}
               </Typography>
@@ -2280,13 +2280,17 @@ function ProviderCard({ Provider, onViewProfile, onActivate, onDeactivate, onDel
                   textTransform: 'none',
                   fontSize: '0.875rem',
                   fontWeight: 600,
-                  backgroundColor: isDark ? alpha('#94a3b8', 0.15) : '#1e293b',
+                  backgroundColor: isDark ? alpha('#FF6B26', 1) : '#FF6B26',
                   color: isDark ? 'text.primary' : '#fff',
                   boxShadow: 'none',
-                  '&:hover': {
-                    backgroundColor: isDark ? alpha('#94a3b8', 0.25) : '#0f172a',
-                    boxShadow: isDark ? 'none' : '0 4px 12px rgba(15,23,42,0.15)',
-                  },
+  //                 '&:hover': {
+  //                   backgroundColor: isDark ? alpha('#FF6B26', 0.25) : '#FF6B26',
+  // boxShadow: isDark ? 'none' : '0 4px 12px rgba(255,107,38,0.25)',
+  //                 },
+ '&:hover': { 
+                backgroundColor: '#C2470E',
+                boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)'
+              }, 
                 }}
               >
                 {t('Providers.card.viewProfile', { defaultValue: 'View Profile' })}
@@ -2454,10 +2458,7 @@ function ProvidersPage() {
     } finally {
       setListLoading(false);
       setSearchLoading(false);
-      if (!firstLoadDoneRef.current) {
-        firstLoadDoneRef.current = true;
-        setPageLoading(false);
-      }
+    
     }
   }
 
@@ -2548,42 +2549,13 @@ function ProvidersPage() {
   // ── Overlay color (shared between pageLoading & loadingAction) ────────────
   const overlayBg = isDark ? 'rgba(0,0,0,0.65)' : 'rgba(15,23,42,0.45)';
 
-  if (pageLoading) {
-    return (
-      <Box sx={{
-        position: 'fixed', inset: 0, zIndex: 9999,
-        backgroundColor: overlayBg,
-        backdropFilter: 'blur(4px)',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2,
-      }}>
-        <CircularProgress size={64} thickness={4} sx={{ color: '#ffffff' }} />
-        <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff' }}>
-          {t('Providers.loading', { defaultValue: 'Loading providers...' })}
-        </Typography>
-      </Box>
-    );
-  }
+
 
   return (
     <Stack spacing={3.2} dir={isRtl ? 'rtl' : 'ltr'}>
 
       {/* ── Full-screen action overlay ─────────────────────────────────────── */}
-      {loadingAction && (
-        <Box sx={{
-          position: 'fixed', inset: 0, zIndex: 9999,
-          backgroundColor: overlayBg,
-          backdropFilter: 'blur(4px)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2,
-        }}>
-          <CircularProgress size={64} thickness={4} sx={{ color: '#ffffff' }} />
-          <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff' }}>
-            {loadingAction.type === 'activate'   && t('Providers.actions.activating',   { defaultValue: 'Activating provider...' })}
-            {loadingAction.type === 'deactivate' && t('Providers.actions.deactivating', { defaultValue: 'Deactivating provider...' })}
-            {loadingAction.type === 'delete'     && t('Providers.actions.deleting',     { defaultValue: 'Deleting provider...' })}
-            {loadingAction.type === 'add'        && t('Providers.actions.adding',       { defaultValue: 'Adding provider...' })}
-          </Typography>
-        </Box>
-      )}
+     
 
       {/* ── Page header ───────────────────────────────────────────────────── */}
       <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', md: 'center' }} spacing={2}>
@@ -2603,10 +2575,12 @@ function ProvidersPage() {
           sx={{
             minWidth: { xs: '100%', md: 170 }, height: 48, borderRadius: 1, px: 2.4,
             textTransform: 'none', fontSize: '0.95rem', fontWeight: 800,
-            backgroundColor: '#2563eb',
-            boxShadow: '0 12px 26px rgba(37,99,235,0.26)',
-            '&:hover': { backgroundColor: '#1d4ed8', boxShadow: '0 14px 28px rgba(37,99,235,0.3)' },
-          }}
+            backgroundColor: '#FF6B26',
+            boxShadow: '0 12px 26px rgba(255,107,38,0.26)',
+'&:hover': { 
+                backgroundColor: '#C2470E',
+                boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)'
+              },          }}
         >
           {t('Providers.addProvider', { defaultValue: 'Add Provider' })}
         </Button>
@@ -2638,9 +2612,9 @@ function ProvidersPage() {
             <Stack direction="row" spacing={2} alignItems="center" sx={{ minHeight: 52 }}>
               <Box sx={{
                 width: 48, height: 48, borderRadius: 2,
-                background: `linear-gradient(135deg, ${isDark ? 'rgba(37,99,235,0.22)' : 'rgba(37,99,235,0.14)'}, ${isDark ? 'rgba(6,182,212,0.18)' : 'rgba(6,182,212,0.12)'})`,
-                display: 'grid', placeItems: 'center', color: '#2563eb',
-                boxShadow: `inset 0 0 0 1px ${isDark ? 'rgba(37,99,235,0.2)' : 'rgba(37,99,235,0.12)'}`,
+                background: `linear-gradient(135deg, ${isDark ? 'rgba(255,107,38,0.22)' : 'rgba(255,107,38,0.14)'}, ${isDark ? 'rgba(255,107,38,0.18)' : 'rgba(255,107,38,0.12)'})`,
+                display: 'grid', placeItems: 'center', color: '#FF6B26',
+                boxShadow: `inset 0 0 0 1px ${isDark ? 'rgba(255,107,38,0.2)' : 'rgba(255,107,38,0.12)'}`,
                 alignSelf: 'center',
               }}>
                 <TrendingUpRoundedIcon />
@@ -2670,7 +2644,7 @@ function ProvidersPage() {
               size="medium"
               sx={{
                 borderRadius: 1, fontWeight: 800, textTransform: 'none', px: 2.4, height: 42,
-                boxShadow: analyticsOpen ? '0 10px 22px rgba(37,99,235,0.22)' : 'none',
+                boxShadow: analyticsOpen ? '0 10px 22px rgba(255,107,38,0.22)' : 'none',
               }}
             >
               {analyticsPeriod.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
@@ -2681,7 +2655,7 @@ function ProvidersPage() {
           <Collapse in={analyticsOpen}>
             <Box sx={{
               p: { xs: 2, md: 3 }, borderRadius: 2,
-              bgcolor: isDark ? 'action.hover' : 'rgba(248,250,252,0.9)',
+              bgcolor: isDark ? '#07111F' : 'rgba(248,250,252,0.9)',
               border: '1px solid', borderColor: 'divider',
               mb: 3,
               boxShadow: isDark ? 'none' : 'inset 0 1px 0 rgba(255,255,255,0.8)',
@@ -2701,13 +2675,13 @@ function ProvidersPage() {
                         size="small"
                         sx={{
                           height: 36, borderRadius: 1, fontWeight: 800, fontSize: '0.8rem', border: '1px solid',
-                          borderColor: selected ? '#2563eb' : 'divider',
-                          bgcolor: selected ? '#2563eb' : 'background.paper',
+                          borderColor: selected ? '#FF6B26' : 'divider',
+                          bgcolor: selected ? '#FF6B26' : 'background.paper',
                           color: selected ? '#fff' : 'text.primary',
-                          boxShadow: selected ? '0 8px 18px rgba(37,99,235,0.24)' : 'none',
+                          boxShadow: selected ? '0 8px 18px rgba(255,107,38,0.24)' : 'none',
                           transition: 'all 180ms ease',
                           '& .MuiChip-label': { px: 1.5 },
-                          '&:hover': { bgcolor: selected ? '#1d4ed8' : 'action.hover', transform: 'translateY(-1px)' },
+                          '&:hover': { bgcolor: selected ? '#FF6B26' : 'action.hover', transform: 'translateY(-1px)' },
                         }}
                       />
                     );
@@ -2731,12 +2705,12 @@ function ProvidersPage() {
                       <Box key={u} onClick={() => setCustomUnit(u)} sx={{
                         height: 40, width: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                         borderRadius: 1, border: '1px solid',
-                        borderColor: customUnit === u ? '#2563eb' : 'divider',
-                        bgcolor: customUnit === u ? (isDark ? alpha('#2563eb', 0.18) : '#eff6ff') : 'background.paper',
-                        color: customUnit === u ? '#2563eb' : 'text.secondary',
+                        borderColor: customUnit === u ? '#FF6B26' : 'divider',
+                        bgcolor: customUnit === u ? (isDark ? alpha('#FF6B26', 0.18) : '#eff6ff') : 'background.paper',
+                        color: customUnit === u ? '#FF6B26' : 'text.secondary',
                         fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'monospace',
                         transition: 'all 160ms ease',
-                        '&:hover': { borderColor: '#2563eb', color: '#2563eb', transform: 'translateY(-1px)' },
+                        '&:hover': { borderColor: '#FF6B26', color: '#FF6B26', transform: 'translateY(-1px)' },
                       }}>
                         {u}
                       </Box>
@@ -2745,7 +2719,7 @@ function ProvidersPage() {
                   <Button
                     onClick={() => { if (!customNum) return; setAnalyticsPeriod(`${customNum}${customUnit}`); }}
                     variant="contained" size="small" disabled={!customNum}
-                    sx={{ borderRadius: 1, fontWeight: 800, textTransform: 'none', height: 40, px: 3, boxShadow: '0 8px 18px rgba(37,99,235,0.22)' }}
+                    sx={{ borderRadius: 1, fontWeight: 800, textTransform: 'none', height: 40, px: 3, boxShadow: '0 8px 18px rgba(255,107,38,0.22)' }}
                   >
                     Apply
                   </Button>
@@ -2799,13 +2773,13 @@ function ProvidersPage() {
                 color={selected ? 'primary' : 'default'}
                 sx={{
                   height: 44, px: 0.5, borderRadius: 1, fontWeight: 800, fontSize: '0.92rem',
-                  borderColor: selected ? '#2563eb' : 'divider',
-                  backgroundColor: selected ? '#2563eb' : 'background.paper',
+                  borderColor: selected ? '#FF6B26' : 'divider',
+                  backgroundColor: selected ? '#FF6B26' : 'background.paper',
                   color: selected ? '#ffffff' : 'text.primary',
                   '& .MuiChip-label': { px: 1.4 },
-                  boxShadow: selected ? '0 10px 20px rgba(37,99,235,0.2)' : 'none',
+                  boxShadow: selected ? '0 10px 20px rgba(255,107,38,0.2)' : 'none',
                   transition: 'transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease',
-                  '&:hover': { backgroundColor: selected ? '#1d4ed8' : 'action.hover', transform: 'translateY(-1px)' },
+                  '&:hover': { backgroundColor: selected ? '#FF6B26' : 'action.hover', transform: 'translateY(-1px)' },
                 }}
               />
             );
@@ -2864,14 +2838,12 @@ function ProvidersPage() {
 
             <Divider />
 
-            {(listLoading || searchLoading) ? (
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 8, gap: 2 }}>
-                <CircularProgress size={48} thickness={4} sx={{ color: '#2563eb' }} />
-                <Typography sx={{ fontSize: '0.95rem', fontWeight: 600, color: 'text.secondary' }}>
-                  {t('Providers.loading', { defaultValue: 'Loading...' })}
-                </Typography>
-              </Box>
-            ) : providersList.length > 0 ? (
+{(listLoading || searchLoading || loadingAction?.type === 'activate' || loadingAction?.type === 'deactivate' || loadingAction?.type === 'delete') ? (  <Stack spacing={1.8}>
+    {Array.from({ length: 5 }).map((_, i) => (
+      <Skeleton key={i} variant="rounded" height={140} sx={{ borderRadius: '20px' }} />
+    ))}
+  </Stack>
+) : providersList.length > 0 ? (
               <Stack spacing={1.8}>
                 {providersList.map((Provider) => (
                   <ProviderCard

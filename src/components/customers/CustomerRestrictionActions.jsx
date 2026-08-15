@@ -296,8 +296,29 @@ import {
   banAccount, suspendAccount, limitAccount, liftRestriction, warnAccount, fetchRestrictions,
 } from '../../services/restrictionsService';
 
-const SCOPES = ['all', 'orders', 'services', 'reviews', 'chat', 'notifications', 'offers'];
+// const SCOPES = ['all', 'orders', 'services', 'reviews', 'chat', 'notifications', 'offers'];
+// ✅ حطه بدلها
+const SCOPE_MATRIX = {
+  suspend: {
+    user: ['all', 'orders', 'reviews', 'complaints'],
+    provider: ['all', 'orders', 'services', 'offers', 'complaints'],
+    admin: [],
+  },
+  limit: {
+    user: ['orders', 'reviews', 'complaints'],
+    provider: ['orders', 'services', 'offers', 'complaints'],
+    admin: [],
+  },
+  warning: {
+    user: ['orders', 'reviews', 'complaints'],
+    provider: ['orders', 'services', 'offers', 'complaints'],
+    admin: [],
+  },
+};
 
+function getScopesForAction(action, accountType) {
+  return SCOPE_MATRIX[action]?.[accountType] ?? [];
+}
 const TYPE_CONFIG = {
   ban: { label: 'Banned', color: 'error' },
   suspend: { label: 'Suspended', color: 'secondary' },
@@ -344,7 +365,21 @@ function RestrictionDialog({ action, accountType, accountId, restrictionId, onCl
     lift: 'Lift Restriction',
   };
 
-  const needsScope = action === 'suspend' || action === 'limit' || action === 'warning';
+  // const needsScope = action === 'suspend' || action === 'limit' || action === 'warning';
+// ✅ حطه بدلها
+const availableScopes = useMemo(
+  () => getScopesForAction(action, accountType),
+  [action, accountType]
+);
+const needsScope = availableScopes.length > 0;
+
+// لما الـ action أو الـ accountType يتغيروا، لازم نتأكد إن الـ scope المختار لسا صالح
+useEffect(() => {
+  if (needsScope && !availableScopes.includes(scope)) {
+    setScope(availableScopes[0]);
+  }
+}, [availableScopes, needsScope]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const needsExpiry = action === 'suspend';
   const minExpiryDate = useMemo(() => getMinExpiryDate(), []);
   const expiryTooSoon = needsExpiry && expiresAt && expiresAt < minExpiryDate;
@@ -388,9 +423,14 @@ function RestrictionDialog({ action, accountType, accountId, restrictionId, onCl
               onChange={(e) => setScope(e.target.value)}
               fullWidth size="small"
             >
-              {SCOPES.map((s) => (
+              {/* {SCOPES.map((s) => (
                 <MenuItem key={s} value={s}>{s}</MenuItem>
-              ))}
+              ))} */}
+// ✅ حطه بدلها
+{availableScopes.map((s) => (
+  <MenuItem key={s} value={s}>{s}</MenuItem>
+))}
+
             </TextField>
           )}
 
@@ -514,6 +554,17 @@ function CustomerRestrictionActions({ accountId, accountType = 'user' }) {
                         <Chip label={cfg.label} color={cfg.color} size="small" sx={{ fontWeight: 700 }} />
                         <Chip label={r.scope} size="small" variant="outlined" />
                       </Stack>
+{/* By + Account owner */}
+{r.restricted_by?.name && (
+  <Typography variant="caption" color="text.secondary">
+    By: {r.restricted_by.name}
+  </Typography>
+)}
+{r.restricted?.name && (
+  <Typography variant="caption" color="text.secondary">
+    Account: {r.restricted.name}
+  </Typography>
+)}
                       <Typography variant="body2" color="text.secondary">{r.reason}</Typography>
                       {r.expires_at && (
                         <Typography variant="caption" color="text.secondary">
@@ -555,11 +606,34 @@ function CustomerRestrictionActions({ accountId, accountType = 'user' }) {
                       ) : null}
                     </Stack>
                     <Typography variant="body2" color="text.secondary">{r.reason}</Typography>
-                    {r.lift_reason && (
+{/* By + Account owner */}
+{r.restricted_by?.name && (
+  <Typography variant="caption" color="text.secondary">
+    By: {r.restricted_by.name}
+  </Typography>
+)}
+{r.restricted?.name && (
+  <Typography variant="caption" color="text.secondary">
+    Account: {r.restricted.name}
+  </Typography>
+)}
+
+                    {/* {r.lift_reason && (
                       <Typography variant="caption" color="text.secondary">
                         Lift reason: {r.lift_reason}
                       </Typography>
-                    )}
+                    )} */}
+
+{r.lift_reason && (
+  <Typography variant="caption" color="text.secondary">
+    Lift reason: {r.lift_reason}
+  </Typography>
+)}
+{r.lifted_by?.name && (
+  <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+    Lifted by: {r.lifted_by.name}
+  </Typography>
+)}
                   </Box>
                 );
               })}

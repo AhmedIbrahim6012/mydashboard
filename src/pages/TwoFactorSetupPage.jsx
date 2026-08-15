@@ -18,6 +18,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { requestNotificationPermission } from '../services/notificationsService';
 import { getDeviceId , getDeviceName } from '../utils/deviceId';
+import { persistTokens } from '../services/refreshManager';
 export default function TwoFactorSetupPage() {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -69,8 +70,10 @@ const fcmToken = localStorage.getItem('fcm_token')
 
       const data = response.data.data;
 
-     localStorage.setItem('access_token', data.access_token.token);
-localStorage.setItem('refresh_token', data.refresh_token.token);
+//      localStorage.setItem('access_token', data.access_token.token);
+// localStorage.setItem('refresh_token', data.refresh_token.token);
+persistTokens(data);
+
 localStorage.setItem('admin', JSON.stringify(data.admin));
 
 // إذا في recovery codes — اعرضهن أول

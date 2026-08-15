@@ -36,20 +36,19 @@ function AppLayout() {
           onMenuClick={() => setMobileOpen(true)}
           onCollapseToggle={handleCollapseToggle}
         />
-        <Box
-          component="main"
-          sx={(currentTheme) => ({
-            minHeight: 'calc(100vh - 76px)',
-            background:
-              currentTheme.palette.mode === 'dark'
-                ? 'radial-gradient(circle at top right, rgba(79, 70, 229, 0.16), transparent 28%), linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 1))'
-                : 'radial-gradient(circle at top right, rgba(79, 70, 229, 0.1), transparent 28%), linear-gradient(180deg, rgba(248, 250, 252, 1), rgba(241, 245, 249, 1))',
-           // بعد
-ml: { md: !isRtl && isDesktop ? (collapsed ? '80px' : '30px') : 0 },
-mr: { md: isRtl && isDesktop ? (collapsed ? '80px' : '30px') : 0 },
-transition: 'margin 400ms cubic-bezier(0.4, 0, 0.2, 1)',
-          })}
-        >
+   <Box
+  component="main"
+  sx={(currentTheme) => ({
+    minHeight: 'calc(100vh - 76px)',
+    background:
+      currentTheme.palette.mode === 'dark'
+        ? 'radial-gradient(circle at top right, rgba(255, 107, 38, 0.14), transparent 28%), linear-gradient(180deg, rgba(7, 17, 31, 0.95), rgba(7, 17, 31, 1))'
+        : 'radial-gradient(circle at top right, rgba(255, 107, 38, 0.08), transparent 28%), linear-gradient(180deg, rgba(244, 244, 245, 1), rgba(241, 245, 249, 1))',
+    ml: { md: !isRtl && isDesktop ? (collapsed ? '80px' : '30px') : 0 },
+    mr: { md: isRtl && isDesktop ? (collapsed ? '80px' : '30px') : 0 },
+    transition: 'margin 400ms cubic-bezier(0.4, 0, 0.2, 1)',
+  })}
+>
           <Container maxWidth="xl" sx={{ py: 4 }}>
             <Outlet />
           </Container>

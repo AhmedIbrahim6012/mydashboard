@@ -53,9 +53,9 @@ messaging.onBackgroundMessage((payload) => {
         return;
       }
       // التطبيق مقفول — اعرض system notification
-      self.registration.showNotification(
-        payload.notification?.title || 'إشعار جديد',
-        { body: payload.notification?.body || '' }
-      );
+      // self.registration.showNotification(
+      //   payload.notification?.title || 'إشعار جديد',
+      //   { body: payload.notification?.body || '' }
+      // );
     });
 });

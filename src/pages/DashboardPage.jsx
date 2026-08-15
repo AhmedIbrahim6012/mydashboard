@@ -36,7 +36,7 @@ import {
 import PageHeader from '../components/PageHeader';
 import DashboardMetricCard from '../components/dashboard/DashboardMetricCard';
 import api from '../utils/axiosInstance';
-
+import { alpha } from '@mui/material/styles';
 // ── Constants ────────────────────────────────────────────────────────────────
 const PRESET_PERIODS = [
   'today', 'yesterday', 'this_week', 'last_week',
@@ -86,7 +86,7 @@ function DashboardPage() {
 
     // Accent (brand blue)
     accent:        '#2563eb',
-    accentBg:      isDark ? 'rgba(37,99,235,0.15)' : 'rgba(37,99,235,0.08)',
+    accentBg:      isDark ? '#FF6B26' : '#FF6B26',
     accentHover:   '#1d4ed8',
 
     // Card gradient background
@@ -98,8 +98,8 @@ function DashboardPage() {
     barTrack: isDark ? theme.palette.action.selected : 'rgba(15,23,42,0.06)',
 
     // Icon backgrounds
-    iconBlueBg: isDark ? 'rgba(37,99,235,0.18)' : 'rgba(37,99,235,0.14)',
-    iconCyanBg: isDark ? 'rgba(6,182,212,0.16)'  : 'rgba(6,182,212,0.12)',
+    iconBlueBg: isDark ? '#FF6B26' : '#FF6B26',
+    iconCyanBg: isDark ? '#FF6B26'  : '#FF6B26',
 
     // Chip (period selector) unselected
     chipUnselectedBg:     theme.palette.background.paper,
@@ -108,8 +108,8 @@ function DashboardPage() {
     chipUnselectedHover:  isDark ? theme.palette.action.hover : '#f1f5f9',
 
     // Period toggle buttons (daily/monthly)
-    toggleBg:            isDark ? theme.palette.action.selected : theme.palette.action.hover,
-    toggleSelectedColor: '#2563eb',
+    toggleBg:            isDark ? '#FF6B26' : theme.palette.action.hover,
+    toggleSelectedColor: '#FF6B26',
 
     // Chart grid / axes
     gridStroke: isDark ? 'rgba(148,163,184,0.14)' : 'rgba(71,85,105,0.22)',
@@ -314,10 +314,10 @@ function DashboardPage() {
                 width: 48, height: 48, borderRadius: 2,
                 background: `linear-gradient(135deg, ${colors.iconBlueBg}, ${colors.iconCyanBg})`,
                 display: 'grid', placeItems: 'center', color: colors.accent,
-                boxShadow: `inset 0 0 0 1px ${isDark ? 'rgba(37,99,235,0.2)' : 'rgba(37,99,235,0.12)'}`,
+                boxShadow: `inset 0 0 0 1px ${isDark ? '#FF6B26' : '#FF6B26'}`,
                 alignSelf: 'center',
               }}>
-                <TrendingUpRoundedIcon />
+                <TrendingUpRoundedIcon sx={{ color: 'rgba(248,250,252,0.9)' }} />
               </Box>
               <Box>
                 <Typography variant="h6" sx={{ fontWeight: 900, color: 'text.primary', letterSpacing: '-0.02em', lineHeight: 1.2, mb: 0.5 }}>
@@ -351,93 +351,91 @@ function DashboardPage() {
           </Stack>
 
           {/* Filter Panel */}
-          <Collapse in={analyticsOpen}>
-            <Box sx={{
-              p: { xs: 2, md: 3 }, borderRadius: 2,
-              bgcolor: colors.filterPanelBg,
+         {/* Filter Panel */}
+<Collapse in={analyticsOpen}>
+  <Box sx={{
+    p: { xs: 2, md: 3 }, borderRadius: 2,
+    bgcolor: isDark ? '#07111F' : 'rgba(248,250,252,0.9)',
+    border: '1px solid',
+    borderColor: 'divider',
+    mb: 3,
+    boxShadow: isDark ? 'none' : 'inset 0 1px 0 rgba(255,255,255,0.8)',
+  }}>
+    <Stack spacing={2.2}>
+      <Typography variant="caption" sx={{ fontWeight: 900, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+        Select Period
+      </Typography>
+      <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ rowGap: 1 }}>
+        {PRESET_PERIODS.map((p) => {
+          const selected = analyticsPeriod === p;
+          const label = p.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+          return (
+            <Chip key={p} label={label} clickable
+              onClick={() => { setAnalyticsPeriod(p); setCustomNum(''); }}
+              size="small"
+              sx={{
+                height: 36, borderRadius: 1, fontWeight: 800, fontSize: '0.8rem', border: '1px solid',
+                borderColor: selected ? '#FF6B26' : 'divider',
+                bgcolor: selected ? '#FF6B26' : 'background.paper',
+                color: selected ? '#fff' : 'text.primary',
+                boxShadow: selected ? '0 8px 18px rgba(255,107,38,0.24)' : 'none',
+                transition: 'all 180ms ease',
+                '& .MuiChip-label': { px: 1.5 },
+                '&:hover': { bgcolor: selected ? '#FF6B26' : 'action.hover', transform: 'translateY(-1px)' },
+              }}
+            />
+          );
+        })}
+      </Stack>
+
+      <Divider />
+
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems={{ xs: 'stretch', sm: 'center' }}>
+        <TextField
+          value={customNum}
+          onChange={(e) => { const val = e.target.value; if (val === '' || /^\d+$/.test(val)) setCustomNum(val); }}
+          placeholder="4"
+          size="small"
+          sx={{
+            width: { xs: '100%', sm: 90 },
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 1,
+              fontSize: '0.9rem',
+              fontFamily: 'monospace',
+              fontWeight: 800,
+              bgcolor: 'background.paper',
+            },
+          }}
+        />
+        <Stack direction="row" spacing={1}>
+          {UNITS.map((u) => (
+            <Box key={u} onClick={() => setCustomUnit(u)} sx={{
+              height: 40, width: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              borderRadius: 1,
               border: '1px solid',
-              borderColor: 'divider',
-              mb: 3,
-              boxShadow: colors.filterPanelInset,
+              borderColor: customUnit === u ? '#FF6B26' : 'divider',
+              bgcolor: customUnit === u
+                ? (isDark ? alpha('#FF6B26', 0.18) : '#eff6ff')
+                : 'background.paper',
+              color: customUnit === u ? '#FF6B26' : 'text.secondary',
+              fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'monospace',
+              transition: 'all 160ms ease',
+              '&:hover': { borderColor: '#FF6B26', color: '#FF6B26', transform: 'translateY(-1px)' },
             }}>
-              <Stack spacing={2.2}>
-                <Typography variant="caption" sx={{ fontWeight: 900, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                  Select Period
-                </Typography>
-                <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ rowGap: 1 }}>
-                  {PRESET_PERIODS.map((p) => {
-                    const selected = analyticsPeriod === p;
-                    const label = p.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-                    return (
-                      <Chip key={p} label={label} clickable
-                        onClick={() => { setAnalyticsPeriod(p); setCustomNum(''); }}
-                        size="small"
-                        sx={{
-                          height: 36, borderRadius: 1, fontWeight: 800, fontSize: '0.8rem', border: '1px solid',
-                          borderColor: selected ? colors.accent : colors.chipUnselectedBorder,
-                          bgcolor: selected ? colors.accent : colors.chipUnselectedBg,
-                          color: selected ? '#fff' : 'text.primary',
-                          boxShadow: selected ? '0 8px 18px rgba(37,99,235,0.24)' : isDark ? 'none' : '0 2px 8px rgba(15,23,42,0.04)',
-                          transition: 'all 180ms ease',
-                          '& .MuiChip-label': { px: 1.5 },
-                          '&:hover': {
-                            bgcolor: selected ? colors.accentHover : colors.chipUnselectedHover,
-                            transform: 'translateY(-1px)',
-                          },
-                        }}
-                      />
-                    );
-                  })}
-                </Stack>
-
-                <Divider />
-
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems={{ xs: 'stretch', sm: 'center' }}>
-                  <TextField
-                    value={customNum}
-                    onChange={(e) => { const val = e.target.value; if (val === '' || /^\d+$/.test(val)) setCustomNum(val); }}
-                    placeholder="4"
-                    size="small"
-                    sx={{
-                      width: { xs: '100%', sm: 90 },
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: 1,
-                        fontSize: '0.9rem',
-                        fontFamily: 'monospace',
-                        fontWeight: 800,
-                        bgcolor: 'background.paper',
-                      },
-                    }}
-                  />
-                  <Stack direction="row" spacing={1}>
-                    {UNITS.map((u) => (
-                      <Box key={u} onClick={() => setCustomUnit(u)} sx={{
-                        height: 40, width: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        borderRadius: 1,
-                        border: '1px solid',
-                        borderColor: customUnit === u ? colors.accent : 'divider',
-                        bgcolor: customUnit === u
-                          ? (isDark ? 'rgba(37,99,235,0.2)' : '#eff6ff')
-                          : 'background.paper',
-                        color: customUnit === u ? colors.accent : 'text.secondary',
-                        fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'monospace',
-                        transition: 'all 160ms ease',
-                        '&:hover': { borderColor: colors.accent, color: colors.accent, transform: 'translateY(-1px)' },
-                      }}>
-                        {u}
-                      </Box>
-                    ))}
-                  </Stack>
-                  <Button
-                    onClick={() => { if (!customNum) return; setAnalyticsPeriod(`${customNum}${customUnit}`); }}
-                    variant="contained" size="small" disabled={!customNum}
-                    sx={{ borderRadius: 1, fontWeight: 800, textTransform: 'none', height: 40, px: 3, boxShadow: '0 8px 18px rgba(37,99,235,0.22)' }}>
-                    Apply
-                  </Button>
-                </Stack>
-              </Stack>
+              {u}
             </Box>
-          </Collapse>
+          ))}
+        </Stack>
+        <Button
+          onClick={() => { if (!customNum) return; setAnalyticsPeriod(`${customNum}${customUnit}`); }}
+          variant="contained" size="small" disabled={!customNum}
+          sx={{ borderRadius: 1, fontWeight: 800, textTransform: 'none', height: 40, px: 3, boxShadow: '0 8px 18px rgba(255,107,38,0.22)' }}>
+          Apply
+        </Button>
+      </Stack>
+    </Stack>
+  </Box>
+</Collapse>
 
           {/* Distribution Cards */}
           <Box sx={{
@@ -556,7 +554,7 @@ function DashboardPage() {
                 bgcolor: colors.accentBg,
                 color: colors.accent,
               }}>
-                <TrendingUpRoundedIcon sx={{ fontSize: 20 }} />
+                <TrendingUpRoundedIcon sx={{ fontSize: 20 ,  color : 'rgba(248,250,252,0.9)' }} />
               </Box>
               <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'text.primary' }}>
                 {t('dashboard.charts.trend', { defaultValue: 'Revenue & Order Trend' })}

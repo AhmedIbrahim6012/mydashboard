@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import { CircularProgress } from '@mui/material';
 import { getDeviceId, getDeviceName} from '../utils/deviceId'; // ← استورد الدوال من utils/deviceUtils.js
 import { requestNotificationPermission } from '../services/notificationsService'; // ← استورد الدوال من utils/deviceUtils.js
+import { persistTokens } from '../services/refreshManager';
 function OtpPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -171,9 +172,10 @@ const response = await axios.post(
 
     const data = response.data.data;
 
-    // حفظ التوكنات
-    localStorage.setItem('access_token', data.access_token.token);
-    localStorage.setItem('refresh_token', data.refresh_token.token);
+    // // حفظ التوكنات
+    // localStorage.setItem('access_token', data.access_token.token);
+    // localStorage.setItem('refresh_token', data.refresh_token.token);
+persistTokens(data); // ← بيخزن access_token + refresh_token + الـ expiry تبعهم مع بعض
 
     // حفظ بيانات الادمن
     localStorage.setItem('admin', JSON.stringify(data.admin));

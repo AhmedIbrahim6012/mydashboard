@@ -51,8 +51,9 @@ const EMPTY_FILTERS = {
 
 const ACCOUNT_TYPES = ['user', 'provider', 'admin'];
 const TYPES = ['ban', 'suspend', 'warning', 'limit'];
-const SCOPES = ['orders', 'services', 'reviews', 'chat', 'notifications', 'offers'];
-
+// const SCOPES = ['orders', 'services', 'reviews', 'chat', 'notifications', 'offers'];
+// ✅ حطه بدلها — union كل الـ scopes الممكنة عبر كل الأنواع/الحسابات
+const SCOPES = ['all', 'orders', 'services', 'reviews', 'offers', 'complaints'];
 // Endpoints used by the account picker dialog (provider / user search)
 const PICKER_ENDPOINTS = {
   provider: { list: '/admin/provider/all-providers', search: '/admin/provider/search' },
@@ -374,7 +375,7 @@ function RestrictionsPage() {
       <Card
         elevation={0}
         sx={{
-          borderRadius: 4,
+          borderRadius: 2,
           boxShadow: isDark
             ? '0 4px 20px 0 rgba(0,0,0,0.3)'
             : '0 4px 20px 0 rgba(0,0,0,0.05)',
@@ -416,7 +417,7 @@ function RestrictionsPage() {
               variant={filtersOpen ? 'contained' : 'outlined'}
               onClick={() => setFiltersOpen((v) => !v)}
               size="medium"
-              sx={{ borderRadius: 2, fontWeight: 700, textTransform: 'none' }}
+              sx={{ borderRadius: 1, fontWeight: 700, textTransform: 'none' }}
             >
               Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
             </Button>
@@ -425,7 +426,7 @@ function RestrictionsPage() {
           {/* Filter Panel */}
           <Collapse in={filtersOpen}>
             <Box sx={{
-              p: 3, borderRadius: 3,
+              p: 3, borderRadius: 2,
               bgcolor: subtleBg,
               border: `1px solid ${borderColor}`,
               mb: 3,
@@ -537,14 +538,14 @@ function RestrictionsPage() {
                   <Button
                     variant="contained" size="small"
                     onClick={handleApplyFilters}
-                    sx={{ borderRadius: 2, fontWeight: 700, px: 3, textTransform: 'none' }}
+                    sx={{ borderRadius: 0.5, fontWeight: 700, px: 3, textTransform: 'none' }}
                   >
                     Apply Filters
                   </Button>
                   <Button
                     variant="outlined" size="small"
                     onClick={handleClearFilters}
-                    sx={{ borderRadius: 2, fontWeight: 700, px: 3, textTransform: 'none', bgcolor: surfaceBg }}
+                    sx={{ borderRadius: 0.5, fontWeight: 700, px: 3, textTransform: 'none', bgcolor: surfaceBg }}
                   >
                     Clear All
                   </Button>
@@ -601,14 +602,29 @@ function RestrictionsPage() {
                         sx={{ '&:last-child td': { border: 0 }, transition: 'background 0.2s' }}
                       >
                         <TableCell sx={{ color: 'text.secondary', fontSize: '0.85rem', fontWeight: 600 }}>{r.id}</TableCell>
-                        <TableCell>
+                        {/* <TableCell>
                           <Chip
                             label={r.account_type}
                             size="small"
                             variant="outlined"
                             sx={{ borderRadius: '8px', textTransform: 'capitalize', fontWeight: 600 }}
                           />
-                        </TableCell>
+                        </TableCell> */}
+<TableCell>
+  <Stack spacing={0.3}>
+    <Chip
+      label={r.account_type}
+      size="small"
+      variant="outlined"
+      sx={{ borderRadius: '8px', textTransform: 'capitalize', fontWeight: 600, width: 'fit-content' }}
+    />
+    {r.restricted?.name && (
+      <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
+        {r.restricted.name}
+      </Typography>
+    )}
+  </Stack>
+</TableCell>
                         <TableCell>
                           <TypeChip type={r.type} />
                         </TableCell>
@@ -802,8 +818,16 @@ function RestrictionsPage() {
               <Box sx={{ p: 3, borderRadius: 3, bgcolor: subtleBg, border: `1px solid ${borderColor}` }}>
                 <Stack spacing={1.75}>
                   <DetailRow label="Restriction #" value={viewTarget.id} />
-                  <DetailRow label="Account" value={`${viewTarget.account_type} · #${viewTarget.account_id}`} />
-                  <DetailRow label="Restricted By" value={viewTarget.restricted_by ? `Admin #${viewTarget.restricted_by}` : '—'} />
+                  {/* <DetailRow label="Account" value={`${viewTarget.account_type} · #${viewTarget.account_id}`} />
+                  <DetailRow label="Restricted By" value={viewTarget.restricted_by ? `Admin #${viewTarget.restricted_by}` : '—'} /> */}
+<DetailRow
+  label="Account"
+  value={`${viewTarget.account_type} · ${viewTarget.restricted?.name || '#' + viewTarget.restricted?.id || '—'}`}
+/>
+<DetailRow
+  label="Restricted By"
+  value={viewTarget.restricted_by?.name || '—'}
+/>
                   <DetailRow label="Reason" value={viewTarget.reason || '—'} />
                   <DetailRow label="Created At" value={toUTC3(viewTarget.created_at)} />
                   <DetailRow label="Expires At" value={viewTarget.expires_at ? toUTC3(viewTarget.expires_at) : 'Never'} />
@@ -826,8 +850,8 @@ function RestrictionsPage() {
                   </Typography>
                   <Stack spacing={1.75}>
                     <DetailRow label="Lifted At" value={toUTC3(viewTarget.lifted_at)} />
-                    <DetailRow label="Lifted By" value={viewTarget.lifted_by ? `Admin #${viewTarget.lifted_by}` : '—'} />
-                    <DetailRow label="Lift Reason" value={viewTarget.lift_reason || '—'} />
+                    {/* <DetailRow label="Lifted By" value={viewTarget.lifted_by ? `Admin #${viewTarget.lifted_by}` : '—'} /> */}
+<DetailRow label="Lifted By" value={viewTarget.lifted_by?.name || '—'} />                    <DetailRow label="Lift Reason" value={viewTarget.lift_reason || '—'} />
                   </Stack>
                 </Box>
               )}

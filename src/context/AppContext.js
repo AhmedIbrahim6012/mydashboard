@@ -21,12 +21,13 @@ import {
 } from '../services/storage';
 import api from '../utils/axiosInstance';
 import axios from 'axios';
-import { refreshTokens } from '../services/refreshManager';
+import { refreshTokens, isRefreshTokenExpired, getNextRefreshDelayMs } from '../services/refreshManager';
 // src/context/AppContext.jsx  ← أول السطر 1
 import { requestNotificationPermission, onForegroundMessage } from '../services/notificationsService';
 
 import { isTokenFresh } from '../utils/tokenUtils';   // ← أضف هاد السطر
-import {watchFcmTokenRefresh} from '../services/notificationsService'; // ← أضف هاد السطر
+import {watchFcmTokenRefresh} from '../services/notificationsService'; 
+// ← أضف هاد السطر
 const REFRESH_URL = 'https://homeservicesplatfrom.onrender.com/api/admin/auth/refresh-tokens';
 
 const AppContext = createContext(null);
@@ -82,19 +83,36 @@ const MAX_INIT_RETRIES = 6; // بعد 6 محاولات (~ دقيقة تقريب�
   // Single place that ends a session completely and consistently.
   // Previously the interval's 401 handler and the 'auth:logout' event
   // handler each cleared things differently (or not at all), which could
+  
   // leave stale tokens in localStorage after a "soft" logout.
+  
+  // const fullLogoutCleanup = useCallback(() => {
+  //   localStorage.removeItem('access_token');
+  //   localStorage.removeItem('refresh_token');
+  //   localStorage.removeItem('admin');
+  //   localStorage.removeItem('login_token');
+  //   localStorage.removeItem(STORAGE_KEYS.auth);
+  //   if (refreshIntervalRef.current) {
+  //     clearInterval(refreshIntervalRef.current);
+  //     refreshIntervalRef.current = null;
+  //   }
+  //   setAuth(null);
+  // }, []);
+
   const fullLogoutCleanup = useCallback(() => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('admin');
-    localStorage.removeItem('login_token');
-    localStorage.removeItem(STORAGE_KEYS.auth);
-    if (refreshIntervalRef.current) {
-      clearInterval(refreshIntervalRef.current);
-      refreshIntervalRef.current = null;
-    }
-    setAuth(null);
-  }, []);
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('admin');
+  localStorage.removeItem('login_token');
+  localStorage.removeItem('access_token_expiry');   // ← جديد
+  localStorage.removeItem('refresh_token_expiry');  // ← جديد
+  localStorage.removeItem(STORAGE_KEYS.auth);
+  if (refreshIntervalRef.current) {
+    clearTimeout(refreshIntervalRef.current); // ← صار setTimeout مش setInterval
+    refreshIntervalRef.current = null;
+  }
+  setAuth(null);
+}, []);
 
   // Single source of truth for the refresh network call. Every caller
   // (init, the 12-min interval, the visibility-change check) goes through
@@ -194,6 +212,13 @@ if (accessToken && isTokenFresh()) {
     watchFcmTokenRefresh(); // ✅ هنا — المستخدم logged in والتوكن شغال
   return;
 }
+// التوكن انتهى أو ما في access_token → قبل ما نتصل بالسيرفر، منتأكد محليًا
+if (isRefreshTokenExpired()) {
+  console.log('[Auth] Refresh token expired locally — logout بدون طلب شبكة');
+  fullLogoutCleanup();
+  setIsInitializing(false);
+  return;
+}
 
 // التوكن انتهى أو ما في access_token → لازم نجدد
 const result = await performRefresh();
@@ -238,49 +263,59 @@ setIsInitializing(false);
   // ==========================================
   // 🔄 Interval — يبدأ بعد تسجيل الدخول، يتوقف عند الخروج
   // ==========================================
-  useEffect(() => {
-    if (!auth) {
-      if (refreshIntervalRef.current) {
-        clearInterval(refreshIntervalRef.current);
-        refreshIntervalRef.current = null;
-      }
-      return;
+ useEffect(() => {
+  if (!auth) {
+    if (refreshIntervalRef.current) {
+      clearTimeout(refreshIntervalRef.current);
+      refreshIntervalRef.current = null;
     }
+    return;
+  }
 
-    if (!refreshIntervalRef.current) {
-      refreshIntervalRef.current = setInterval(doRefresh, 12 * 60 * 1000);
-      console.log('⏱️ Refresh interval started (12 min)');
+  let cancelled = false;
+
+  const scheduleNext = () => {
+    const delay = getNextRefreshDelayMs() ?? 3 * 60 * 1000; // fallback احتياطي بس لو ما في expiry محفوظ
+    refreshIntervalRef.current = setTimeout(async () => {
+      if (cancelled) return;
+      await doRefresh();
+      if (!cancelled) scheduleNext(); // نعيد الجدولة حسب الـ life_time الجديد يلي رجع بالريفريش
+    }, delay);
+  };
+
+  scheduleNext();
+  console.log('⏱️ Dynamic refresh scheduling started');
+
+  return () => {
+    cancelled = true;
+    if (refreshIntervalRef.current) {
+      clearTimeout(refreshIntervalRef.current);
+      refreshIntervalRef.current = null;
     }
-
-    return () => {
-      if (refreshIntervalRef.current) {
-        clearInterval(refreshIntervalRef.current);
-        refreshIntervalRef.current = null;
-      }
-    };
-  }, [auth, doRefresh]);
+  };
+}, [auth, doRefresh]);
 
   // ==========================================
   // 👁️ Visibility change — بس إذا غاب أكثر من 5 دقائق
   // ==========================================
-  useEffect(() => {
-    const handleVisibility = () => {
-      if (document.visibilityState === 'hidden') {
-        lastHiddenRef.current = Date.now();
-        return;
-      }
-      if (
-        auth &&
-        lastHiddenRef.current &&
-        Date.now() - lastHiddenRef.current > 5 * 60 * 1000
-      ) {
-        doRefresh();
-      }
-    };
+  // useEffect(() => {
+  //   const handleVisibility = () => {
+  //     if (document.visibilityState === 'hidden') {
+  //       lastHiddenRef.current = Date.now();
+  //       return;
+  //     }
+  //     if (
+  //       auth &&
+  //       lastHiddenRef.current &&
+  //       Date.now() - lastHiddenRef.current > 5 * 60 * 1000
+  //     ) {
+  //       doRefresh();
+  //     }
+  //   };
 
-    document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [auth, doRefresh]);
+  //   document.addEventListener('visibilitychange', handleVisibility);
+  //   return () => document.removeEventListener('visibilitychange', handleVisibility);
+  // }, [auth, doRefresh]);
 
   // ==========================================
   // 🚪 Logout event من axiosInstance

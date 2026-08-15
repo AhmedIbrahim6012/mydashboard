@@ -12,6 +12,8 @@ import {
   Stack,
   TextField,
   Typography,
+    useTheme,
+alpha
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -61,6 +63,9 @@ const [analyticsLoading, setAnalyticsLoading] = useState(false);
 const [analyticsOpen, setAnalyticsOpen]     = useState(false);
 
 const searchTimeoutRef = useRef(null);
+  const theme = useTheme();
+
+  const isDark = theme.palette.mode === 'dark';
 
   const [search, setSearch] = useState('');
 async function fetchAnalytics(period) {
@@ -170,16 +175,19 @@ useEffect(() => {
        
       />
 {/* ── Analytics ─────────────────────────────────────────── */}
-<Card
-  elevation={0}
-  sx={{
-    borderRadius: 2.5,
-    border: '1px solid rgba(148,163,184,0.22)',
-    boxShadow: '0 18px 45px rgba(15,23,42,0.08)',
-    background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,250,252,0.95) 100%)',
-    overflow: 'hidden',
-  }}
->
+ <Card
+        elevation={0}
+        sx={{
+          borderRadius: 2.5,
+          border: '1px solid',
+          borderColor: 'divider',
+          boxShadow: isDark ? '0 18px 45px rgba(0,0,0,0.35)' : '0 18px 45px rgba(15,23,42,0.08)',
+          background: isDark
+            ? `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 100%)`
+            : 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,250,252,0.95) 100%)',
+          overflow: 'hidden',
+        }}
+      >
   <CardContent sx={{ p: { xs: 2.5, md: 4 } }}>
     {/* Header + Toggle */}
     <Stack
@@ -190,13 +198,14 @@ useEffect(() => {
       sx={{ mb: analyticsOpen ? 3 : 0 }}
     >
       <Stack direction="row" spacing={2} alignItems="center" sx={{ minHeight: 52 }}>
-        <Box sx={{
-          width: 48, height: 48, borderRadius: 2,
-          background: 'linear-gradient(135deg, rgba(37,99,235,0.14), rgba(6,182,212,0.12))',
-          display: 'grid', placeItems: 'center', color: '#2563eb',
-          boxShadow: 'inset 0 0 0 1px rgba(37,99,235,0.12)', alignSelf: 'center',
-        }}>
-          <TrendingUpRoundedIcon />
+       <Box sx={{
+                width: 48, height: 48, borderRadius: 2,
+                background: `linear-gradient(135deg, ${isDark ? 'rgba(255,107,38,0.22)' : 'rgba(255,107,38,0.14)'}, ${isDark ? 'rgba(255,107,38,0.18)' : 'rgba(255,107,38,0.12)'})`,
+                display: 'grid', placeItems: 'center', color: '#FF6B26',
+                boxShadow: `inset 0 0 0 1px ${isDark ? 'rgba(255,107,38,0.2)' : 'rgba(255,107,38,0.12)'}`,
+                alignSelf: 'center',
+              }}>
+          <TrendingUpRoundedIcon  />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <Typography variant="h6" sx={{ fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em', lineHeight: 1.2, mb: 0.5 }}>
@@ -229,11 +238,13 @@ useEffect(() => {
 
     {/* Filter Panel */}
     <Collapse in={analyticsOpen}>
-      <Box sx={{
-        p: { xs: 2, md: 3 }, borderRadius: 2.5,
-        bgcolor: 'rgba(248,250,252,0.9)', border: '1px solid rgba(148,163,184,0.22)',
-        mb: 3, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.8)',
-      }}>
+    <Box sx={{
+              p: { xs: 2, md: 3 }, borderRadius: 2,
+              bgcolor: isDark ? '#07111F' : 'rgba(248,250,252,0.9)',
+              border: '1px solid', borderColor: 'divider',
+              mb: 3,
+              boxShadow: isDark ? 'none' : 'inset 0 1px 0 rgba(255,255,255,0.8)',
+            }}>
         <Stack spacing={2.2}>
           <Typography variant="caption" sx={{ fontWeight: 900, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             Select Period
@@ -246,14 +257,16 @@ useEffect(() => {
                 <Chip key={p} label={label} clickable
                   onClick={() => { setAnalyticsPeriod(p); setCustomNum(''); }}
                   size="small"
-                  sx={{
-                    height: 36, borderRadius: 2, fontWeight: 800, fontSize: '0.8rem', border: '1px solid',
-                    borderColor: selected ? '#2563eb' : 'rgba(148,163,184,0.35)',
-                    bgcolor: selected ? '#2563eb' : '#fff', color: selected ? '#fff' : '#334155',
-                    boxShadow: selected ? '0 8px 18px rgba(37,99,235,0.24)' : '0 2px 8px rgba(15,23,42,0.04)',
-                    transition: 'all 180ms ease', '& .MuiChip-label': { px: 1.5 },
-                    '&:hover': { bgcolor: selected ? '#1d4ed8' : '#f1f5f9', transform: 'translateY(-1px)' },
-                  }}
+                       sx={{
+                          height: 36, borderRadius: 1, fontWeight: 800, fontSize: '0.8rem', border: '1px solid',
+                          borderColor: selected ? '#FF6B26' : 'divider',
+                          bgcolor: selected ? '#FF6B26' : 'background.paper',
+                          color: selected ? '#fff' : 'text.primary',
+                          boxShadow: selected ? '0 8px 18px rgba(255,107,38,0.24)' : 'none',
+                          transition: 'all 180ms ease',
+                          '& .MuiChip-label': { px: 1.5 },
+                          '&:hover': { bgcolor: selected ? '#FF6B26' : 'action.hover', transform: 'translateY(-1px)' },
+                        }}
                 />
               );
             })}
@@ -267,25 +280,27 @@ useEffect(() => {
               onChange={(e) => { const val = e.target.value; if (val === '' || /^\d+$/.test(val)) setCustomNum(val); }}
               placeholder="4" size="small"
               sx={{ width: { xs: '100%', sm: 90 },
-                '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.9rem', fontFamily: 'monospace', fontWeight: 800, bgcolor: '#fff' } }}
+                '& .MuiOutlinedInput-root': { borderRadius: 1, fontSize: '0.9rem', fontFamily: 'monospace', fontWeight: 800, bgcolor: 'background.paper' } }}
             />
             <Stack direction="row" spacing={1}>
               {UNITS.map((u) => (
                 <Box key={u} onClick={() => setCustomUnit(u)} sx={{
-                  height: 40, width: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  borderRadius: 2, border: `1px solid ${customUnit === u ? '#2563eb' : 'rgba(148,163,184,0.35)'}`,
-                  bgcolor: customUnit === u ? '#eff6ff' : '#fff', color: customUnit === u ? '#2563eb' : '#475569',
-                  fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'monospace',
-                  transition: 'all 160ms ease',
-                  '&:hover': { borderColor: '#2563eb', color: '#2563eb', transform: 'translateY(-1px)' },
-                }}>
+                                        height: 40, width: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                                        borderRadius: 1, border: '1px solid',
+                                        borderColor: customUnit === u ? '#FF6B26' : 'divider',
+                                        bgcolor: customUnit === u ? (isDark ? alpha('#FF6B26', 0.18) : '#eff6ff') : 'background.paper',
+                                        color: customUnit === u ? '#FF6B26' : 'text.secondary',
+                                        fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'monospace',
+                                        transition: 'all 160ms ease',
+                                        '&:hover': { borderColor: '#FF6B26', color: '#FF6B26', transform: 'translateY(-1px)' },
+                                      }}>
                   {u}
                 </Box>
               ))}
             </Stack>
             <Button onClick={() => { if (!customNum) return; setAnalyticsPeriod(`${customNum}${customUnit}`); }}
               variant="contained" size="small" disabled={!customNum}
-              sx={{ borderRadius: 2, fontWeight: 800, textTransform: 'none', height: 40, px: 3, boxShadow: '0 8px 18px rgba(37,99,235,0.22)' }}>
+              sx={{ borderRadius: 1, fontWeight: 800, textTransform: 'none', height: 40, px: 3, boxShadow: '0 8px 18px rgba(255,107,38,0.22)' }}>
               Apply
             </Button>
           </Stack>

@@ -87,7 +87,7 @@ function CustomerDetailsPage() {
         />
       </Stack>
 
-      <Card elevation={0} sx={(theme) => ({ borderRadius: 3, border: `1px solid ${theme.palette.divider}` })}>
+      <Card elevation={0} sx={(theme) => ({ borderRadius: 1, border: `1px solid ${theme.palette.divider}` })}>
         <CardContent sx={{ p: 3 }}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm="auto">
@@ -111,7 +111,7 @@ function CustomerDetailsPage() {
                 <Typography variant="body2" color="text.secondary">{customer.email}</Typography>
                 <Typography variant="body2" color="text.secondary">{customer.phone}</Typography>
                 <Typography variant="caption" color="text.secondary">
-                  {t('customers.details.registeredAt', { defaultValue: 'Registered at' })}: {new Date(customer.created_at).toLocaleDateString()}
+                  {t('customers.details.registeredAt', { defaultValue: 'Registered at ' })}: {new Date(customer.created_at).toLocaleDateString()}
                 </Typography>
               </Stack>
             </Grid>
@@ -134,14 +134,14 @@ function CustomerDetailsPage() {
           )}
         </CardContent>
       </Card>
-<Card elevation={0} sx={(theme) => ({ borderRadius: 3, border: `1px solid ${theme.palette.divider}` })}>
+<Card elevation={0} sx={(theme) => ({ borderRadius: 1, border: `1px solid ${theme.palette.divider}` })}>
   <CardContent sx={{ p: 3 }}>
 <Typography variant="subtitle2" fontWeight={800} sx={{ mb: 2 }}>
   Account Restrictions
 </Typography>
 <CustomerRestrictionActions accountId={customer.id} accountType="user" />  </CardContent>
 </Card>
-      <Card elevation={0} sx={(theme) => ({ borderRadius: 3, border: `1px solid ${theme.palette.divider}` })}>
+      <Card elevation={0} sx={(theme) => ({ borderRadius: 1, border: `1px solid ${theme.palette.divider}` })}>
         <CardContent sx={{ p: 3 }}>
           <Typography variant="subtitle2" fontWeight={800} sx={{ mb: 2 }}>
             {t('customers.details.reviews', { defaultValue: 'Reviews' })}
@@ -160,8 +160,10 @@ function CustomerDetailsPage() {
                   </Avatar>
                   <Box sx={{ flex: 1 }}>
                     <Stack direction="row" justifyContent="space-between" alignItems="center">
-                      <Typography variant="body2" fontWeight={700}>{review.provider?.name}</Typography>
-                      <Typography variant="caption" color="text.secondary">
+                      <Typography variant="body2" fontWeight={700}  sx={{ display: 'block' }}>{review.provider?.name}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary"      sx={{ display: 'block' }}
+>
                         {new Date(review.created_at).toLocaleDateString()}
                       </Typography>
                     </Stack>

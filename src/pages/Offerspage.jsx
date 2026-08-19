@@ -1711,7 +1711,7 @@ function OffersPage() {
                           </Typography>
                           <Typography variant="caption" sx={{ color: mutedColor, fontSize: '0.72rem' }}>
                             {/* ID #{acc.id} · */}
-                             {acc.phone || acc.email || '—'}
+                             phone : {acc.phone || acc.email || '—'}
                           </Typography>
                         </Box>
                       </Stack>

@@ -47,7 +47,7 @@ function formatMoney(value) {
 function formatPercent(value) {
   if (isEmpty(value)) return '—';
   const number = Number(value);
-  return Number.isFinite(number) ? `${number}%` : String(value);
+  return Number.isFinite(number) ? `${number}` : String(value);
 }
 
 function SectionCard({ title, subtitle, icon, endAdornment, children }) {

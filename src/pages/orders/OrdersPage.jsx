@@ -1048,7 +1048,7 @@ function OrdersPage() {
         <TextField
           value={queryInput}
           onChange={(e) => setQueryInput(e.target.value)}
-          placeholder={t('orders.search.placeholder', { defaultValue: 'Search orders (title, customer...)' })}
+          placeholder={t('orders.search.placeholder', { defaultValue: 'Search orders title' })}
           size="small"
           fullWidth
           InputProps={{

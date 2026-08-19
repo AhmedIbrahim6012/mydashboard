@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef ,useMemo } from 'react';
 import {
   Box, Button, Card, CardContent, Chip, CircularProgress,
   Divider, MenuItem, Skeleton, Stack,
@@ -53,7 +53,48 @@ const ACCOUNT_TYPES = ['user', 'provider', 'admin'];
 const TYPES = ['ban', 'suspend', 'warning', 'limit'];
 // const SCOPES = ['orders', 'services', 'reviews', 'chat', 'notifications', 'offers'];
 // ✅ حطه بدلها — union كل الـ scopes الممكنة عبر كل الأنواع/الحسابات
-const SCOPES = ['all', 'orders', 'services', 'reviews', 'offers', 'complaints'];
+
+
+// const SCOPES = ['all', 'orders', 'services', 'reviews', 'offers', 'complaints'];
+
+// ✅ حطه بدلها
+const SCOPE_MATRIX = {
+  ban: {
+    user: [],
+    provider: [],
+    admin: [],
+  },
+  suspend: {
+    user: ['all', 'orders', 'reviews', 'complaints'],
+    provider: ['all', 'orders', 'services', 'offers', 'complaints'],
+    admin: [],
+  },
+  limit: {
+    user: ['orders', 'reviews', 'complaints'],
+    provider: ['orders', 'services', 'offers', 'complaints'],
+    admin: [],
+  },
+  warning: {
+    user: ['orders', 'reviews', 'complaints'],
+    provider: ['orders', 'services', 'offers', 'complaints'],
+    admin: [],
+  },
+};
+
+// بيرجع لستة الـ scopes المناسبة حسب الـ Type والـ Account Type المختارين بالفلتر.
+// إذا أي واحد منهم "All" (فاضي) -> بنعمل union لكل الاحتمالات الممكنة.
+function getFilterScopes(selectedType, selectedAccountType) {
+  const types = selectedType ? [selectedType] : ['ban', 'suspend', 'limit', 'warning'];
+  const accountTypes = selectedAccountType ? [selectedAccountType] : ['user', 'provider', 'admin'];
+
+  const set = new Set();
+  types.forEach((t) => {
+    accountTypes.forEach((at) => {
+      (SCOPE_MATRIX[t]?.[at] ?? []).forEach((s) => set.add(s));
+    });
+  });
+  return Array.from(set);
+}
 // Endpoints used by the account picker dialog (provider / user search)
 const PICKER_ENDPOINTS = {
   provider: { list: '/admin/provider/all-providers', search: '/admin/provider/search' },
@@ -179,7 +220,17 @@ function RestrictionsPage() {
   const [pickerSearchLoading, setPickerSearchLoading] = useState(false);
   const [pickerIsSearchMode, setPickerIsSearchMode] = useState(false);
   const pickerSearchRef = useRef(null);
+// ✅ أضف
+const availableFilterScopes = useMemo(
+  () => getFilterScopes(filters.type, filters.account_type),
+  [filters.type, filters.account_type]
+);
 
+useEffect(() => {
+  if (filters.scope && !availableFilterScopes.includes(filters.scope)) {
+    setFilters((f) => ({ ...f, scope: '' }));
+  }
+}, [availableFilterScopes]); // eslint-disable-line react-hooks/exhaustive-deps
   // ── Fetch Restrictions ────────────────────────────
   const loadRestrictions = useCallback(async (p = 1, f = appliedFilters) => {
     try {
@@ -518,7 +569,7 @@ function RestrictionsPage() {
                       ))}
                     </TextField>
 
-                    <TextField
+                    {/* <TextField
                       select label="Scope" value={filters.scope}
                       onChange={(e) => setFilters((f) => ({ ...f, scope: e.target.value }))}
                       size="small" sx={{ flex: 1 }}
@@ -528,7 +579,20 @@ function RestrictionsPage() {
                       {SCOPES.map((v) => (
                         <MenuItem key={v} value={v}>{v}</MenuItem>
                       ))}
-                    </TextField>
+                    </TextField> */}
+
+<TextField
+  select label="Scope" value={filters.scope}
+  onChange={(e) => setFilters((f) => ({ ...f, scope: e.target.value }))}
+  size="small" sx={{ flex: 1 }}
+  variant="filled" InputProps={{ disableUnderline: true, sx: { borderRadius: 2 } }}
+  disabled={availableFilterScopes.length === 0}
+>
+  <MenuItem value="">All Scopes</MenuItem>
+  {availableFilterScopes.map((v) => (
+    <MenuItem key={v} value={v}>{v}</MenuItem>
+  ))}
+</TextField>
                   </Stack>
                 </Box>
 
@@ -943,7 +1007,8 @@ function RestrictionsPage() {
                             {name}
                           </Typography>
                           <Typography variant="caption" sx={{ color: mutedColor, fontSize: '0.72rem' }}>
-                            ID #{acc.id} · {acc.phone || acc.email || '—'}
+                            {/* ID #{acc.id}  */}
+                             {acc.phone || acc.email || '—'}
                           </Typography>
                         </Box>
                       </Stack>

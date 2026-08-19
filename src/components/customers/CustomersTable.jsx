@@ -73,7 +73,7 @@ function handleView(customer) {
 }
 
   const columns = [
-    t('customers.table.customerId', { defaultValue: '#ID' }),
+    // t('customers.table.customerId', { defaultValue: '#ID' }),
     t('customers.table.customer', { defaultValue: 'Customer' }),
     t('customers.table.email', { defaultValue: 'Email' }),
     t('customers.table.registered', { defaultValue: 'Registered' }),
@@ -141,7 +141,7 @@ function handleView(customer) {
                     sx={{ '&:last-child td': { border: 0 }, transition: 'background-color 0.2s ease' }}
                   >
                     {/* ID */}
-                    <TableCell sx={{ width: 80, py: 2 }}>
+                    {/* <TableCell sx={{ width: 80, py: 2 }}>
                       <Typography
                         variant="caption"
                         sx={{
@@ -156,7 +156,7 @@ function handleView(customer) {
                       >
                         #{customer.id}
                       </Typography>
-                    </TableCell>
+                    </TableCell> */}
 
                     {/* Customer */}
                     <TableCell sx={{ py: 1.5 }}>
@@ -240,11 +240,11 @@ function handleView(customer) {
                             <VisibilityIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip title={t('customers.actions.delete', { defaultValue: 'Delete' })}>
+                        {/* <Tooltip title={t('customers.actions.delete', { defaultValue: 'Delete' })}>
                           <IconButton size="small" onClick={() => onDelete(customer.id)} color="error" sx={{ opacity: 0.8 }}>
                             <DeleteIcon fontSize="small" />
                           </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
                       </Stack>
                     </TableCell>
                   </TableRow>

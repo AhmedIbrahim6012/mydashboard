@@ -191,59 +191,120 @@ const response = await api.get('/admin/category/all-categories', { params });
     return () => clearTimeout(debounceRef.current);
   }, [page, statusFilter, search]);
 
+  // async function handleSubmit(values) {
+  //   setLoadingAction({ type: activeProfession ? 'edit' : 'add' });
+  //   let result = null;
+  //   try {
+  //     if (activeProfession) {
+  //       const updateForm = new FormData();
+  //       updateForm.append('category_id', activeProfession.id);
+  //       updateForm.append('name', values.name);
+  //       if (values.commission) updateForm.append('commission', Number(values.commission));
+  //       if (values.imageFile) updateForm.append('image', values.imageFile);
+
+  //       await api.post('/admin/category/update-category', updateForm, {
+  //         headers: { 'Content-Type': 'multipart/form-data' },
+  //       });
+
+  //       result = {
+  //         severity: 'success',
+  //         title: 'Profession updated',
+  //         message: `${values.name} was updated successfully.`,
+  //       };
+  //     } else {
+  //       const formData = new FormData();
+  //       formData.append('name', values.name);
+  //       formData.append('commission', Number(values.commission));
+  //       if (values.imageFile) {
+  //         formData.append('image', values.imageFile);
+  //       }
+
+  //       await api.post('/admin/category/create-category', formData, {
+  //         headers: { 'Content-Type': 'multipart/form-data' },
+  //       });
+
+  //       result = {
+  //         severity: 'success',
+  //         title: 'Profession added',
+  //         message: `${values.name} was added to the system.`,
+  //       };
+  //     }
+
+  //     setDialogOpen(false);
+  //     await Promise.all([
+  //       fetchCategories({ pageNum: page, status: statusFilter, query: search, silent: true }),
+  //       fetchAnalytics(true),
+  //     ]);
+  //   } catch (err) {
+  //     console.error('Error details:', err.response?.data);
+  //     result = { severity: 'error', message: 'Something went wrong.' };
+  //   } finally {
+  //     setLoadingAction(null);
+  //     if (result) notify(result);
+  //   }
+  // }
+
   async function handleSubmit(values) {
-    setLoadingAction({ type: activeProfession ? 'edit' : 'add' });
-    let result = null;
+  setLoadingAction({ type: activeProfession ? 'edit' : 'add' });
+  let result = null;
+  try {
+    let updatedCategory = null;
+
+    if (activeProfession) {
+      const updateForm = new FormData();
+      updateForm.append('category_id', activeProfession.id);
+      updateForm.append('name', values.name);
+      if (values.commission) updateForm.append('commission', Number(values.commission));
+      if (values.imageFile) updateForm.append('image', values.imageFile);
+
+      const res = await api.post('/admin/category/update-category', updateForm, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      updatedCategory = res.data.data;
+
+      result = { severity: 'success', title: 'Profession updated', message: `${values.name} was updated successfully.` };
+    } else {
+      // ... create logic كما هو
+    }
+
+    setDialogOpen(false);
+
+    // تحديث فوري للواجهة حتى لو الـ refetch فشل بصمت
+    if (updatedCategory) {
+      setDisplayProfessions((prev) =>
+        prev.map((p) =>
+          p.id === updatedCategory.id
+            ? {
+                ...p,
+                name: updatedCategory.name,
+                commission: updatedCategory.commission,
+                is_active: updatedCategory.is_active,
+                image:
+                  typeof updatedCategory.image === 'string'
+                    ? updatedCategory.image
+                    : updatedCategory.image?.image_url || p.image,
+              }
+            : p
+        )
+      );
+    }
+
     try {
-      if (activeProfession) {
-        const updateForm = new FormData();
-        updateForm.append('category_id', activeProfession.id);
-        updateForm.append('name', values.name);
-        if (values.commission) updateForm.append('commission', Number(values.commission));
-        if (values.imageFile) updateForm.append('image', values.imageFile);
-
-        await api.post('/admin/category/update-category', updateForm, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-
-        result = {
-          severity: 'success',
-          title: 'Profession updated',
-          message: `${values.name} was updated successfully.`,
-        };
-      } else {
-        const formData = new FormData();
-        formData.append('name', values.name);
-        formData.append('commission', Number(values.commission));
-        if (values.imageFile) {
-          formData.append('image', values.imageFile);
-        }
-
-        await api.post('/admin/category/create-category', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-
-        result = {
-          severity: 'success',
-          title: 'Profession added',
-          message: `${values.name} was added to the system.`,
-        };
-      }
-
-      setDialogOpen(false);
       await Promise.all([
         fetchCategories({ pageNum: page, status: statusFilter, query: search, silent: true }),
         fetchAnalytics(true),
       ]);
-    } catch (err) {
-      console.error('Error details:', err.response?.data);
-      result = { severity: 'error', message: 'Something went wrong.' };
-    } finally {
-      setLoadingAction(null);
-      if (result) notify(result);
+    } catch (refreshErr) {
+      console.error('Refresh failed after update:', refreshErr);
     }
+  } catch (err) {
+    console.error('Error details:', err.response?.data);
+    result = { severity: 'error', message: 'Something went wrong.' };
+  } finally {
+    setLoadingAction(null);
+    if (result) notify(result);
   }
-
+}
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuProfession, setMenuProfession] = useState(null);
 

@@ -201,7 +201,7 @@ function DashboardPage() {
     {
       title: t('dashboard.kpi.revenue', { defaultValue: 'Revenue' }),
       value: analytics.kpis?.revenue?.amount != null
-        ? `$${Number(analytics.kpis.revenue.amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        ? `${Number(analytics.kpis.revenue.amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
         : '—',
       caption: growthCaption(analytics.kpis?.revenue?.growth) ?? '—',
       captionTone: growthTone(analytics.kpis?.revenue?.growth),
@@ -678,7 +678,7 @@ function DashboardPage() {
                 itemStyle={{ fontWeight: 600, color: theme.palette.text.primary }}
                 formatter={(value, name) =>
                   name === 'revenue'
-                    ? [`$${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Revenue']
+                    ? [`${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 'Revenue']
                     : [Number(value).toLocaleString(), 'Orders']
                 }
               />

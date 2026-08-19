@@ -527,7 +527,9 @@ function clearPickerProvider() {
               <Table sx={{ minWidth: 650 }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: subtleBg }}>
-                    {['#', 'Transaction No.', 'Amount', 'Type', 'Notes', 'Date', 'Actions'].map((h, i) => (
+                    {[
+                      // '#',
+                     'Transaction No.', 'Amount', 'Type', 'Notes', 'Date', 'Actions'].map((h, i) => (
                       <TableCell
                         key={i}
                         sx={{
@@ -548,7 +550,7 @@ function clearPickerProvider() {
                       hover
                       sx={{ '&:last-child td': { border: 0 }, transition: 'background 0.2s' }}
                     >
-                      <TableCell sx={{ color: 'text.secondary', fontSize: '0.85rem', fontWeight: 600 }}>{tx.id}</TableCell>
+                      {/* <TableCell sx={{ color: 'text.secondary', fontSize: '0.85rem', fontWeight: 600 }}>{tx.id}</TableCell> */}
                       <TableCell>
                         <Typography variant="body2" sx={{ fontWeight: 700, fontFamily: 'JetBrains Mono, monospace', color: headingColor }}>
                           {tx.transaction_number}
@@ -667,8 +669,8 @@ function clearPickerProvider() {
                     { label: 'Transaction #', value: detailData.transaction_number, isMono: true },
                     { label: 'Amount = ',         value: `${Number(detailData.amount).toFixed(2)}`, isBold: true },
                     { label: 'Date : ',           value: toUTC3(detailData.transaction_date) },
-                    { label: 'Notes : ',          value: detailData.notes || '—' },
-                    { label: 'Order ID : ',       value: detailData.order_id || '—', isMono: true },
+                    { label: 'Notes  : ',          value: detailData.notes || '—' },
+                    // { label: 'Order ID : ',       value: detailData.order_id || '—', isMono: true },
                   ].map(({ label, value, isMono, isBold }) => (
                     <Stack key={label} direction="row" justifyContent="space-between" alignItems="center">
                       <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>{label}</Typography>
@@ -821,7 +823,8 @@ function clearPickerProvider() {
                       {name}
                     </Typography>
                     <Typography variant="caption" sx={{ color: mutedColor, fontSize: '0.72rem' }}>
-                      ID #{p.id} · {p.phone || '—'}
+                      {/* ID #{p.id} */}
+                       Phone :  {p.phone || '—'}
                     </Typography>
                   </Box>
                 </Stack>

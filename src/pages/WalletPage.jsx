@@ -2831,7 +2831,8 @@ function WalletPage() {
                             {name}
                           </Typography>
                           <Typography variant="caption" sx={{ color: mutedColor, fontSize: '0.72rem' }}>
-                            ID #{p.id}   phone : {p.phone || '—'}
+                            {/* ID #{p.id}  */}
+                              phone : {p.phone || '—'}
                           </Typography>
                         </Box>
                       </Stack>
@@ -2974,7 +2975,8 @@ function WalletPage() {
                             {name}
                           </Typography>
                           <Typography variant="caption" sx={{ color: mutedColor, fontSize: '0.72rem' }}>
-                            ID #{p.id}   phone : {p.phone || '—'}
+                            {/* ID #{p.id}  */}
+                              phone : {p.phone || '—'}
                             {p.is_active === false && '  ·  Inactive'}
                           </Typography>
                         </Box>

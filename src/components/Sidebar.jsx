@@ -451,13 +451,13 @@ function Sidebar({ mobileOpen, collapsed, onClose }) {
             <Box>
               <Typography
                 variant="subtitle1"
-                sx={{ fontWeight: 800, lineHeight: 1.15, color: colors.textPrimary, letterSpacing: '-0.01em' }}
+                sx={{ fontWeight: 800, lineHeight: 2, color: colors.textPrimary, letterSpacing: '-0.01em' }}
               >
                 MyDashboard
               </Typography>
-              <Typography variant="caption" sx={{ color: colors.textMuted, fontSize: 11 }}>
+              {/* <Typography variant="caption" sx={{ color: colors.textMuted, fontSize: 11 }}>
                 {t('app.subtitle')}
-              </Typography>
+              </Typography> */}
             </Box>
           )}
         </Stack>
@@ -577,7 +577,7 @@ function Sidebar({ mobileOpen, collapsed, onClose }) {
           </Avatar>
           {!collapsed && (
             <Box sx={{ minWidth: 0 }}>
-              <Typography variant="caption" sx={{ fontWeight: 700, color: colors.userNameColor, display: 'block', fontSize: 12, lineHeight: 1.3 }}>
+              <Typography variant="caption" sx={{ fontWeight: 700, color: colors.userNameColor, display: 'block', fontSize: 12, lineHeight: 2.5 }}>
 Admin
               </Typography>
               <Typography variant="caption" sx={{ color: colors.userRoleColor, fontSize: 11 }}>

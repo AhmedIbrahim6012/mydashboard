@@ -229,7 +229,7 @@ useEffect(() => {
         variant={analyticsOpen ? 'contained' : 'outlined'}
         onClick={() => setAnalyticsOpen((v) => !v)}
         size="medium"
-        sx={{ borderRadius: 2, fontWeight: 800, textTransform: 'none', px: 2.4, height: 42,
+        sx={{ borderRadius: 1, fontWeight: 800, textTransform: 'none', px: 2.4, height: 42,
           boxShadow: analyticsOpen ? '0 10px 22px rgba(37,99,235,0.22)' : 'none' }}
       >
         {analyticsPeriod.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}

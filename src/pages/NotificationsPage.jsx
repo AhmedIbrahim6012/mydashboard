@@ -575,7 +575,7 @@ export default function NotificationsPage() {
     setMarkingId(id);
 
     try {
-      await api.get(`/admin/notifications/mark-as-read/${id}`);
+      await api.post(`/admin/notifications/mark-as-read/${id}`);
 
       setNotifications((prev) =>
         prev.map((n) =>
@@ -599,7 +599,7 @@ export default function NotificationsPage() {
   setMarkingAll(true);
 
   try {
-    await api.get('/admin/notifications/mark-all-as-read');
+    await api.post('/admin/notifications/mark-all-as-read');
 
     setNotifications((prev) =>
       prev.map((n) => ({
